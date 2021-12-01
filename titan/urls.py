@@ -3,6 +3,6 @@ from .views import  indexPageView, aboutPageView, searchPageView, detailsPageVie
 urlpatterns = [
     path("about/", aboutPageView, name="about"),
     path("search/", searchPageView, name="search"),
-    path("detail/", detailsPageView, name="detail"),
+    path("details/", detailsPageView, name="details"),
     path("", indexPageView, name="index"),
         ]

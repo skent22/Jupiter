@@ -1,0 +1,3 @@
+function yeet(){
+    alert("test");
+}
