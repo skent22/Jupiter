@@ -4,4 +4,4 @@ print("hello world!")
 
 print("Spencer")
 
-print("Stetson's mom")
+print("Stetson's sister")
