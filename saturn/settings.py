@@ -76,12 +76,14 @@ WSGI_APPLICATION = 'saturn.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'intex',
+    'USER': 'postgres',
+    'PASSWORD': 'mcorbet3',
+    'HOST': 'localhost',
+    'DISABLE_SERVER_SIDE_CURSORS': True
     }
-}
-
-
+} 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
