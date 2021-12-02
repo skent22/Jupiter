@@ -10,48 +10,55 @@
     <h2>Search drugs & Prescribers </h2>
     <div class="d-flex justify-content-center">
 
+        <div>
+            <label for="searchparam">Prescriber</label>
+            <input class="form-control" type="radio" id="prescriberradio" value="prescriber" name="searchparam" onclick="yeet();" checked >
+            <label for="searchparam">Drug</label>
+            <input class="form-control" type="radio" id="drugradio" value="drug" name="searchparam" >
+        </div>
 
-        <form class="d-flex justify-content-center" action="tbd" method="get">
+
+        <div id="prescriberform">
+            <form class="d-flex justify-content-center" action="tbd" method="get">
 
         
-        <label for="name">Name</label>
-        <input class="form-control" type="text" placeholder="Search Here" name="name" >
-
-        <label for="">Location</label>
-        <input class="form-control" type="text" placeholder="Search Here" name="location" >
-
-        <label for="gender">Male</label>
-        <input class="form-control" type="radio" id="male" value="male" name="gender" >
-        <label for="gender">Female</label>
-        <input class="form-control" type="radio" id="female" value="female" name="gender" >
+                <label for="firstname">First Name</label>
+                <input class="form-control" type="text" placeholder="First Name" name="firstname" >
         
-        <button type="submit" class="btn d-flex justify-content-center">Submit!</button>
-         </form>
+                <label for="lastname">Last name</label>
+                <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
+        
+                <label for="gender">Male</label>
+                <input class="form-control" type="radio" id="male" value="male" name="gender" >
+                <label for="gender">Female</label>
+                <input class="form-control" type="radio" id="female" value="female" name="gender" >
+                
+                <button type="submit" class="btn d-flex justify-content-center">Submit!</button>
+            </form>
+        </div>
+
+        <div id="drugform" style="display: none;">
+            <form class="d-flex justify-content-center" action="tbd" method="get">
+
+        
+                <label for="firstname">First Name</label>
+                <input class="form-control" type="text" placeholder="First Name" name="firstname" >
+        
+                <label for="lastname">Last name</label>
+                <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
+        
+                <label for="gender">Male</label>
+                <input class="form-control" type="radio" id="male" value="male" name="gender" >
+                <label for="gender">Female</label>
+                <input class="form-control" type="radio" id="female" value="female" name="gender" >
+                
+                <button type="submit" class="btn d-flex justify-content-center">Submit!</button>
+            </form>
+        </div>
+        
 
          <table>
-             <tr>
-                 <th>Name</th>
-                 <th>age</th>
-                 <th>Location</th>
-             </tr> 
 
-             <tr>
-                 <td>Brennan</td>
-                 <td>209</td>
-                 <td>Farmington></td>
-             </tr>
-
-             <tr>
-                <td>Brennan</td>
-                <td>209</td>
-                <td>Farmington></td>
-            </tr>
-
-            <tr>
-                <td>Brennan</td>
-                <td>209</td>
-                <td>Farmington></td>
-            </tr>
          </table>
     
 
