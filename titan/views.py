@@ -17,8 +17,7 @@ def detailsPageView(request, prescriberid ) :
     return render(request, 'titan/details.html')
 def detailsdrugsPageView(request, drugid) :
 
-    # data = Student.objects.all()
-    # loading = Grade_Level.objects.all()
+    #get drug object based on drugid
 
     data = ['drug1','drug2','drug3']
     context = {
