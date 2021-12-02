@@ -10,7 +10,7 @@
  
     <div class="d-flex justify-content-center" style="width: 80%;">
 
-        <div class="d-flex justify-content-center align-items-center" style="background-color: lightgray; padding: 1rem; margin: auto; border-radius: 1rem;">
+        <div class="d-flex justify-content-center align-items-center" style="background-color: lightgray; padding: 1rem; margin: auto; border-radius: 1rem; width: 40rem;">
             <h2>I'm looking for a... </h2>
             <div class="d-flex justify-content-center" >
                 <label for="searchparam">Prescriber</label>
@@ -23,22 +23,22 @@
         </div>
 
 
-        <div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: 2rem; " id="prescriberform">
-            <form action="tbd" method="get">
+        <div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; " id="prescriberform">
+            <form action="" method="get">
                 <div class="d-flex justify-content-center" >
 
-                    <h3>Prescriber Details </h3>
+                    <h2>Prescriber Details </h2>
                     <h5> <i> All fields are optional</i> </h5>
 
                     <div class="d-flex">
-                        <h3 for="firstname">First Name:</h3>
+                        <h3 for="firstname">First Name</h3>
                         <input class="form-control" type="text" placeholder="First Name" name="firstname" >
                 
                     </div>
                     
 
                     <div class="d-flex flex-column">
-                        <h3 for="lastname">Last name:</h3>
+                        <h3 for="lastname">Last name</h3>
                         <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
                     </div>
 
@@ -54,6 +54,18 @@
 
                     </div>
 
+                    <div>
+                        <h3 for="credential">Credentials</h3>
+                        <select class="form-control" name="credential" id="credential">
+                            <option value="" selected>Any</option>
+                            <option value="MD">Doctor</option>
+                            <option value="NP">Nurse Practioner</option>
+                            <option value="CNP">Certified Nurse Practioner</option>
+                            <option value="AN">Analthesiologst</option>
+                        </select>
+
+                    </div>
+
                     <div class="d-flex flex-row">
                         <h3>Gender</h3>
                         <label for="gender">Male</label>
@@ -64,30 +76,90 @@
 
                     
                     
-                    <button type="submit" class="btn d-flex justify-content-center">Submit!</button>
+                    <button type="submit" style="margin: 2rem;" class="btn ">Submit!</button>
                 </div>
             </form>
         </div>
 
-        <div id="drugform" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: 2rem; display: none; ">
-            <form class="d-flex justify-content-center" action="tbd" method="get">
+        <div id="drugform" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; display: none; ">
+            <form class="d-flex justify-content-center" action="" method="get">
+                <h2>Drug Details </h2>
+                <div class="d-flex flex-column">
+                    <h3 for="medicationname">Medication Name</h3>
+                    <input class="form-control" type="text" placeholder="Medication Name" name="medicationname" >
+                </div>
 
-        
-                <label for="medicationname">Medication Name</label>
-                <input class="form-control" type="text" placeholder="Medication Name" name="medicationname" >       
 
-                <label for="isopioid">Opioid?</label>
-                <input class="form-control" type="checkbox" id="isopioidcheckbox" value="yes" name="isopioid" >
+                <div>
+                    <h3 for="isopioid">Opioid?</h3>
+                    <input class="form-control" style="height: 2rem; width: 2rem; margin-left: 2rem;" type="checkbox" id="isopioidcheckbox" value="yes" name="isopioid" >
+                </div>
+                
 
                 
-                <button type="submit" class="btn d-flex justify-content-center">Submit!</button>
+                <button type="submit" style="margin: 2rem;" class="btn">Submit!</button>
             </form>
         </div>
         
 
-         <table>
-             <tr>
-            
+
+        <!--  if(results.count == 0) %} -->
+        <h2>There are no results. Please Search Again</h2>
+
+        <!-- Drug Table -->
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+               <tr>
+                   <th>
+                       Name
+                   </th>
+                   <th>
+                    Opioid?
+                   </th>
+                   <th>
+                       Details
+                   </th>
+               </tr>
+            </thead>
+
+
+            {% for result in resultset%}
+            <tr onclick="">
+                <td>Ibuprofen</td>
+                <td>&#10003;</td>
+                <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'detailsdrugs' drugid=1  %}">Show More</a></td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+
+        {% comment %} Provider Table {% endcomment %}
+         <table class="table table-striped table-bordered table-hover">
+             <thead>
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Details
+                    </th>
+                </tr>
+             </thead>
+
+
+             {% for result in resultset%}
+             <tr onclick="">
+                 <td>Medical Doctor</td>
+                 <td>Bob</td>
+                 <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'detailsdrugs' drugid=1  %}">Show More</a></td>
+             </tr>
+
+             {% endfor %}
 
          </table>
     
