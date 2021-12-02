@@ -24,7 +24,7 @@
 
 
         <div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; " id="prescriberform">
-            <form action="" method="get">
+            <form action="searchPrescriber" method="get">
                 <div class="d-flex justify-content-center" >
 
                     <h2>Prescriber Details </h2>
@@ -74,12 +74,11 @@
                         <input style="height: 2rem; width: 2rem; margin-left: 2rem;" type="radio" id="female" value="female" name="gender" >
                     </div>
 
-                    
-                    
                     <button type="submit" style="margin: 2rem;" class="btn ">Submit!</button>
                 </div>
             </form>
         </div>
+
 
         <div id="drugform" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; display: none; ">
             <form class="d-flex justify-content-center" action="" method="get">
@@ -88,23 +87,30 @@
                     <h3 for="medicationname">Medication Name</h3>
                     <input class="form-control" type="text" placeholder="Medication Name" name="medicationname" >
                 </div>
-
-
                 <div>
                     <h3 for="isopioid">Opioid?</h3>
                     <input class="form-control" style="height: 2rem; width: 2rem; margin-left: 2rem;" type="checkbox" id="isopioidcheckbox" value="yes" name="isopioid" >
-                </div>
-                
-
-                
+                </div>     
                 <button type="submit" style="margin: 2rem;" class="btn">Submit!</button>
             </form>
         </div>
+    
+
+        {% comment %} No results found Block {% endcomment %}
+        <div class="d-flex justify-content-center">
+                <!--  if(results.count == 0) %} -->
+            <h2>No Results Found. Please Search Again</h2>
+
+            {% comment %} IF prescriber (NOT DRUG!) then load this {% endcomment %}
+
+            <div class="d-flex justify-content-center">
+                <h2>Would you like to add a prescriber?</h2>
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add New Prescriber</a>
+            </div>
+
+        </div>
+
         
-
-
-        <!--  if(results.count == 0) %} -->
-        <h2>There are no results. Please Search Again</h2>
 
         <!-- Drug Table -->
         <table class="table table-striped table-bordered table-hover">
@@ -121,21 +127,17 @@
                    </th>
                </tr>
             </thead>
-
-
             {% for result in resultset%}
             <tr onclick="">
                 <td>Ibuprofen</td>
                 <td>&#10003;</td>
                 <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'detailsdrugs' drugid=1  %}">Show More</a></td>
             </tr>
-
             {% endfor %}
-
         </table>
-
-
         {% comment %} Provider Table {% endcomment %}
+
+        if re
          <table class="table table-striped table-bordered table-hover">
              <thead>
                 <tr>
@@ -150,25 +152,14 @@
                     </th>
                 </tr>
              </thead>
-
-
              {% for result in resultset%}
-             <tr onclick="">
+             <tr>
                  <td>Medical Doctor</td>
                  <td>Bob</td>
-                 <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'detailsdrugs' drugid=1  %}">Show More</a></td>
+                 <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'details' prescriberid=1  %}">Show More</a></td>
              </tr>
-
              {% endfor %}
-
          </table>
-    
-
     </div>
-
-
 </div>
-
-
-
 {% endblock%}
