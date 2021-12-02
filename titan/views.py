@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 # Create your views here.
 def indexPageView(request) :
@@ -8,9 +8,32 @@ def aboutPageView(request) :
     return render(request, 'titan/about.html') 
 
 def searchPageView(request) :
-    return render(request, 'titan/search.html')
-def detailsPageView(request) :
+    data = ['drug1','drug2','drug3']
+    context = {
+        'resultset' : data,
+    }
+    return render(request, 'titan/search.html', context)
+def detailsPageView(request, prescriberid ) :
     return render(request, 'titan/details.html')
+def detailsdrugsPageView(request, drugid) :
 
+    #get drug object based on drugid
+
+    data = ['drug1','drug2','drug3']
+    context = {
+        'resultset' : data,
+    }
+    return render(request, 'titan/detailsdrugs.html', context)
 def statisticsPageView(request) :
-    return render(request, 'titan/statistics.html') 
+    return render(request, 'titan/statistics.html')
+
+def addprescriberPageView(request) :
+    return render(request, 'titan/addprescriber.html') 
+
+
+
+
+#Logic
+
+def searchPrescriber(request):
+    return redirect('searchPageView')
