@@ -7,18 +7,23 @@
 <div class="container">
 
 
-    <h2>Search drugs & Prescribers </h2>
-    <div class="d-flex justify-content-center">
+ 
+    <div class="d-flex">
 
-        <div>
-            <label for="searchparam">Prescriber</label>
-            <input class="form-control" type="radio" id="prescriberradio" value="prescriber" name="searchparam" onclick="yeet();" checked >
-            <label for="searchparam">Drug</label>
-            <input class="form-control" type="radio" id="drugradio" value="drug" name="searchparam" >
+        <div class="d-flex justify-content-center align-items-center" style="background-color: lightgray; padding: 1rem; margin: auto;">
+            <h2>Search drugs & Prescribers </h2>
+            <div class="d-flex justify-content-center" >
+                <label for="searchparam">Prescriber</label>
+                  <input class="" id="prescriberradio" type="radio" id="prescriberradio" value="prescriber" name="searchparam" onclick="switchforms();" checked > 
+            </div>
+            <div class="d-flex justify-content-center">
+                <label for="searchparam">Drug</label>
+                 <input class=""  type="radio" id="drugradio" value="drug" name="searchparam" onclick="switchforms();" >
+            </div>
         </div>
 
 
-        <div id="prescriberform">
+        <div style="background-color: red;;" id="prescriberform">
             <form class="d-flex justify-content-center" action="tbd" method="get">
 
         
@@ -41,16 +46,12 @@
             <form class="d-flex justify-content-center" action="tbd" method="get">
 
         
-                <label for="firstname">First Name</label>
-                <input class="form-control" type="text" placeholder="First Name" name="firstname" >
-        
-                <label for="lastname">Last name</label>
-                <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
-        
-                <label for="gender">Male</label>
-                <input class="form-control" type="radio" id="male" value="male" name="gender" >
-                <label for="gender">Female</label>
-                <input class="form-control" type="radio" id="female" value="female" name="gender" >
+                <label for="medicationname">Medication Name</label>
+                <input class="form-control" type="text" placeholder="Medication Name" name="medicationname" >       
+
+                <label for="isopioid">Opioid?</label>
+                <input class="form-control" type="checkbox" id="isopioidcheckbox" value="yes" name="isopioid" >
+
                 
                 <button type="submit" class="btn d-flex justify-content-center">Submit!</button>
             </form>

@@ -1,5 +1,12 @@
-function yeet(){
-    alert("brennan");
+function switchforms(){
+    if (document.getElementById("prescriberradio").checked) {
+      document.getElementById("prescriberform").style.display = "block";
+      document.getElementById("drugform").style.display = "none";
+  }
+  else if (document.getElementById("drugradio").checked) {
+    document.getElementById("prescriberform").style.display = "none";
+    document.getElementById("drugform").style.display = "block";
+  }
 }
 
 
