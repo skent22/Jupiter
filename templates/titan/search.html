@@ -1,7 +1,65 @@
 {% extends 'base.html'%}
 {%block content%}
 
-Put yo stuff in here
-<h1>search </h1>
+<h1>Search</h1>
+
+
+<div class="container">
+
+
+    <h2>Search drugs & Prescribers </h2>
+    <div class="d-flex justify-content-center">
+
+
+        <form class="d-flex justify-content-center" action="tbd" method="get">
+
+        
+        <label for="name">Name</label>
+        <input class="form-control" type="text" placeholder="Search Here" name="name" >
+
+        <label for="">Location</label>
+        <input class="form-control" type="text" placeholder="Search Here" name="location" >
+
+        <label for="gender">Male</label>
+        <input class="form-control" type="radio" id="male" value="male" name="gender" >
+        <label for="gender">Female</label>
+        <input class="form-control" type="radio" id="female" value="female" name="gender" >
+        
+        <button type="submit" class="btn d-flex justify-content-center">Submit!</button>
+         </form>
+
+         <table>
+             <tr>
+                 <th>Name</th>
+                 <th>age</th>
+                 <th>Location</th>
+             </tr> 
+
+             <tr>
+                 <td>Brennan</td>
+                 <td>209</td>
+                 <td>Farmington></td>
+             </tr>
+
+             <tr>
+                <td>Brennan</td>
+                <td>209</td>
+                <td>Farmington></td>
+            </tr>
+
+            <tr>
+                <td>Brennan</td>
+                <td>209</td>
+                <td>Farmington></td>
+            </tr>
+         </table>
+    
+
+    </div>
+
+
+</div>
+
+
 
 {% endblock%}
