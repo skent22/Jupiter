@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'saturn.wsgi.application'
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'intexscript',
+    'NAME': 'intex',
     'USER': 'postgres',
-    'PASSWORD': 'Happ1n3ss',
+    'PASSWORD': 'mcorbet3',
     'HOST': 'localhost',
     'DISABLE_SERVER_SIDE_CURSORS': True
     }
