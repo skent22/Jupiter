@@ -4,6 +4,10 @@
 <h1>Search drugs & Prescribers</h1>
 
 
+
+<p> {{test}} </p>
+
+
 <div class="container">
 
 
@@ -24,7 +28,7 @@
 
 
         <div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; " id="prescriberform">
-            <form action="searchPrescriber" method="get">
+            <form name="prescriberform" action="{% url 'search' %}" method="get">
                 <div class="d-flex justify-content-center" >
 
                     <h2>Prescriber Details </h2>
@@ -74,7 +78,7 @@
                         <input style="height: 2rem; width: 2rem; margin-left: 2rem;" type="radio" id="female" value="female" name="gender" >
                     </div>
 
-                    <button type="submit" style="margin: 2rem;" class="btn ">Submit!</button>
+                    <button type="submit" style="margin: 2rem;" class="btn " name='prescriberform'>Submit!</button>
                 </div>
             </form>
         </div>
