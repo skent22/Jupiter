@@ -8,6 +8,13 @@
 <p> {{test}} </p>
 
 
+{% for x in newlist%}
+
+{{x}}
+
+{% endfor %}
+
+
 <div class="container">
 
 
@@ -72,13 +79,21 @@
 
                     <div class="d-flex flex-row">
                         <h3>Gender</h3>
+                        <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="male" name="gender" >
                         <label for="gender">Male</label>
-                        <input style="height: 2rem; width: 2rem; margin-left: 2rem;" type="radio" id="male" value="male" name="gender" >
+                        
+                        <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="female" name="gender" >
                         <label for="gender">Female</label>
-                        <input style="height: 2rem; width: 2rem; margin-left: 2rem;" type="radio" id="female" value="female" name="gender" >
+                        
+                        <input style="height: 2.5rem; width: 2.5rem; margin-left: 1rem;" type="radio" id="blank" value="" name="gender" checked >
+                        <label for="gender">Any</label>
+                        
+
                     </div>
 
-                    <button type="submit" style="margin: 2rem;" class="btn " name='prescriberform'>Submit!</button>
+                    
+
+                    <button type="submit" style="margin: 2rem;" name="prescriberform" class="btn ">Submit!</button>
                 </div>
             </form>
         </div>
@@ -95,7 +110,7 @@
                     <h3 for="isopioid">Opioid?</h3>
                     <input class="form-control" style="height: 2rem; width: 2rem; margin-left: 2rem;" type="checkbox" id="isopioidcheckbox" value="yes" name="isopioid" >
                 </div>     
-                <button type="submit" style="margin: 2rem;" class="btn">Submit!</button>
+                <button type="submit" name="drugform" style="margin: 2rem;" class="btn">Submit!</button>
             </form>
         </div>
     

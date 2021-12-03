@@ -15,17 +15,29 @@ def searchPageView(request) :
         name = request.GET
         if 'prescriberform' in name.keys():
             test ='frick me' 
-            # firstname = request.GET['firstname']
-            # firstname = request.GET['firstname']
-            # firstname = request.GET['firstname']
-            # firstname = request.GET['firstname']
-            #data = Employee.objects.filter(emp_first=sFirst, emp_last=sLast)
+            firstname = request.GET['firstname']
+            lastname = request.GET['lastname']
+            state = request.GET['state']
+            credential = request.GET['credential']
+            gender = ""
+            if request.GET['gender'] != "":
+                gender = request.GET['gender']
+            newlist = [firstname, lastname, state, credential, gender]
+            data = Prescriber.objects.filter(fname__contains = firstname,
+             lname__contains = lastname,
+             state__contains = state,
+             credential__contains = credential,
+             gender__contains = gender
+              )
+        elif 'drugform' in name.keys():
+            test = 'frick you'
 
     data = ['drug1','drug2','drug3']
     context = {
         'resultset' : data,
         'test': test,
-        'name':name
+        'name':name,
+        #'newlist': newlist
     }
     return render(request, 'titan/search.html', context)
 
