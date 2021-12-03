@@ -74,16 +74,16 @@ WSGI_APPLICATION = 'saturn.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#     'ENGINE': 'django.db.backends.postgresql',
-#     'NAME': 'intex',
-#     'USER': 'postgres',
-#     'PASSWORD': 'mcorbet3',
-#     'HOST': 'localhost',
-#     'DISABLE_SERVER_SIDE_CURSORS': True
-#     }
-# } 
+DATABASES = {
+    'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'intexscript',
+    'USER': 'postgres',
+    'PASSWORD': 'Happ1n3ss',
+    'HOST': 'localhost',
+    'DISABLE_SERVER_SIDE_CURSORS': True
+    }
+} 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
