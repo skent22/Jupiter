@@ -52,17 +52,21 @@ def searchPageView(request) :
                 sql += ' AND (abbreviation = ' +  '\''+str(params['credential'])+'\') '
             if params['gender'] != '':
                 sql += ' AND (gender = ' +  '\''+str(params['gender'])+'\') '
+            sql += ' order by lname'
             data = prescriber.objects.raw(sql)
             # data = prescriber.objects.filter((Q(fname__contains=params['firstname']) | Q(lname__contains=params['firstname']))) 
         
         elif 'drugform' in name.keys():
             form = 'drugform'
             medicationname = request.GET['medicationname']
-            isopioid = ""
-            if request.GET['isopioid'] != "":
-                isopioid = request.GET['isopioid']
-            newlist = [medicationname, isopioid]
-
+            isopioid = request.GET['isopioid']
+            # newlist = [medicationname, isopioid]
+            sql = 'SELECT * FROM pd_drugs WHERE 1=1'
+            if request.GET['medicationname'] != '':
+                sql += ' AND  drugname LIKE' + '\'' + medicationname + '\''
+            if request.GET['isopioid'] != '':
+                sql += ' AND isopioid = ' + '\'' + isopioid + '\''
+            sql += ' order by drugname'
     # data = ['drug1','drug2','drug3']
     context = {
         'resultset' : data,
@@ -75,7 +79,7 @@ def detailsPageView(request, prescriberid ) :
     return render(request, 'titan/details.html')
 
 def detailsdrugsPageView(request, drugid) :
-
+    
     #get drug object based on drugid
 
     data = ['drug1','drug2','drug3']
