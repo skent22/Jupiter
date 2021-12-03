@@ -133,14 +133,14 @@
         <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add New Prescriber</a>
         {% comment %} No results found Block {% endcomment %}
         <div class="d-flex justify-content-center">
-            {%if resultset.count == 0 %}
+            {%if resultset|length == 0 %}
             <h2>No Results Found. Please Search Again</h2>
 
             {%endif%}
 
             {% comment %} IF prescriber (NOT DRUG!) then load this {% endcomment %}
 
-            {%if form == 'presriberform' and resultset.count == 0%}
+            {%if form == 'presriberform' and resultset|length == 0%}
             <div class="d-flex justify-content-center">
                 <h2>Would you like to add a prescriber?</h2>
                 <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add New Prescriber</a>
@@ -150,7 +150,7 @@
 
         </div>
 
-        {%if form == 'drugform'%}
+        {%if form == 'drugform' and resultset|length != 0%}
         <!-- Drug Table -->
         <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
 
@@ -185,7 +185,7 @@
 
         {% comment %} Provider Table {% endcomment %}
 
-        {%if form == 'prescriberform'%}
+        {%if form == 'prescriberform' and resultset|length != 0%}
 
         <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
 
