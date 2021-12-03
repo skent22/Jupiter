@@ -5,12 +5,11 @@
 
 
 
-<<<<<<< Updated upstream
-{% comment %} <p> {{test}} </p>
-{{resultset}} {% endcomment %}
-=======
+
+<p> {{test}} </p>
+{{resultset}} 
+
 <p> {{form}} </p>
->>>>>>> Stashed changes
 
 {% for x in resultset%}
 
@@ -196,7 +195,7 @@
              <thead>
                 <tr>
                     <th>
-                        Title
+                        Specialty
                     </th>
                     <th>
                         Name
@@ -208,8 +207,8 @@
              </thead>
              {% for result in resultset%}
              <tr>
-                 <td>Medical Doctor</td>
-                 <td>Bob</td>
+                 <td>{{result.specialty}}</td>
+                 <td>{{result.fname}} {{result.lname}}</td>
                  <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'details' prescriberid=1  %}">Show More</a></td>
              </tr>
              {% endfor %}

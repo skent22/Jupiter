@@ -21,6 +21,7 @@ def searchPageView(request) :
         name = request.GET
         if 'prescriberform' in name.keys():
             test = 'frick me'
+            form = 'prescriberform'
             params = {
             'firstname' : request.GET['firstname'].title(),
             'lastname' : request.GET['lastname'].title(),
