@@ -14,8 +14,10 @@ def searchPageView(request) :
     newlist = []
     data = ''
     sql = ''
+    form = ""
     if request.method == 'GET':
         test = 'frick spencer'
+        
         name = request.GET
         if 'prescriberform' in name.keys():
             test = 'frick me'
@@ -53,7 +55,7 @@ def searchPageView(request) :
             # data = prescriber.objects.filter((Q(fname__contains=params['firstname']) | Q(lname__contains=params['firstname']))) 
         
         elif 'drugform' in name.keys():
-            test = 'frick you'
+            form = 'drugform'
             medicationname = request.GET['medicationname']
             isopioid = ""
             if request.GET['isopioid'] != "":
@@ -64,8 +66,7 @@ def searchPageView(request) :
     context = {
         'resultset' : data,
         'test': test,
-        'name':name,
-        'newlist': newlist
+        'form': form
     }
     return render(request, 'titan/search.html', context)
 
