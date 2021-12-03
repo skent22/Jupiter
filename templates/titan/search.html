@@ -106,11 +106,21 @@
                     <h3 for="medicationname">Medication Name</h3>
                     <input class="form-control" type="text" placeholder="Medication Name" name="medicationname" >
                 </div>
-                <div>
-                    <h3 for="isopioid">Opioid?</h3>
-                    <input class="form-control" style="height: 2rem; width: 2rem; margin-left: 2rem;" type="checkbox" id="isopioidcheckbox" value="yes" name="isopioid" >
-                </div>     
-                <button type="submit" name="drugform" style="margin: 2rem;" class="btn">Submit!</button>
+
+                <div class="d-flex flex-row">
+                        <h3>Opioid</h3>
+                        <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="yes" name="isopioid" >
+                        <label for="isopioid">Yes</label>
+                        
+                        <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="no" name="isopioid" >
+                        <label for="isopioid">No</label>
+                        
+                        <input style="height: 2.5rem; width: 2.5rem; margin-left: 1rem;" type="radio" id="blank" value="" name="isopioid" checked >
+                        <label for="isopioid">Either</label>
+                        
+
+                    </div>   
+                <button type="submit" style="margin: 2rem;" class="btn">Submit!</button>
             </form>
         </div>
     

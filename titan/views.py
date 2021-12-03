@@ -9,7 +9,7 @@ def aboutPageView(request) :
     return render(request, 'titan/about.html') 
 
 def searchPageView(request) :
-
+    newlist = []
     if request.method == 'GET':
         test = 'frick spencer'
         name = request.GET
@@ -23,21 +23,26 @@ def searchPageView(request) :
             if request.GET['gender'] != "":
                 gender = request.GET['gender']
             newlist = [firstname, lastname, state, credential, gender]
-            data = Prescriber.objects.filter(fname__contains = firstname,
-             lname__contains = lastname,
-             state__contains = state,
-             credential__contains = credential,
-             gender__contains = gender
-              )
+            # data = Prescriber.objects.filter(fname__contains = firstname,
+            #  lname__contains = lastname,
+            #  state__contains = state,
+            #  credential__contains = credential,
+            #  gender__contains = gender
+            #   )
         elif 'drugform' in name.keys():
             test = 'frick you'
+            medicationname = request.GET['medicationname']
+            isopioid = ""
+            if request.GET['isopioid'] != "":
+                isopioid = request.GET['isopioid']
+            newlist = [medicationname, isopioid]
 
     data = ['drug1','drug2','drug3']
     context = {
         'resultset' : data,
         'test': test,
         'name':name,
-        #'newlist': newlist
+        'newlist': newlist
     }
     return render(request, 'titan/search.html', context)
 
