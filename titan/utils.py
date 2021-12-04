@@ -28,7 +28,7 @@ def get_top_opioid(x, y):
 
 def get_top_prescriptions(x, y):
     plt.switch_backend('AGG')
-    plt.title('Top Prescriptions', fontsize=20)
+    plt.title('Top Ten Prescribers', fontsize=20)
     New_Colors = ['green','blue','purple','brown','teal', 'red', 'yellow', 'grey', 'black', 'orange']
     plt.bar(x, y, width=0.25, color=New_Colors, edgecolor='grey')
     plt.xlabel('Prescriber', fontsize=14)
@@ -37,3 +37,15 @@ def get_top_prescriptions(x, y):
     plt.tight_layout()
     graph = get_graph()
     return graph
+
+def get_top_prescribers(x, y):
+    plt.switch_backend('AGG')
+    plt.title('Top Prescriptions Filled', fontsize=20)
+    New_Colors = ['green','blue','purple','brown','teal', 'red', 'yellow', 'grey', 'black', 'orange']
+    plt.bar(x, y, width=0.25, color=New_Colors, edgecolor='grey')
+    plt.ylabel('Prescriptions Filled', fontsize=10)
+    plt.xticks(rotation=30)
+    plt.tight_layout()
+    graph = get_graph()
+    return graph
+
