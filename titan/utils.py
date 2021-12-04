@@ -14,15 +14,14 @@ def get_graph():
     buffer.close()
     return graph
 
-def get_plot(x, y):
+def get_top_opioid(x, y):
     plt.switch_backend('AGG')
-    
     plt.title('Top Opioid Prescriptions', fontsize=20)
-    #New_Colors = ['green','blue','purple','brown','teal']
-    plt.bar(x, y)# , color=New_Colors)
-    plt.xlabel('Opioid', fontsize=14)
-    plt.ylabel('Prescriptions', fontsize=14)
-    #plt.xticks(rotation=45)
-    #plt.tight_layout
+    New_Colors = ['green','blue','purple','brown','teal']
+    plt.bar(x, y, color=New_Colors)
+    #plt.xlabel('Opioid', fontsize=14)
+    plt.ylabel('Prescriptions Filled', fontsize=10)
+    plt.xticks(rotation=30)
+    plt.tight_layout()
     graph = get_graph()
     return graph
