@@ -41,13 +41,10 @@
                         <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
                     </div>
 
-
-                    {% comment %} FIX ME: NEEDS TO BE DYNAMIC {% endcomment %}
                     <div>
                         <h3 for="state">State</h3>
                         <select class="form-control" name="state" id="state">
                             <option value="" selected>Any</option>
-
                             {% for state in states%}
                             <option value="{{state.stateabbrev}}">{{state.state}}</option>
                             {%endfor %}
@@ -55,8 +52,6 @@
 
                     </div>
 
-
-                    {% comment %} FIX ME: NEEDS TO BE DYNAMIC {% endcomment %}
                     <div>
                         <h3 for="credential">Credentials</h3>
                         <select class="form-control" name="credential" id="credential">

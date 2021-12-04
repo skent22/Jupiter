@@ -9,6 +9,9 @@ function switchforms(){
   }
 }
 
+function created(){
+  alert("Su!");
+}
 
 // Script to open and close sidebar
 function w3_open() {

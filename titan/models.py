@@ -17,7 +17,7 @@ class drug(models.Model):
         verbose_name = 'Drug'
 
 class prescriber(models.Model):
-    npi = models.IntegerField(primary_key=True,unique = True, null=False,editable=False,default='')
+    npi = models.AutoField(primary_key = True)
     fname = models.CharField(max_length=11, null=False,verbose_name='First Name')
     lname = models.CharField(max_length=11, null=False,verbose_name='Last Name')
     gender = models.CharField(max_length=1, null=False,verbose_name='Gender')

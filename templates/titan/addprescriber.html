@@ -7,82 +7,74 @@
 <div class="d-flex justify-content-center" style="width: 80%;">
 
     <div class="d-flex justify-content-center align-items-center" style="background-color: lightgray; padding: 1rem; margin: auto; border-radius: 1rem; width: 65rem;">
-        <h2>Prescriber Details </h2>
-        <div class="d-flex">
-            <h3 for="firstname">First Name</h3>
-            <input class="form-control" type="text" placeholder="First Name" name="firstname" >
-    
-        </div>
+        <form name="addpresriber" action="{% url 'addprescriber' %}" method="get">
+            <h2>Prescriber Details </h2>
+            <div class="d-flex">
+                <h3 for="firstname">First Name</h3>
+                <input class="form-control" type="text" placeholder="First Name" name="firstname" >
         
-
-        <div class="d-flex flex-column">
-            <h3 for="lastname">Last name</h3>
-            <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
-        </div>
-
-
-        {% comment %} FIX ME: NEEDS TO BE DYNAMIC {% endcomment %}
-        <div>
-            <h3 for="state">State</h3>
-            <select class="form-control" name="state" id="state">
-                <option value=""  disabled selected>State</option>
-                <option value="UT">Utah</option>
-                <option value="TX">Texas</option>
-                <option value="MUM">URMUM</option>
-                <option value="YEET">yadda</option>
-            </select>
-
-        </div>
-
-
-        {% comment %} FIX ME: NEEDS TO BE DYNAMIC {% endcomment %}
-        <div>
-            <h3 for="credential">Credentials</h3>
-            <select class="form-control" name="credential" id="credential">
-                <option value="" disabled selected>None</option>
-                <option value="MD">Doctor</option>
-                <option value="NP">Nurse Practioner</option>
-                <option value="CNP">Certified Nurse Practioner</option>
-                <option value="AN">Analthesiologst</option>
-            </select>
-
-        </div>
-
-        <div>
-            <h3 for="Specialty">Specialty</h3>
-            <select class="form-control" name="Specialty" id="Specialty">
-                <option value="" disabled selected>None</option>
-                <option value="MD">Orthopedics</option>
-                <option value="NP">End of Life Care</option>
-                <option value="CNP">Combing hair</option>
-                <option value="AN">Analthesiologst</option>
-                <option value="AN">Cardiology</option>
-                <option value="AN">Family Practice</option>
-            </select>
-
-        </div>
-
-        <div class="d-flex flex-row">
-            <h3>Gender</h3>
-            <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="male" name="gender" >
-            <label for="gender">Male</label>
+            </div>
             
-            <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="female" name="gender" >
-            <label for="gender">Female</label>
-        </div>
 
-        <div class="d-flex flex-row">
-            <h3>Opioid License?</h3>
-            <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="licenseyes" value="yes" name="license" >
-            <label for="license">Yes</label>
+            <div class="d-flex flex-column">
+                <h3 for="lastname">Last name</h3>
+                <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
+            </div>
+
+
+            <div>
+                <h3 for="state">State</h3>
+                <select class="form-control" name="state" id="state">
+                    <option value="" selected>Choose an Option</option>
+                    {% for state in states%}
+                    <option value="{{state.stateabbrev}}">{{state.state}}</option>
+                    {%endfor %}
+                </select>
+
+            </div>
+
+            <div>
+                <h3 for="credential">Credentials</h3>
+                <select class="form-control" name="credential" id="credential">
+                    <option value="" selected>Choose an Option</option>
+                    {%for cred in credentials%}
+                    <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+
+            <div>
+                <h3 for="specialty">Specialty</h3>
+                <select class="form-control" name="specialty" id="specialty">
+                    <option value="" selected>Choose an Option</option>
+                    {%for cred in spec%}
+                    <option value="{{cred.specialty}}" >{{cred.specialty}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+
+            <div class="d-flex flex-row">
+                <h3>Gender</h3>
+                <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
+                <label for="gender">Male</label>
+                
+                <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" >
+                <label for="gender">Female</label>
+            </div>
+
+            <div class="d-flex flex-row">
+                <h3>Opioid License?</h3>
+                <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="licenseyes" value="True" name="license" >
+                <label for="license">Yes</label>
+                
+                <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="licenseno" value="False" name="license" >
+                <label for="license">No</label>
+            </div>   
+
             
-            <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="licenseno" value="no" name="license" >
-            <label for="license">No</label>
-        </div>   
 
-        
-
-        <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="prescriberform" class="btn btn-primary ">Submit!</button>
+            <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="addprescriber"  onclick="created();"class="btn btn-primary ">Add Prescriber</button>
+        </form>
     </div>
 
     totalprescriptions

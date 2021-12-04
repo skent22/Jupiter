@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django import forms
 
-from titan.models import drug, prescriber, state, credential
+from titan.models import drug, prescriber, state, credential, link
 from django.db.models import Q
 # Create your views here.
 def indexPageView(request) :
@@ -106,5 +106,47 @@ def statisticsPageView(request) :
     return render(request, 'titan/statistics.html')
 
 def addprescriberPageView(request) :
-    return render(request, 'titan/addprescriber.html') 
+
+    spec = prescriber.objects.order_by('specialty').distinct('specialty')
+    states = state.objects.all()
+    credentials = credential.objects.all()
+
+    if request.method == 'GET':
+        name = request.GET
+        if 'addprescriber' in name.keys():
+            params = {
+                    'firstname' : request.GET['firstname'].title(),
+                    'lastname' : request.GET['lastname'].title(),
+                    'state' : request.GET['state'],
+                    'credential' : request.GET['credential'],
+                    'gender' : request.GET['gender'],
+                    'specialty' :request.GET['specialty'],
+                    'isopioidpresriber': request.GET['license']}
+            
+
+            #create new presriber object
+            new_presriber = prescriber()
+            new_presriber.fname = params['firstname']
+            new_presriber.lname = params['lastname']
+            new_presriber.state = params['state']
+            new_presriber.gender = params['gender']
+            new_presriber.specialty = params['specialty']
+            new_presriber.isopioidprescriber = params['isopioidpresriber']
+            new_presriber.save()
+
+            #get credential object based on the credential they submitted
+            new_credential = credential.objects.filter(abbreviation=request.GET['credential'])
+
+            #create linking object based on last two objects that we just created
+            new_linking = link()
+            new_linking.cred_id = new_credential[0]
+            new_linking.npi = new_presriber
+            new_linking.save()
+
+    context = {
+        'states': states,
+        'credentials': credentials,
+        'spec':spec
+    }
+    return render(request, 'titan/addprescriber.html', context) 
 
