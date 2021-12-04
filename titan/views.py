@@ -77,15 +77,39 @@ def searchPageView(request) :
     return render(request, 'titan/search.html', context)
 
 def detailsPageView(request, prescriberid ) :
-    return render(request, 'titan/details.html')
+    d = prescriber.objects.get(npi=prescriberid)
+    sql = '''
+    Select p.npi, d.drugid, d.drugname, sum(qty) as totalDrugs
+    from pd_prescriber p
+    inner join pd_triple t on p.npi = t.prescriberid
+    inner join pd_drugs d on d.drugname = t.drugname 
+    where p.npi = ''' + str(prescriberid)  +   ''' group by drugid,npi, d.drugname
+    order by sum(qty) desc
+    limit 10 '''
+    pres = prescriber.objects.raw(sql)
+    context = {
+        'resultset' : d,
+        'pres': pres
+    }
+
+    return render(request, 'titan/details.html',context)
 
 def detailsdrugsPageView(request, drugid) :
     
     #get drug object based on drugid
-
-    data = ['drug1','drug2','drug3']
+    d = drug.objects.get(drugid=drugid)
+    sql = ''' 
+    Select p.npi, fname, lname, sum(qty) as totalDrugs
+    from pd_prescriber p
+    inner join pd_triple t on p.npi = t.prescriberid
+    inner join pd_drugs d on d.drugname = t.drugname 
+    where drugid = ''' + '\'' + str(drugid)  +'\'' +   '''group by npi, fname,lname
+    order by sum(qty) desc
+    limit 10 '''
+    pres = prescriber.objects.raw(sql)
     context = {
-        'resultset' : data,
+        'resultset' : d,
+        'pres': pres
     }
     return render(request, 'titan/detailsdrugs.html', context)
 def statisticsPageView(request) :

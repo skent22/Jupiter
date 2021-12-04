@@ -177,7 +177,7 @@
                    <center> &#10004;</center>
                     {%endif%}
                 </td>
-                <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'detailsdrugs' drugid=1  %}">Show More</a></td>
+                <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'detailsdrugs' drugid=result.drugid %}">Show More</a></td>
             </tr>
             {% endfor %}
         </table>
