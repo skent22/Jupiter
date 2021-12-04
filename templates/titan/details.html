@@ -3,7 +3,9 @@
 
 <h1> Prescriber Details</h1>
 
-<h1>{{resultset.fname}} {{resultset.lname}}</h1>
+<h1>{{resultset.fname}} {{resultset.lname}} {{resultset.specialty}}</h1>
+<h4>{{resultset.gender}} - {{resultset.}}</h4>
+
 {%for x in pres%}
  <a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} {{x.isopioid}}   :   {{x.totaldrugs}}</a> <br>
 {%endfor%}
