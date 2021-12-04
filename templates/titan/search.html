@@ -5,6 +5,8 @@
 
 <div class="container">
 
+    
+
     <div class="d-flex justify-content-center" style="width: 80%;">
 
         <div class="d-flex justify-content-center align-items-center" style="background-color: lightgray; padding: 1rem; margin: auto; border-radius: 1rem; width: 40rem;">
@@ -45,10 +47,10 @@
                         <h3 for="state">State</h3>
                         <select class="form-control" name="state" id="state">
                             <option value="" selected>Any</option>
-                            <option value="UT">Utah</option>
-                            <option value="TX">Texas</option>
-                            <option value="NY">New York</option>
-                            <option value="YEET">yadda</option>
+
+                            {% for state in states%}
+                            <option value="{{state.stateabbrev}}">{{state.state}}</option>
+                            {%endfor %}
                         </select>
 
                     </div>
@@ -59,14 +61,11 @@
                         <h3 for="credential">Credentials</h3>
                         <select class="form-control" name="credential" id="credential">
                             <option value="" selected>Any</option>
-                            <option value="MD">Doctor</option>
-                            <option value="NP">Nurse Practioner</option>
-                            <option value="CNP">Certified Nurse Practioner</option>
-                            <option value="AN">Analthesiologst</option>
+                            {%for cred in credentials%}
+                            <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
+                            {%endfor%}
                         </select>
-
                     </div>
-
                     <div class="d-flex flex-row">
                         <h3>Gender</h3>
                         <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
@@ -80,9 +79,6 @@
                         
 
                     </div>
-
-                    
-
                     <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="prescriberform" class="btn ">Submit!</button>
                 </div>
             </form>
@@ -205,7 +201,7 @@
          {%endif%}
 
 
-         
+    
     </div>
 </div>
 {% endblock%}
