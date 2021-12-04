@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django import forms
 
-from titan.models import prescriber
+from titan.models import drug, prescriber
 from django.db.models import Q
 # Create your views here.
 def indexPageView(request) :
@@ -67,10 +67,11 @@ def searchPageView(request) :
             if request.GET['isopioid'] != '':
                 sql += ' AND isopioid = ' + '\'' + isopioid + '\''
             sql += ' order by drugname'
+            data = drug.objects.raw(sql)
     # data = ['drug1','drug2','drug3']
     context = {
         'resultset' : data,
-        'test': test,
+        'test': sql,
         'form': form
     }
     return render(request, 'titan/search.html', context)

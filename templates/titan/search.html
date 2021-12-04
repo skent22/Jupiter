@@ -13,7 +13,7 @@
 
 {% for x in resultset%}
 
-{{x.fname}}
+{{x.isopioid}}
 
 {% endfor %}
 
@@ -172,8 +172,11 @@
             </thead>
             {% for result in resultset%}
             <tr onclick="">
-                <td>Ibuprofen</td>
-                <td>&#10003;</td>
+                <td>{{result.drugname}}</td>
+                <td>{% if result.isopioid == True %}
+                   <center> &#10004;</center>
+                    {%endif%}
+                </td>
                 <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'detailsdrugs' drugid=1  %}">Show More</a></td>
             </tr>
             {% endfor %}
