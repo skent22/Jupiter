@@ -11,21 +11,21 @@
             <h2>Prescriber Details </h2>
             <div class="d-flex">
                 <h3 for="firstname">First Name</h3>
-                <input class="form-control" type="text" placeholder="First Name" name="firstname" >
+                <input class="form-control" type="text" placeholder="First Name" name="firstname" id="firstname">
         
             </div>
             
 
             <div class="d-flex flex-column">
                 <h3 for="lastname">Last name</h3>
-                <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
+                <input class="form-control" type="text" placeholder="Last Name" name="lastname" id="lastname" >
             </div>
 
 
             <div>
                 <h3 for="state">State</h3>
                 <select class="form-control" name="state" id="state">
-                    <option value="" selected>Choose an Option</option>
+                    <option value="UT" disabled selected>Choose an Option</option>
                     {% for state in states%}
                     <option value="{{state.stateabbrev}}">{{state.state}}</option>
                     {%endfor %}
@@ -36,7 +36,7 @@
             <div>
                 <h3 for="credential">Credentials</h3>
                 <select class="form-control" name="credential" id="credential">
-                    <option value="" selected>Choose an Option</option>
+                    <option value="NONE" selected>Choose an Option</option>
                     {%for cred in credentials%}
                     <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
                     {%endfor%}
@@ -46,7 +46,7 @@
             <div>
                 <h3 for="specialty">Specialty</h3>
                 <select class="form-control" name="specialty" id="specialty">
-                    <option value="" selected>Choose an Option</option>
+                    <option value="NONE" selected>Choose an Option</option>
                     {%for cred in spec%}
                     <option value="{{cred.specialty}}" >{{cred.specialty}}</option>
                     {%endfor%}
@@ -58,7 +58,7 @@
                 <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
                 <label for="gender">Male</label>
                 
-                <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" >
+                <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" checked >
                 <label for="gender">Female</label>
             </div>
 
@@ -67,16 +67,14 @@
                 <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="licenseyes" value="True" name="license" >
                 <label for="license">Yes</label>
                 
-                <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="licenseno" value="False" name="license" >
+                <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="licenseno" value="False" name="license" checked >
                 <label for="license">No</label>
             </div>   
 
             
 
-            <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="addprescriber"  onclick="created();"class="btn btn-primary ">Add Prescriber</button>
+            <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="addprescriber"  onclick="yeet();"class="btn btn-primary ">Add Prescriber</button>
         </form>
     </div>
-
-    totalprescriptions
 
 {% endblock%}

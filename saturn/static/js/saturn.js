@@ -9,8 +9,10 @@ function switchforms(){
   }
 }
 
-function created(){
-  alert("Su!");
+function yeet(){
+  fname = document.getElementById("firstname").value;
+  lname = document.getElementById("lastname").value;
+  alert("Sucessfully Created Presriber: " + fname + ' ' + lname);
 }
 
 // Script to open and close sidebar

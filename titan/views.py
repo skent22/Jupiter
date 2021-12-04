@@ -135,10 +135,12 @@ def statisticsPageView(request) :
 
 def addprescriberPageView(request) :
 
+    #created needed lists to be used iin drop down forms
     spec = prescriber.objects.order_by('specialty').distinct('specialty')
     states = state.objects.all()
     credentials = credential.objects.all()
 
+    # IF there is a form submitted, then do all this logic
     if request.method == 'GET':
         name = request.GET
         if 'addprescriber' in name.keys():
