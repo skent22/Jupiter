@@ -4,11 +4,44 @@
 <h1> Prescriber Details</h1>
 
 <h1>{{resultset.fname}} {{resultset.lname}} {{resultset.specialty}}</h1>
-<h4>{{resultset.gender}} - {{resultset.}}</h4>
+<h4>Licensed to prescribe opioids:  
+    {% if resultset.isopioidprescriber == t %}
+    True
+    {% else %}
+    False
+    {% endif %}
+</h4>
+<h4>{{resultset.gender}} - {{resultset.state}}</h4>
 
-{%for x in pres%}
- <a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} {{x.isopioid}}   :   {{x.totaldrugs}}</a> <br>
-{%endfor%}
+<div>
+    <table style="width:600px; border: 1px solid black" style="background-color:#FF0000">
+        <tr>
+            <th>Drug Name</th>
+            <th>Opioid</th>
+            <th>Prescriptions</th>
+        </tr>
+                {%for x in pres%}
+                <th><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></th>
+                <th>
+                    {% if x.isopioid == t %}
+                    True
+                    {% else %}
+                    False
+                    {% endif %}
+                </th>
+                <th>{{x.totaldrugs}} </th>
+                {%endfor%}
+        
+    </table>
+</div>
+
+
+<div>
+    <img src="data:image/png;base64, {{prescriptions_chart|safe}}"
+    <br>
+    <p>Write Paragraph About Prescriptions? In 2014, opioid prescriptions were filled.</p>
+    <br>
+</div>
 
 
 <h1>Details go here </h1>
