@@ -14,7 +14,7 @@ def indexPageView(request) :
         from pd_drugs d
         inner join pd_triple t on d.drugname = t.drugname
         where d.isopioid = 't'
-        group by d.drugid
+        group by d.drugid, d.drugname
         Order by sum(qty) Desc
         '''
     )
@@ -101,7 +101,7 @@ def detailsPageView(request, prescriberid ) :
     from pd_prescriber p
     inner join pd_triple t on p.npi = t.prescriberid
     inner join pd_drugs d on d.drugname = t.drugname 
-    where p.npi = ''' + str(prescriberid)  +   ''' group by drugid,npi, d.drugname
+    where p.npi = ''' + str(prescriberid)  +   ''' group by p.npi, d.drugid, d.drugname
     order by sum(qty) desc
     limit 10 '''
     pres = prescriber.objects.raw(sql)
