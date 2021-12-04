@@ -4,171 +4,181 @@
 <h1>Search drugs & Prescribers</h1>
 
 <div class="container">
-
-    
-
     <div class="d-flex justify-content-center" style="width: 80%;">
 
-        <div class="d-flex justify-content-center align-items-center" style="background-color: lightgray; padding: 1rem; margin: auto; border-radius: 1rem; width: 40rem;">
-            <h2>I'm looking for a... </h2>
-            <div class="d-flex justify-content-center" >
-                <label for="searchparam">Prescriber</label>
-                  <input class="form-switch" style="height: 2rem; width: 2rem; margin-left: 2rem;" id="prescriberradio" type="radio" id="prescriberradio" value="prescriber" name="searchparam" onclick="switchforms();" checked > 
+
+        <div class="w3-row-padding ">
+            <div class="w3-col m4 w3-margin-bottom">
+                <div class="w3-container" >
+                    <div style=" background-color: lightgray; padding: 1rem; margin-bottom: 2rem; border-radius: 1rem;">
+
+                        <h2>I'm looking for a... </h2>
+                        <div class="d-flex justify-content-center" >
+                            <label for="searchparam">Prescriber</label>
+                              <input class="form-switch" style="height: 2rem; width: 2rem; margin-left: 2rem;" id="prescriberradio" type="radio" id="prescriberradio" value="prescriber" name="searchparam" onclick="switchforms();" checked > 
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <label for="searchparam">Drug</label>
+                             <input class="" style="height: 2rem; width: 2rem; margin-left: 2rem;"  type="radio" id="drugradio" value="drug" name="searchparam" onclick="switchforms();" >
+                        </div>
+                    </div>
+
+                    <div  style=" background-color: lightgray; padding: 1rem; margin-top 2rem!important; border-radius: 1rem;">
+                        <h2>Add a Subscriber </h2>
+                        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add New Prescriber</a>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex justify-content-center">
-                <label for="searchparam">Drug</label>
-                 <input class="" style="height: 2rem; width: 2rem; margin-left: 2rem;"  type="radio" id="drugradio" value="drug" name="searchparam" onclick="switchforms();" >
-            </div>
-        </div>
 
-
-        <div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; " id="prescriberform">
-            <form name="prescriberform" action="{% url 'search' %}" method="get">
-                <div class="d-flex justify-content-center" >
-
-                    <h2>Prescriber Details </h2>
-                    <h5> <i> All fields are optional</i> </h5>
-
-                    <div class="d-flex">
-                        <h3 for="firstname">First Name</h3>
-                        <input class="form-control" type="text" placeholder="First Name" name="firstname" >
-                
+           <div class="w3-col m4 w3-margin-bottom">
+                <div class="w3-container" style="margin-bottom: 5rem;" >
+                    <div  id="prescriberform" style="background-color:#f44336; padding: 1rem; border-radius: 1rem; width: 60rem; margin:auto;">
+                        <form name="prescriberform" action="{% url 'search' %}" method="get">
+                            <div class="d-flex justify-content-center" >
+            
+                                <h2>Prescriber Details </h2>
+                                <h5> <i> All fields are optional</i> </h5>
+            
+                                <div class="d-flex">
+                                    <h3 for="firstname">First Name</h3>
+                                    <input class="form-control" type="text" placeholder="First Name" name="firstname" >
+                            
+                                </div>
+                                
+                                <div class="d-flex flex-column">
+                                    <h3 for="lastname">Last name</h3>
+                                    <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
+                                </div>
+            
+                                <div>
+                                    <h3 for="state">State</h3>
+                                    <select class="form-control" name="state" id="state">
+                                        <option value="" selected>Any</option>
+                                        {% for state in states%}
+                                        <option value="{{state.stateabbrev}}">{{state.state}}</option>
+                                        {%endfor %}
+                                    </select>
+            
+                                </div>
+            
+                                <div>
+                                    <h3 for="credential">Credentials</h3>
+                                    <select class="form-control" name="credential" id="credential">
+                                        <option value="" selected>Any</option>
+                                        {%for cred in credentials%}
+                                        <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
+                                <div class="d-flex flex-row">
+                                    <h3>Gender</h3>
+                                    <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
+                                    <label for="gender">Male</label>
+                                    
+                                    <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" >
+                                    <label for="gender">Female</label>
+                                    
+                                    <input style="height: 2.5rem; width: 2.5rem; margin-left: 1rem;" type="radio" id="blank" value="" name="gender" checked >
+                                    <label for="gender">Any</label>
+                                    
+            
+                                </div>
+                                <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="prescriberform" class="btn ">Submit!</button>
+                            </div>
+                        </form>
                     </div>
                     
-
-                    <div class="d-flex flex-column">
-                        <h3 for="lastname">Last name</h3>
-                        <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
+                    <div id="drugform" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; width: 60rem; display: none; ">
+                        <form class="d-flex justify-content-center" action="" method="get">
+                            <h2>Drug Details </h2>
+                            <div class="d-flex flex-column">
+                                <h3 for="medicationname">Medication Name</h3>
+                                <input class="form-control" type="text" placeholder="Medication Name" name="medicationname" >
+                            </div>
+            
+                            <div class="d-flex flex-row">
+                                    <h3>Opioid</h3>
+                                    <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="t" name="isopioid" >
+                                    <label for="isopioid">Yes</label>
+                                    
+                                    <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="f" name="isopioid" >
+                                    <label for="isopioid">No</label>
+                                    
+                                    <input style="height: 2.5rem; width: 2.5rem; margin-left: 1rem;" type="radio" id="blank" value="" name="isopioid" checked >
+                                    <label for="isopioid">Either</label>
+                                    
+                                </div>   
+                            <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="drugform" class="btn">Submit!</button>
+                        </form>
                     </div>
-
-                    <div>
-                        <h3 for="state">State</h3>
-                        <select class="form-control" name="state" id="state">
-                            <option value="" selected>Any</option>
-                            {% for state in states%}
-                            <option value="{{state.stateabbrev}}">{{state.state}}</option>
-                            {%endfor %}
-                        </select>
-
-                    </div>
-
-                    <div>
-                        <h3 for="credential">Credentials</h3>
-                        <select class="form-control" name="credential" id="credential">
-                            <option value="" selected>Any</option>
-                            {%for cred in credentials%}
-                            <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
-                            {%endfor%}
-                        </select>
-                    </div>
-                    <div class="d-flex flex-row">
-                        <h3>Gender</h3>
-                        <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
-                        <label for="gender">Male</label>
-                        
-                        <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" >
-                        <label for="gender">Female</label>
-                        
-                        <input style="height: 2.5rem; width: 2.5rem; margin-left: 1rem;" type="radio" id="blank" value="" name="gender" checked >
-                        <label for="gender">Any</label>
-                        
-
-                    </div>
-                    <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="prescriberform" class="btn ">Submit!</button>
+                
                 </div>
-            </form>
-        </div>
-
-
-        <div id="drugform" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; display: none; ">
-            <form class="d-flex justify-content-center" action="" method="get">
-                <h2>Drug Details </h2>
-                <div class="d-flex flex-column">
-                    <h3 for="medicationname">Medication Name</h3>
-                    <input class="form-control" type="text" placeholder="Medication Name" name="medicationname" >
-                </div>
-
-                <div class="d-flex flex-row">
-                        <h3>Opioid</h3>
-                        <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="t" name="isopioid" >
-                        <label for="isopioid">Yes</label>
-                        
-                        <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="f" name="isopioid" >
-                        <label for="isopioid">No</label>
-                        
-                        <input style="height: 2.5rem; width: 2.5rem; margin-left: 1rem;" type="radio" id="blank" value="" name="isopioid" checked >
-                        <label for="isopioid">Either</label>
-                        
-                    </div>   
-                <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="drugform" class="btn">Submit!</button>
-            </form>
-        </div>
-    
-        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add New Prescriber</a>
-        {% comment %} No results found Block {% endcomment %}
-        <div class="d-flex justify-content-center">
-            {%if resultset|length == 0 and form == 'prescriberform' or form == 'drugform' %}
-            <h2>No Results Found. Please Search Again</h2>
-
-            {%endif%}
-
-            {% comment %} IF prescriber (NOT DRUG!) then load this {% endcomment %}
-
-            {%if resultset|length == 0 and form == 'prescriberform'%}
-            <div class="d-flex justify-content-center">
-                <h2>Would you like to add a prescriber?</h2>
-                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add New Prescriber</a>
             </div>
 
+
+
+             {% comment %} No results found Block {% endcomment %}
+            {%if resultset|length == 0  and form == 'prescriberform' %}
+            <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
+
+                <table class="table" style="margin-top: 4rem;">
+                    <thead>
+                    <tr>
+                        <th><h2>No Prescriber found with these Paramater. Please Search Again</h2></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
             {%endif%}
 
-        </div>
+            {%if resultset|length == 0  and form == 'drugform' %}
+            <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
+
+                <table class="table" style="margin-top: 4rem;">
+                    <thead>
+                    <tr>
+                        <th><h2>No Drugs found with these Paramaters. Please Search Again</h2></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            {%endif%}
 
         {%if form == 'drugform' and resultset|length != 0%}
         <!-- Drug Table -->
         <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
+            <table class="table table-striped table-bordered table-hover" style="margin-top: 4rem;">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>
+                        Opioid?
+                    </th>
+                    <th>
+                        Details
+                    </th>
+                </tr>
+                </thead>
+                {% for result in resultset%}
+                <tr onclick="">
+                    <td>{{result.drugname}}</td>
+                    <td>{% if result.isopioid == True %}
+                    <center> &#10004;</center>
+                        {%endif%}
+                    </td>
+                    <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'detailsdrugs' drugid=result.drugid %}">Show More</a></td>
+                </tr>
+                {% endfor %}
+            </table>
 
-        <h2>Results</h2>
-
-        <table class="table table-striped table-bordered table-hover  ">
-            <thead>
-               <tr>
-                   <th>
-                       Name
-                   </th>
-                   <th>
-                    Opioid?
-                   </th>
-                   <th>
-                       Details
-                   </th>
-               </tr>
-            </thead>
-            {% for result in resultset%}
-            <tr onclick="">
-                <td>{{result.drugname}}</td>
-                <td>{% if result.isopioid == True %}
-                   <center> &#10004;</center>
-                    {%endif%}
-                </td>
-                <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'detailsdrugs' drugid=result.drugid %}">Show More</a></td>
-            </tr>
-            {% endfor %}
-        </table>
-
-         </div>
+        </div>
         
         {%endif%}
 
         {% comment %} Provider Table {% endcomment %}
 
         {%if form == 'prescriberform' and resultset|length != 0%}
-
-        <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
-
-            <h2>Results</h2>
-
-         <table class="table table-striped table-bordered table-hover">
+         <table class="table table-striped table-bordered table-hover" style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
              <thead>
                 <tr>
                     <th>
@@ -191,12 +201,12 @@
              {% endfor %}
              
          </table>
-
-        </div>
          {%endif%}
 
 
-    
-    </div>
 </div>
+
+
 {% endblock%}
+
+</div>
