@@ -34,6 +34,6 @@ def get_top_prescriptions(x, y):
     plt.xlabel('Prescriber', fontsize=14)
     plt.ylabel('Prescriptions Filled', fontsize=10)
     plt.xticks(rotation=30)
-    #plt.tight_layout()
+    plt.tight_layout()
     graph = get_graph()
     return graph
