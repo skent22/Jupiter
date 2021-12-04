@@ -4,7 +4,7 @@ from django import forms
 from titan.models import drug, prescriber, state, credential, link
 from django.db.models import Q
 
-from titan.utils import get_top_opioid
+from titan.utils import get_top_opioid, get_top_prescriptions
 
 # Create your views here.
 def indexPageView(request) :
@@ -14,21 +14,21 @@ def indexPageView(request) :
         from pd_drugs d
         inner join pd_triple t on d.drugname = t.drugname
         where d.isopioid = 't'
-        group by d.drugid
+        group by d.drugid, d.drugname
         Order by sum(qty) Desc
         '''
     )
     
     opioid = [x.drugname.split('.')[0] for x in topOpioids]
     prescriptions = [y.totaldrugs for y in topOpioids]
-    topOioid = get_top_opioid(opioid, prescriptions)
+    topOpioid = get_top_opioid(opioid, prescriptions)
 
     total_opioids = 0
     for x in topOpioids : total_opioids += x.totaldrugs
 
     context = {
         'drugs' : topOpioids,
-        'opioid_chart': topOioid,
+        'opioid_chart': topOpioid,
         'total_opioids' : total_opioids
     }
 
@@ -97,17 +97,24 @@ def searchPageView(request) :
 def detailsPageView(request, prescriberid ) :
     d = prescriber.objects.get(npi=prescriberid)
     sql = '''
-    Select p.npi, d.drugid, d.drugname, sum(qty) as totalDrugs
+    Select p.npi, d.drugid, d.drugname, sum(qty) as totaldrugs
     from pd_prescriber p
     inner join pd_triple t on p.npi = t.prescriberid
     inner join pd_drugs d on d.drugname = t.drugname 
-    where p.npi = ''' + str(prescriberid)  +   ''' group by drugid,npi, d.drugname
+    where p.npi = ''' + str(prescriberid)  +   ''' group by p.npi, d.drugid, d.drugname
     order by sum(qty) desc
     limit 10 '''
     pres = prescriber.objects.raw(sql)
+
+    #Make Graph
+    drugname = [x.drugname for x in pres]
+    prescriptions = [y.totaldrugs for y in pres]
+    prescriptions_chart = get_top_prescriptions(drugname, prescriptions)
+
     context = {
         'resultset' : d,
-        'pres': pres
+        'pres': pres,
+        'prescriptions_chart' : prescriptions_chart
     }
 
     return render(request, 'titan/details.html',context)
