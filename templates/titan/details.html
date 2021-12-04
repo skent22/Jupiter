@@ -11,7 +11,9 @@
     False
     {% endif %}
 </h4>
-<h4>{{resultset.gender}} - {{resultset.state}}</h4>
+<h4>Gender: {{resultset.gender}}</h4>
+<h4>State: {{resultset.state}}</h4>
+
 
 <div>
     <table style="width:600px; border: 1px solid black" style="background-color:#FF0000">
@@ -21,15 +23,18 @@
             <th>Prescriptions</th>
         </tr>
                 {%for x in pres%}
-                <th><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></th>
-                <th>
-                    {% if x.isopioid == t %}
-                    True
-                    {% else %}
-                    False
-                    {% endif %}
-                </th>
-                <th>{{x.totaldrugs}} </th>
+                <tr>
+                    <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
+                    <td>
+                        {% if x.isopioid == t %}
+                        True
+                        {% else %}
+                        False
+                        {% endif %}
+                    </td>
+                    <td>{{x.totaldrugs}} </td>
+                </tr>
+
                 {%endfor%}
         
     </table>
