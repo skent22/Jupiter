@@ -1,8 +1,11 @@
 {% extends 'base.html'%}
 {%block content%}
 
-<h1> Drug Details</h1>
+<h1> Drug Details:</h1>
+<h1>{{resultset.drugname}} </h1>
+{%for x in pres%}
+ <a href='{% url 'details' prescriberid=x.npi %}'>  {{x.fname}} {{x.lname}}   :   {{x.totaldrugs}}</a> <br>
+{%endfor%}
 
 
-<h1>Details go here </h1>
 {% endblock%}
