@@ -1,4 +1,4 @@
-{% extends 'base.html'%}
+{% extends  'base.html'%}
 {%block content%}
 
 <h1> Prescriber Details</h1>
@@ -22,20 +22,20 @@
             <th>Opioid</th>
             <th>Prescriptions</th>
         </tr>
-                {%for x in pres%}
-                <tr>
-                    <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
-                    <td>
-                        {% if x.isopioid == t %}
-                        True
-                        {% else %}
-                        False
-                        {% endif %}
-                    </td>
-                    <td>{{x.totaldrugs}} </td>
-                </tr>
 
-                {%endfor%}
+        {%for x in pres%}
+        <tr>
+            <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
+            <td>
+                {% if x.isopioid == t %}
+                True
+                {% else %}
+                False
+                {% endif %}
+            </td>
+            <td>{{x.totaldrugs}} </td>
+        </tr>
+        {%endfor%}
         
     </table>
 </div>

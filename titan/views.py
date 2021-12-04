@@ -132,9 +132,20 @@ def detailsdrugsPageView(request, drugid) :
     order by sum(qty) desc
     limit 10 '''
     pres = prescriber.objects.raw(sql)
+
+    #Make Graph
+    prescribee = [x.fname for x in pres]
+    prescriptions = [y.totaldrugs for y in pres]
+    top_prescribers_chart = get_top_prescriptions(prescribee, prescriptions)
+
+    total_prescribed = 0
+    for x in pres : total_prescribed += x.totaldrugs
+
     context = {
         'resultset' : d,
-        'pres': pres
+        'pres': pres,
+        'top_prescribers_chart' : top_prescribers_chart,
+        'total_prescribed' : total_prescribed
     }
     return render(request, 'titan/detailsdrugs.html', context)
 def statisticsPageView(request) :

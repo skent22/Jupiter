@@ -31,10 +31,9 @@ def get_top_prescriptions(x, y):
     plt.title('Top Prescriptions', fontsize=20)
     New_Colors = ['green','blue','purple','brown','teal', 'red', 'yellow', 'grey', 'black', 'orange']
     plt.bar(x, y, width=0.25, color=New_Colors, edgecolor='grey')
-    
-    plt.xlabel('Drug Name', fontsize=14)
+    plt.xlabel('Prescriber', fontsize=14)
     plt.ylabel('Prescriptions Filled', fontsize=10)
-    #plt.xticks(rotation=30)
+    plt.xticks(rotation=30)
     #plt.tight_layout()
     graph = get_graph()
     return graph
