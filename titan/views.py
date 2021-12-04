@@ -3,9 +3,37 @@ from django import forms
 
 from titan.models import drug, prescriber, state, credential, link
 from django.db.models import Q
+
+from titan.utils import get_top_opioid
+
 # Create your views here.
 def indexPageView(request) :
-    return render(request, 'titan/index.html')
+    topOpioids = drug.objects.raw(
+        '''
+        Select d.drugid, d.drugname, sum(qty) totaldrugs
+        from pd_drugs d
+        inner join pd_triple t on d.drugname = t.drugname
+        where d.isopioid = 't'
+        group by d.drugid
+        Order by sum(qty) Desc
+        '''
+    )
+    
+    opioid = [x.drugname.split('.')[0] for x in topOpioids]
+    prescriptions = [y.totaldrugs for y in topOpioids]
+    topOioid = get_top_opioid(opioid, prescriptions)
+
+    total_opioids = 0
+    for x in topOpioids : total_opioids += x.totaldrugs
+
+    context = {
+        'drugs' : topOpioids,
+        'opioid_chart': topOioid,
+        'total_opioids' : total_opioids
+    }
+
+    return render(request, 'titan/index.html', context)
+
 
 def aboutPageView(request) :
     return render(request, 'titan/about.html') 
