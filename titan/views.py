@@ -3,9 +3,34 @@ from django import forms
 
 from titan.models import drug, prescriber, state, credential
 from django.db.models import Q
+
+from titan.utils import get_plot
+
+from .utils import get_plot
+
 # Create your views here.
 def indexPageView(request) :
-    return render(request, 'titan/index.html')
+    topOpioids = drug.objects.raw(
+        '''
+        Select d.drugid, d.drugname, sum(qty) totaldrugs
+        from pd_drugs d
+        inner join pd_triple t on d.drugname = t.drugname
+        where d.isopioid = 't'
+        group by d.drugid
+        Order by sum(qty) Desc       
+        '''
+    )
+    
+    opioid = [x.drugname for x in topOpioids]
+    prescriptions = [y.drugname for y in topOpioids]
+    chart = get_plot(opioid, prescriptions)
+
+    context = {
+        'drugs' : topOpioids
+    }
+
+    return render(request, 'titan/index.html', {'chart': chart})
+
 
 def aboutPageView(request) :
     return render(request, 'titan/about.html') 
