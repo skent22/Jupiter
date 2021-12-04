@@ -61,16 +61,40 @@
       </p>
       <p><b>Our designers are thoughtfully chosen</b>:</p>
     </div>
-  
+
+    {% comment %} my sql box {% endcomment %}
+    <div class="dflex" class="spacebetween">
+      <div class="box-1"> 
+        <table>
+            <tr>
+              <th> Top Opioid </th>
+              <th> Annual Prescriptions </th>
+            </tr>
+            {% for drug in drugs%}
+                <tr>
+                  <td>{{drug.drugname}}</td>
+                  <td>{{drug.totaldrugs}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+      </div>
+
+      {% comment %} <div class="box-2"> B </div>
+      <div class="box-3"> C </div> {% endcomment %}
+    </div>
+
     <!-- The Team -->
     <div class="w3-row-padding w3-grayscale">
       <div class="w3-col m4 w3-margin-bottom">
         <div class="w3-light-grey">
           <img src="/w3images/team2.jpg" alt="John" style="width:100%">
           <div class="w3-container">
-            <h3>John Doe</h3>
-            <p class="w3-opacity">CEO & Founder</p>
-            <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+            <h3>Top Opioid Prescriptions</h3>
+            {% for drug in drugs%}
+                <p>
+                <left>{{drug.drugname}} </left> <right> {{drug.totaldrugs}} </right>
+                </p>
+            {% endfor %}
           </div>
         </div>
       </div>

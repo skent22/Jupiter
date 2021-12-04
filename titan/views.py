@@ -1,9 +1,38 @@
 from django.shortcuts import redirect, render
 from django import forms
 
+from titan.models import drug, prescriber, triple
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
 # Create your views here.
 def indexPageView(request) :
-    return render(request, 'titan/index.html')
+    topOpioids = drug.objects.raw(
+        '''
+        Select d.drugid, d.drugname, sum(qty) totaldrugs
+        from pd_drugs d
+        inner join pd_triple t on d.drugname = t.drugname
+        where d.isopioid = 't'
+        group by d.drugid
+        Order by sum(qty) Desc       
+        '''
+    )
+
+    opioid = [topOpioids[0].drugname, topOpioids[1].drugname]
+    prescriptions = [topOpioids[0].totaldrugs, topOpioids[1].totaldrugs]
+    
+    plt.bar(xAxis,yAxis)
+    plt.title('title name')
+    plt.xlabel('xAxis name')
+    plt.ylabel('yAxis name')
+    plt.show()
+
+    context = {
+        'drugs' : topOpioids
+    }
+
+    return render(request, 'titan/index.html',context)
 
 def aboutPageView(request) :
     return render(request, 'titan/about.html') 
