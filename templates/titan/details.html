@@ -3,59 +3,46 @@
 
 <h1> <b>Prescriber Details </b></h1>
 
-<h2>{{resultset.fname}} {{resultset.lname}} - {{resultset.specialty}}</h1>
-<h4>Licensed to prescribe opioids:  {{resultset.isopioidprescriber}}
+
+
 
 </h4>
-<h4>Gender: {{resultset.gender}}</h4>
-<h4>State: {{resultset.state}}</h4>
 
-<br>
-<h3>Top Prescriptions </h3>
-<div>
-    <table style="width:600px; border: 1px solid black" style="background-color:#FF0000">
-        <tr>
-            <th>Drug Name</th>
-            <th>Opioid</th>
-            <th>Prescriptions</th>
-        </tr>
 
-        {%for x in pres%}
-        <tr>
-            <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
-            <td>
-                {% if x.isopioid == t %}
-                True
-                {% else %}
-                False
-                {% endif %}
-            </td>
-            <td>{{x.totaldrugs}} </td>
-        </tr>
-        {%endfor%}
-        
-    </table>
+<input type="checkbox" class="form-control btn" id="radioedit" onclick="switchedit();"> 
+<div style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem;" id="presriberedit">
+        <div class="d-flex justify-content-center" >
+            <h2> Prescriber Details </h2>
+            
+            <div class="d-flex">
+                <h2>{{resultset.fname}} {{resultset.lname}} - {{resultset.specialty}}</h1>
+            </div>
+
+            <div>
+                <h3 for="state">State</h3>
+                <h4>State: {{resultset.state}}</h4>
+            </div>
+            <div class="d-flex flex-row">
+                <h4>Gender: {{resultset.gender}}</h4>
+            </div>
+            <h4>Licensed to prescribe opioids:  {{resultset.isopioidprescriber}}
+            <div>
+                <h4>Current Credentials</h4>
+                    {% for x in link%}
+                    <p>{{x.cred_id}}</p>
+                    {%endfor%} 
+            </div>
+        </div>
+    </div>
 </div>
 
 
-<div>
-    <img src="data:image/png;base64, {{prescriptions_chart|safe}}"
-    <br>
-    <p>Write Paragraph About Prescriptions? In 2014, opioid prescriptions were filled.</p>
-    <br>
-</div>
 
-<div>
-    <img src="data:image/png;base64, {{opioid_pie_chart|safe}}"
-    <br>
-    <br>
-</div>
-<div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; " id="prescriberform">
+<div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; display: none; " id="prescriberform">
     <form name="prescriberform" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
         <div class="d-flex justify-content-center" >
 
             <h2>Update Prescriber Details </h2>
-            <h5> <i></i> </h5>
 
             <div class="d-flex">
                 <h3 for="firstname">First Name</h3>
@@ -105,7 +92,7 @@
                 
 
             </div>
-            <button type="submit" style="margin-left: 42.5%; margin-top: 1.5rem;" name="prescriberform" class="btn ">Submit!</button>
+            <button type="submit" style="margin-left: 42.5%; margin-top: 1.5rem;" name="prescriberform" class="btn ">Update!</button>
         </div>
         <br>
     </form>
@@ -133,8 +120,52 @@
     </select>
     <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="credform" class="btn ">Add!</button>
 
+    </div>
+        </form>
 </div>
-    </form>
+
+
+
+<h3>Top Prescriptions </h3>
+<div>
+    <table class="table table-sm table-bordered table-striped table-hover ">
+        <tr>
+            <thead>
+                <th>Drug Name</th>
+                <th>Opioid</th>
+                <th>Times Prescribed</th>
+            </thead>
+        </tr>
+
+        {%for x in pres%}
+        <tr>
+            <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
+            <td>{% if result.isopioid == t %}
+                    <center> &#10004;</center>
+                        {%endif%}
+                    </td>
+            <td>{{x.totaldrugs}} </td>
+        </tr>
+        {%endfor%}
+        
+    </table>
 </div>
+
+<div class="w3-row-padding">
+    <div class="w3-col m4 w3-margin-bottom">
+        <div class="w3-container">
+            <img src="data:image/png;base64, {{prescriptions_chart|safe}}"
+            <p>Write Paragraph About Prescriptions? In 2014, opioid prescriptions were filled.</p>
+        </div>
+    </div>
+    <div class="w3-col m4 w3-margin-bottom">
+        <div class="w3-container">
+            <img src="data:image/png;base64, {{opioid_pie_chart|safe}}"
+        </div>
+    </div>
+</div>
+
+<p onclick="yeet()"> click me</p>
+
 
 {% endblock%}
