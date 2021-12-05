@@ -186,7 +186,8 @@ def detailsPageView(request, prescriberid ) :
         'prescriptions_chart' : prescriptions_chart,
         'opioid_pie_chart' : opioid_pie_chart,
         'credential':cred,
-        'link':trip
+        'link':trip,
+        'states':states,
     }
 
     return render(request, 'titan/details.html',context)

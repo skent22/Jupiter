@@ -50,9 +50,6 @@
     <br>
     <br>
 </div>
-
-
-<h1>Details go here </h1>
 <div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; " id="prescriberform">
     <form name="prescriberform" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
         <div class="d-flex justify-content-center" >
@@ -79,7 +76,7 @@
                     {% for s in states%}
                     {% if s.stateabbrev == resultset.state %}
                     
-                    <option value="{{s.stateabbrev}}" selected >{{s.stateabbrev}}</option>
+                    <option value="{{s.stateabbrev}}" selected >{{s.state}}</option>
                     {%else%}
                     <option value="{{s.stateabbrev}}">{{s.state}}</option>
                     {%endif%} 
