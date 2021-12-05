@@ -5,7 +5,7 @@ from .forms import EmailForm
 from titan.models import drug, prescriber, state, credential, link
 from django.db.models import Q
 
-from titan.utils import get_top_opioid, get_top_prescriptions
+from titan.utils import get_top_opioid, get_top_prescriptions, get_top_prescribers
 
 # Create your views here.
 def indexPageView(request) :
@@ -27,10 +27,21 @@ def indexPageView(request) :
     total_opioids = 0
     for x in topOpioids : total_opioids += x.totaldrugs
 
+    #State Heat map
+
+    state_info = state.objects.raw(
+    '''Select state, deaths
+        from pd_statedata
+        where deaths is not null
+        order by deaths DESC
+        limit 5
+        '''
+    )
     context = {
         'drugs' : topOpioids,
         'opioid_chart': topOpioid,
-        'total_opioids' : total_opioids
+        'total_opioids' : total_opioids,
+        'state_info' : state_info,
     }
 
     return render(request, 'titan/index.html', context)
@@ -110,7 +121,7 @@ def detailsPageView(request, prescriberid ) :
     #Make Graph
     drugname = [x.drugname for x in pres]
     prescriptions = [y.totaldrugs for y in pres]
-    prescriptions_chart = get_top_prescriptions(drugname, prescriptions)
+    prescriptions_chart = get_top_prescribers(drugname, prescriptions)
 
     context = {
         'resultset' : d,
