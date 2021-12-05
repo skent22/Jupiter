@@ -3,169 +3,190 @@
 
 <h1> <b>Prescriber Details </b></h1>
 
+<div class="container">
 
+ 
 
-
-</h4>
-
-
-<input type="checkbox" class="form-control btn" id="radioedit" onclick="switchedit();"> 
-<div style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem;" id="presriberedit">
-        <div class="d-flex justify-content-center" >
-            <h2> Prescriber Details </h2>
+    <div style="margin: auto; margin-top: 2rem;">
+        <div class="w3-row-padding">
+            <div class="w3-col m2 w3-margin-bottom" style="margin-right: 4rem;">
+                <div class="w3-container">
+                    <div style="background-color:lightgray!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 20rem;">
+                        <h3> Click To Edit Prescriber Information </h3>
+                        <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="checkbox" id="radioedit" onclick="switchedit();"> 
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col m4 w3-margin-bottom">
+                <div class="w3-container">
+                    <div style="background-color:#f44336!important; padding: 1.5rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem;" id="presriberedit">
+                        <div class="d-flex justify-content-center" >
+                            <h2> Prescriber Details </h2>
+                            
+                            <div class="d-flex">
+                                <h2>{{resultset.fname}} {{resultset.lname}} - {{resultset.specialty}}</h1>
+                            </div>
             
-            <div class="d-flex">
-                <h2>{{resultset.fname}} {{resultset.lname}} - {{resultset.specialty}}</h1>
-            </div>
-
-            <div>
-                <h3 for="state">State</h3>
-                <h4>State: {{resultset.state}}</h4>
-            </div>
-            <div class="d-flex flex-row">
-                <h4>Gender: {{resultset.gender}}</h4>
-            </div>
-            <h4>Licensed to prescribe opioids:  {{resultset.isopioidprescriber}}
-            <div>
-                <h4>Current Credentials</h4>
-                    {% for x in link%}
-                    <p>{{x.cred_id}}</p>
-                    {%endfor%} 
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; display: none; " id="prescriberform">
-    <form name="prescriberform" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
-        <div class="d-flex justify-content-center" >
-
-            <h2>Update Prescriber Details </h2>
-
-            <div class="d-flex">
-                <h3 for="firstname">First Name</h3>
-                <input required class="form-control" type="text" value="{{resultset.fname}}" name="firstname" >
-        
-            </div>
+                            <div>
+                                <h3>State: {{resultset.state}}</h3>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <h3>Gender:  {% if resultset.gender == 'M' %}
+                                            Male 
+                                            {%endif%}
+                                            {% if resultset.gender == 'F' %}
+                                            Female 
+                                            {%endif%}
+                            </div>
+                            <h3>Licensed to prescribe opioids:  {{resultset.isopioidprescriber}} </h3>
+                            <div>
+                                <h3>Current Credentials:
+                                    {% for x in link%}
+                                    {{x.cred_id}}
+                                    {%endfor%} 
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             
-
-            <div class="d-flex flex-column">
-                <h3 for="lastname">Last name</h3>
-                <input required class="form-control" type="text" value="{{resultset.lname}}" name="lastname" >
-            </div>
-
-            <div>
-                <h3 for="state">State</h3>
-                <select required class="form-control" name="state" id="state">
-                    <option value="" selected>Any</option>
-                    {% for s in states%}
-                    {% if s.stateabbrev == resultset.state %}
-                    
-                    <option value="{{s.stateabbrev}}" selected >{{s.state}}</option>
-                    {%else%}
-                    <option value="{{s.stateabbrev}}">{{s.state}}</option>
-                    {%endif%} 
-                    {%endfor %}
-                </select>
-
-            </div>
-
-            <div class="d-flex flex-row">
-                <h3>Gender</h3>
-                {% if resultset.gender == 'M' %}
-                <input required style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" checked >
-                <label for="gender">Male</label>
-                
-                <input  style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" >
-                <label for="gender">Female</label>
-        
-                {% elif resultset.gender == 'F' %}
-                <input required style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
-                <label for="gender">Male</label>
-                
-                <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" checked >
-                <label for="gender">Female</label>
-                
-                {%endif%}
-                
-
-            </div>
-            <button type="submit" style="margin-left: 42.5%; margin-top: 1.5rem;" name="prescriberform" class="btn ">Update!</button>
-        </div>
-        <br>
-    </form>
-          
-            <table>
-                    <thead><h2>Add Credentials </h2><h4>Currently Held</h4> </thead>
-                    {% for x in link%}
-                    <form method = 'POST' name='delform' action="{% url 'details' prescriberid=resultset.npi%}">
-                        {% csrf_token %}  
-                    <input hidden value={{x.cred_id}} name='del' id='del'></input>
-                    <tr><td>{{x.cred_id}}</td> <td><button type='submit' style='background-color: #f44336;' class="btn"><i class="fa fa-close"></i></button></td></tr>             
-                </form>
-                    {%endfor%} 
-                </table>
+                <div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; display: none; " id="prescriberform">
+                    <form name="prescriberform" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
+                        <div class="d-flex justify-content-center" >
             
-        
-                <div>
-             <form method = 'POST' name='credform' action="{% url 'details' prescriberid=resultset.npi%}">
-                 {% csrf_token %}
-    <h3 for="credential">Credentials</h3>
-    <select class="form-control" name="credential" id="credential">
-        {%for cred in credential%}
-        <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
-        {%endfor%}
-    </select>
-    <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="credform" class="btn ">Add!</button>
-
-    </div>
-        </form>
-</div>
-
-
-
-<h3>Top Prescriptions </h3>
-<div>
-    <table class="table table-sm table-bordered table-striped table-hover ">
-        <tr>
-            <thead>
-                <th>Drug Name</th>
-                <th>Opioid</th>
-                <th>Times Prescribed</th>
-            </thead>
-        </tr>
-
-        {%for x in pres%}
-        <tr>
-            <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
-            <td>{% if result.isopioid == t %}
-                    <center> &#10004;</center>
-                        {%endif%}
-                    </td>
-            <td>{{x.totaldrugs}} </td>
-        </tr>
-        {%endfor%}
-        
-    </table>
-</div>
-
-<div class="w3-row-padding">
-    <div class="w3-col m4 w3-margin-bottom">
-        <div class="w3-container">
-            <img src="data:image/png;base64, {{prescriptions_chart|safe}}"
-            <p>Write Paragraph About Prescriptions? In 2014, opioid prescriptions were filled.</p>
+                            <h2>Update Prescriber Details </h2>
+                            <div class="d-flex">
+                                <h3 for="firstname">First Name</h3>
+                                <input required class="form-control" type="text" value="{{resultset.fname}}" name="firstname" >
+                        
+                            </div>
+                            
+            
+                            <div class="d-flex flex-column">
+                                <h3 for="lastname">Last name</h3>
+                                <input required class="form-control" type="text" value="{{resultset.lname}}" name="lastname" >
+                            </div>
+            
+                            <div>
+                                <h3 for="state">State</h3>
+                                <select required class="form-control" name="state" id="state">
+                                    <option value="" selected>Any</option>
+                                    {% for s in states%}
+                                    {% if s.stateabbrev == resultset.state %}
+                                    
+                                    <option value="{{s.stateabbrev}}" selected >{{s.state}}</option>
+                                    {%else%}
+                                    <option value="{{s.stateabbrev}}">{{s.state}}</option>
+                                    {%endif%} 
+                                    {%endfor %}
+                                </select>
+            
+                            </div>
+            
+                            <div class="d-flex flex-row">
+                                <h3>Gender</h3>
+                                {% if resultset.gender == 'M' %}
+                                <input required style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" checked >
+                                <label for="gender">Male</label>
+                                
+                                <input  style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" >
+                                <label for="gender">Female</label>
+                        
+                                {% elif resultset.gender == 'F' %}
+                                <input required style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
+                                <label for="gender">Male</label>
+                                
+                                <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" checked >
+                                <label for="gender">Female</label>
+                                
+                                {%endif%}
+                                
+            
+                            </div>
+                            <button type="submit" style="margin-left: 42.5%; margin-top: 1.5rem;" name="prescriberform" class="btn ">Update!</button>
+                        </div>
+                        <br>
+                    </form>
+                        
+                            <table>
+                                    <thead><h2>Add Credentials </h2><h4>Currently Held</h4> </thead>
+                                    {% for x in link%}
+                                    <form method = 'POST' name='delform' action="{% url 'details' prescriberid=resultset.npi%}">
+                                        {% csrf_token %}  
+                                    <input hidden value={{x.cred_id}} name='del' id='del'></input>
+                                    <tr><td>{{x.cred_id}}</td> <td><button type='submit' style='background-color: #f44336;' class="btn"><i class="fa fa-close"></i></button></td></tr>             
+                                </form>
+                                    {%endfor%} 
+                                </table>
+                            
+                        
+                                <div>
+                            <form method = 'POST' name='credform' action="{% url 'details' prescriberid=resultset.npi%}">
+                                {% csrf_token %}
+                    <h3 for="credential">Credentials</h3>
+                    <select class="form-control" name="credential" id="credential">
+                        {%for cred in credential%}
+                        <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
+                        {%endfor%}
+                    </select>
+                    <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="credform" class="btn ">Add!</button>
+            
+                    </div>
+                        </form>
+                </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="w3-col m4 w3-margin-bottom">
-        <div class="w3-container">
-            <img src="data:image/png;base64, {{opioid_pie_chart|safe}}"
+
+    
+
+
+
+    
+    <div style="margin: auto; margin-top: 2rem; width: 60rem;">
+        <h3>Top Prescriptions </h3>
+        <table class="table table-sm table-bordered table-striped table-hover ">
+            <tr>
+                <thead>
+                    <th>Drug Name</th>
+                    <th>Opioid</th>
+                    <th>Times Prescribed</th>
+                </thead>
+            </tr>
+
+            {%for x in pres%}
+            <tr>
+                <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
+                <td>{% if x.isopioid == t %}
+                        <center> &#10004;</center>
+                    {%endif%}
+                        </td>
+                <td>{{x.totaldrugs}} </td>
+            </tr>
+            {%endfor%}
+            
+        </table>
+    </div>
+
+
+    <div style="margin: auto; margin-top: 2rem;">
+        <div class="w3-row-padding">
+            <div class="w3-col m4 w3-margin-bottom">
+                <div class="w3-container">
+                    <img src="data:image/png;base64, {{prescriptions_chart|safe}}"
+                    <p>Write Paragraph About Prescriptions? In 2014, opioid prescriptions were filled.</p>
+                </div>
+            </div>
+            <div class="w3-col m4 w3-margin-bottom">
+                <div class="w3-container">
+                    <img src="data:image/png;base64, {{opioid_pie_chart|safe}}"
+                </div>
+            </div>
         </div>
     </div>
+
+
 </div>
-
-<p onclick="yeet()"> click me</p>
-
 
 {% endblock%}
