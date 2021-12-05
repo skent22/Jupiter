@@ -1,7 +1,9 @@
 from django.shortcuts import redirect, render
 from django import forms
 
-from titan.models import drug, prescriber, state, credential, link, triple
+from django.core.mail import send_mail
+from .forms import EmailForm
+from titan.models import drug, prescriber, state, credential, link
 from django.db.models import Q
 
 from titan.utils import get_top_opioid, get_top_prescriptions, get_top_prescribers, get_opioid_pie_chart
@@ -106,6 +108,33 @@ def searchPageView(request) :
     return render(request, 'titan/search.html', context)
 
 def detailsPageView(request, prescriberid ) :
+    if request.method == 'GET':
+        name = request.GET
+        if 'prescriberform' in name.keys():
+            params = {
+               'firstname' : request.GET['firstname'].title(),
+                'lastname' : request.GET['lastname'].title(),
+                'state' : request.GET['state'],
+                'gender' : request.GET['gender']}
+            prescriber.objects.filter(npi=prescriberid).update(fname = params['firstname'],lname = params['lastname'],state = params['state'],gender = params['gender'])
+
+    if request.method == 'POST':
+        print(request.POST)
+        name = request.POST
+        if 'del' in name.keys():
+            link.objects.filter(cred_id=credential.objects.get(abbreviation=request.POST['del']), npi=prescriberid).delete()
+            print('delete')
+    if request.method == 'POST':
+        name = request.POST
+        print(request.POST)
+        if 'credform' in name.keys():
+            print('credform')
+            new_link = link()
+            new_link.cred_id = credential.objects.get(abbreviation=request.POST['credential'])
+            new_link.npi = prescriber.objects.get(npi=prescriberid)
+            new_link.save(force_insert=True)
+
+            print(new_link)
     d = prescriber.objects.get(npi=prescriberid)
     sql = '''
     Select p.npi, d.drugid, d.drugname, sum(qty) as totaldrugs
@@ -115,9 +144,16 @@ def detailsPageView(request, prescriberid ) :
     where p.npi = ''' + str(prescriberid)  +   ''' group by p.npi, d.drugid, d.drugname
     order by sum(qty) desc
     limit 10 '''
+    states = state.objects.all()
     pres = prescriber.objects.raw(sql)
 
     #Make top prescriptions Graph
+    cred = credential.objects.all()
+    trip = link.objects.filter(npi = prescriberid)
+    #update form prescriber
+    
+    
+    #Make Graph
     drugname = [x.drugname for x in pres]
     prescriptions = [y.totaldrugs for y in pres]
     prescriptions_chart = get_top_prescribers(drugname, prescriptions)
@@ -148,7 +184,9 @@ def detailsPageView(request, prescriberid ) :
         'resultset' : d,
         'pres': pres,
         'prescriptions_chart' : prescriptions_chart,
-        'opioid_pie_chart' : opioid_pie_chart
+        'opioid_pie_chart' : opioid_pie_chart,
+        'credential':cred,
+        'link':trip
     }
 
     return render(request, 'titan/details.html',context)
@@ -232,3 +270,35 @@ def addprescriberPageView(request) :
     }
     return render(request, 'titan/addprescriber.html', context) 
 
+def sendMail(request):
+
+    # create a variable to keep track of the form
+    messageSent = False
+
+    # check if form has been submitted
+    if request.method == 'POST':
+
+        form = EmailForm(request.POST)
+
+        # check if data from the form is clean
+        if form.is_valid():
+            cd = form.cleaned_data
+            subject = "Sending an email with Django"
+            message = cd['message']
+
+            # send the email to the recipent
+            send_mail(subject, message,
+                      'brennanwilliams2000@gmail.com' [cd['recipient']])
+
+            # set the variable initially created to True
+            messageSent = True
+
+    else:
+        form = EmailForm()
+
+    return render(request, 'index.html', {
+
+        'form': form,
+        'messageSent': messageSent,
+
+    })
