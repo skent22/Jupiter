@@ -186,7 +186,7 @@
              <tr>
                  <td>{{result.specialty}}</td>
                  <td>{{result.fname}} {{result.lname}}</td>
-                 <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'details' prescriberid=result.npi  %}">Show More</a></td>
+                 <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'details' prescriberid=result.npi  %}">Show More {{result.npi}}</a></td>
              </tr>
              {% endfor %}
              

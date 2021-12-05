@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django import forms
 
-from titan.models import drug, prescriber, state, credential, link
+from titan.models import drug, prescriber, state, credential, link, triple
 from django.db.models import Q
 
 from titan.utils import get_top_opioid, get_top_prescriptions
@@ -95,6 +95,33 @@ def searchPageView(request) :
     return render(request, 'titan/search.html', context)
 
 def detailsPageView(request, prescriberid ) :
+    if request.method == 'GET':
+        name = request.GET
+        if 'prescriberform' in name.keys():
+            params = {
+               'firstname' : request.GET['firstname'].title(),
+                'lastname' : request.GET['lastname'].title(),
+                'state' : request.GET['state'],
+                'gender' : request.GET['gender']}
+            prescriber.objects.filter(npi=prescriberid).update(fname = params['firstname'],lname = params['lastname'],state = params['state'],gender = params['gender'])
+
+    if request.method == 'POST':
+        print(request.POST)
+        name = request.POST
+        if 'del' in name.keys():
+            link.objects.filter(cred_id=credential.objects.get(abbreviation=request.POST['del']), npi=prescriberid).delete()
+            print('delete')
+    if request.method == 'POST':
+        name = request.POST
+        print(request.POST)
+        if 'credform' in name.keys():
+            print('credform')
+            new_link = link()
+            new_link.cred_id = credential.objects.get(abbreviation=request.POST['credential'])
+            new_link.npi = prescriber.objects.get(npi=prescriberid)
+            new_link.save(force_insert=True)
+
+            print(new_link)
     d = prescriber.objects.get(npi=prescriberid)
     sql = '''
     Select p.npi, d.drugid, d.drugname, sum(qty) as totaldrugs
@@ -104,8 +131,13 @@ def detailsPageView(request, prescriberid ) :
     where p.npi = ''' + str(prescriberid)  +   ''' group by p.npi, d.drugid, d.drugname
     order by sum(qty) desc
     limit 10 '''
+    states = state.objects.all()
     pres = prescriber.objects.raw(sql)
-
+    cred = credential.objects.all()
+    trip = link.objects.filter(npi = prescriberid)
+    #update form prescriber
+    
+    
     #Make Graph
     drugname = [x.drugname for x in pres]
     prescriptions = [y.totaldrugs for y in pres]
@@ -114,7 +146,10 @@ def detailsPageView(request, prescriberid ) :
     context = {
         'resultset' : d,
         'pres': pres,
-        'prescriptions_chart' : prescriptions_chart
+        'prescriptions_chart' : prescriptions_chart,
+        'states' : states,
+        'credential':cred,
+        'link':trip
     }
 
     return render(request, 'titan/details.html',context)
