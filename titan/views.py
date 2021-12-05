@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from .forms import EmailForm
 from titan.models import drug, prescriber, state, credential, link
 from django.db.models import Q
+from django.db.models import Max
 
 from titan.utils import get_top_opioid, get_top_prescriptions, get_top_prescribers, get_opioid_pie_chart
 
@@ -109,6 +110,14 @@ def searchPageView(request) :
 
 def detailsPageView(request, prescriberid ) :
     if request.method == 'GET':
+        print(request.GET)
+        name = request.GET
+        if 'despres' in name.keys():
+            print('worked')
+            prescriber.objects.filter(npi=prescriberid).delete()
+            print('delete')
+            return render(request,'titan/search.html')
+    if request.method == 'GET':
         name = request.GET
         if 'prescriberform' in name.keys():
             params = {
@@ -150,6 +159,7 @@ def detailsPageView(request, prescriberid ) :
     #Make top prescriptions Graph
     cred = credential.objects.all()
     trip = link.objects.filter(npi = prescriberid)
+    spec = prescriber.objects.order_by('specialty').distinct('specialty')
     #update form prescriber
     
     
@@ -188,6 +198,7 @@ def detailsPageView(request, prescriberid ) :
         'credential':cred,
         'link':trip,
         'states':states,
+        'spec' : spec
     }
 
     return render(request, 'titan/details.html',context)
