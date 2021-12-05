@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django import forms
-
+from django.core.mail import send_mail
+from .forms import EmailForm
 from titan.models import drug, prescriber, state, credential, link
 from django.db.models import Q
 
@@ -198,3 +199,35 @@ def addprescriberPageView(request) :
     }
     return render(request, 'titan/addprescriber.html', context) 
 
+def sendMail(request):
+
+    # create a variable to keep track of the form
+    messageSent = False
+
+    # check if form has been submitted
+    if request.method == 'POST':
+
+        form = EmailForm(request.POST)
+
+        # check if data from the form is clean
+        if form.is_valid():
+            cd = form.cleaned_data
+            subject = "Sending an email with Django"
+            message = cd['message']
+
+            # send the email to the recipent
+            send_mail(subject, message,
+                      'brennanwilliams2000@gmail.com' [cd['recipient']])
+
+            # set the variable initially created to True
+            messageSent = True
+
+    else:
+        form = EmailForm()
+
+    return render(request, 'index.html', {
+
+        'form': form,
+        'messageSent': messageSent,
+
+    })

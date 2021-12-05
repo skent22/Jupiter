@@ -9,23 +9,17 @@
         <h1 class="w3-xxxlarge w3-text-red"><b>Home</b></h1>
         <hr style="width:50px;border:5px solid red" class="w3-round">
         <p>We are dedicated to providing America with a safe place to overcome Opioid addiction</p>
-        <p>lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
+
     </div>
 
     <!-- Photo grid (modal) -->
     <div class="w3-row-padding">
       <div class="w3-half">
         <img src="{% static 'img/pills.jpg' %}"" style="width:100%" onclick="onClick(this)" alt="Concrete meets bricks">
-        <img src="/w3images/livingroom.jpg" style="width:100%" onclick="onClick(this)" alt="Light, white and tight scandinavian design">
-        <img src="/w3images/diningroom.jpg" style="width:100%" onclick="onClick(this)" alt="White walls with designer chairs">
+        <img src="data:image/png;base64, {{opioid_chart|safe}}" style="width:100%" onclick="onClick(this)" alt="Top Opioid Drugs, by Amount Prescribed">
       </div>
 
       <div>
-        <img src="data:image/png;base64, {{opioid_chart|safe}}"
-        <br>
         <p>Write Paragraph About Total Prescriptions? In 2014, {{total_opioids}} opioid prescriptions were filled.</p>
         <br>
       </div>
@@ -177,7 +171,7 @@
       <h1 class="w3-xxxlarge w3-text-red"><b>Contact.</b></h1>
       <hr style="width:50px;border:5px solid red" class="w3-round">
       <p>Do you want us to style your home? Fill out the form and fill me in with the details :) We love meeting new people!</p>
-      <form action="/action_page.php" target="_blank">
+      <form action="send_mail" method="get" target="_blank">
         <div class="w3-section">
           <label>Name</label>
           <input class="w3-input w3-border" type="text" name="Name" required>
@@ -193,6 +187,29 @@
         <button type="submit" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Send Message</button>
       </form>  
     </div>
+    {% if messageSent %}
+    <div class="container">
+      <h3><strong>Email successfully sent</strong></h3>
+      <p>Your message was successfully sent to {{ form.cleaned_data.to }}</p>
+    </div>
+    {% else %}
+    <div class="container">
+      <h3><strong>Send E-mail</strong></h3>
+
+      <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <br />
+        <div class="text-center">
+          <input
+            type="submit"
+            class="btn btn-secondary"
+            style="width: 100%"
+            value="Send e-mail"
+          />
+        </div>
+      </form>
+    </div>
+    {% endif %}
   
   <!-- End page content -->
 {% endblock%}
