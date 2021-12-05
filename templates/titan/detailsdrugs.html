@@ -3,9 +3,39 @@
 
 <h1> Drug Details:</h1>
 <h1>{{resultset.drugname}} </h1>
-{%for x in pres%}
- <a href='{% url 'details' prescriberid=x.npi %}'>  {{x.fname}} {{x.lname}}   :   {{x.totaldrugs}}</a> <br>
-{%endfor%}
+<h4>Is Opioid:  
+    {% if resultset.isopioid == t %}
+    True
+    {% else %}
+    False
+    {% endif %}
+</h4>
+
+
+<table style="width:600px; border: 1px solid black" style="background-color:#FF0000">
+    <th> Prescriber </th>
+    <th> Quantity </th>
+
+            {%for x in pres%}
+            <tr>
+            <td><a href='{% url 'details' prescriberid=x.npi %}'>  {{x.fname}} {{x.lname}}   </a></td>
+            <td>{{x.totaldrugs}}</td>
+            </tr>
+
+           {%endfor%}
+        <tr>
+            <th>Total</th>
+            <th>{{total_prescribed}}</th>
+        </tr>
+
+</table>
+
+<div>
+    <img src="data:image/png;base64, {{top_prescribers_chart|safe}}"
+    <br>
+    <p>Write Paragraph About Prescriptions? In 2014, opioid prescriptions were filled.</p>
+    <br>
+</div>
 
 
 {% endblock%}

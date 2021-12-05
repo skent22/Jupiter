@@ -1,10 +1,12 @@
 from django.shortcuts import redirect, render
 from django import forms
 
-from titan.models import drug, prescriber, state, credential, link, triple
+from django.core.mail import send_mail
+from .forms import EmailForm
+from titan.models import drug, prescriber, state, credential, link
 from django.db.models import Q
 
-from titan.utils import get_top_opioid, get_top_prescriptions
+from titan.utils import get_top_opioid, get_top_prescriptions, get_top_prescribers
 
 # Create your views here.
 def indexPageView(request) :
@@ -26,10 +28,21 @@ def indexPageView(request) :
     total_opioids = 0
     for x in topOpioids : total_opioids += x.totaldrugs
 
+    #State Heat map
+
+    state_info = state.objects.raw(
+    '''Select state, deaths
+        from pd_statedata
+        where deaths is not null
+        order by deaths DESC
+        limit 5
+        '''
+    )
     context = {
         'drugs' : topOpioids,
         'opioid_chart': topOpioid,
-        'total_opioids' : total_opioids
+        'total_opioids' : total_opioids,
+        'state_info' : state_info,
     }
 
     return render(request, 'titan/index.html', context)
@@ -141,7 +154,7 @@ def detailsPageView(request, prescriberid ) :
     #Make Graph
     drugname = [x.drugname for x in pres]
     prescriptions = [y.totaldrugs for y in pres]
-    prescriptions_chart = get_top_prescriptions(drugname, prescriptions)
+    prescriptions_chart = get_top_prescribers(drugname, prescriptions)
 
     context = {
         'resultset' : d,
@@ -167,9 +180,20 @@ def detailsdrugsPageView(request, drugid) :
     order by sum(qty) desc
     limit 10 '''
     pres = prescriber.objects.raw(sql)
+
+    #Make Graph
+    prescribee = [x.fname for x in pres]
+    prescriptions = [y.totaldrugs for y in pres]
+    top_prescribers_chart = get_top_prescriptions(prescribee, prescriptions)
+
+    total_prescribed = 0
+    for x in pres : total_prescribed += x.totaldrugs
+
     context = {
         'resultset' : d,
-        'pres': pres
+        'pres': pres,
+        'top_prescribers_chart' : top_prescribers_chart,
+        'total_prescribed' : total_prescribed
     }
     return render(request, 'titan/detailsdrugs.html', context)
 def statisticsPageView(request) :
@@ -177,10 +201,12 @@ def statisticsPageView(request) :
 
 def addprescriberPageView(request) :
 
+    #created needed lists to be used iin drop down forms
     spec = prescriber.objects.order_by('specialty').distinct('specialty')
     states = state.objects.all()
     credentials = credential.objects.all()
 
+    # IF there is a form submitted, then do all this logic
     if request.method == 'GET':
         name = request.GET
         if 'addprescriber' in name.keys():
@@ -220,3 +246,35 @@ def addprescriberPageView(request) :
     }
     return render(request, 'titan/addprescriber.html', context) 
 
+def sendMail(request):
+
+    # create a variable to keep track of the form
+    messageSent = False
+
+    # check if form has been submitted
+    if request.method == 'POST':
+
+        form = EmailForm(request.POST)
+
+        # check if data from the form is clean
+        if form.is_valid():
+            cd = form.cleaned_data
+            subject = "Sending an email with Django"
+            message = cd['message']
+
+            # send the email to the recipent
+            send_mail(subject, message,
+                      'brennanwilliams2000@gmail.com' [cd['recipient']])
+
+            # set the variable initially created to True
+            messageSent = True
+
+    else:
+        form = EmailForm()
+
+    return render(request, 'index.html', {
+
+        'form': form,
+        'messageSent': messageSent,
+
+    })

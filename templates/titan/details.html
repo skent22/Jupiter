@@ -1,20 +1,17 @@
-{% extends 'base.html'%}
+{% extends  'base.html'%}
 {%block content%}
 
-<h1> Prescriber Details</h1>
+<h1> <b>Prescriber Details </b></h1>
 
-<h1>{{resultset.fname}} {{resultset.lname}} {{resultset.specialty}}</h1>
-<h4>Licensed to prescribe opioids:  
-    {% if resultset.isopioidprescriber == t %}
-    True
-    {% else %}
-    False
-    {% endif %}
+<h2>{{resultset.fname}} {{resultset.lname}} - {{resultset.specialty}}</h1>
+<h4>Licensed to prescribe opioids:  {{resultset.isopioidprescriber}}
+
 </h4>
 <h4>Gender: {{resultset.gender}}</h4>
 <h4>State: {{resultset.state}}</h4>
 
-
+<br>
+<h3>Top Prescriptions </h3>
 <div>
     <table style="width:600px; border: 1px solid black" style="background-color:#FF0000">
         <tr>
@@ -22,20 +19,20 @@
             <th>Opioid</th>
             <th>Prescriptions</th>
         </tr>
-                {%for x in pres%}
-                <tr>
-                    <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
-                    <td>
-                        {% if x.isopioid == t %}
-                        True
-                        {% else %}
-                        False
-                        {% endif %}
-                    </td>
-                    <td>{{x.totaldrugs}} </td>
-                </tr>
 
-                {%endfor%}
+        {%for x in pres%}
+        <tr>
+            <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
+            <td>
+                {% if x.isopioid == t %}
+                True
+                {% else %}
+                False
+                {% endif %}
+            </td>
+            <td>{{x.totaldrugs}} </td>
+        </tr>
+        {%endfor%}
         
     </table>
 </div>
