@@ -1,10 +1,10 @@
 from django.shortcuts import redirect, render
 from django import forms
 
-from titan.models import drug, prescriber, state, credential, link
+from titan.models import drug, prescriber, state, credential, link, triple
 from django.db.models import Q
 
-from titan.utils import get_top_opioid, get_top_prescriptions, get_top_prescribers
+from titan.utils import get_top_opioid, get_top_prescriptions, get_top_prescribers, get_opioid_pie_chart
 
 # Create your views here.
 def indexPageView(request) :
@@ -117,15 +117,38 @@ def detailsPageView(request, prescriberid ) :
     limit 10 '''
     pres = prescriber.objects.raw(sql)
 
-    #Make Graph
+    #Make top prescriptions Graph
     drugname = [x.drugname for x in pres]
     prescriptions = [y.totaldrugs for y in pres]
     prescriptions_chart = get_top_prescribers(drugname, prescriptions)
 
+    #Make percent opioid pie chart
+    opioid_percent_sql = '''
+    Select npi,
+	(select case when sum(qty) is not null then 10000 * sum(qty) else 0 end from pd_triple where prescriberid = ''' + str(prescriberid)  +   ''' and drugname  in (select drugname from pd_drugs where isopioid = 't'))/
+	sum(qty) as PercentOpioid,
+	(select case when sum(qty) is not null then 10000 * sum(qty) else 0 end from pd_triple where prescriberid = ''' + str(prescriberid)  +   ''' and drugname in (select drugname from pd_drugs where isopioid = 'f'))/
+	sum(qty) as PercentNonOpioid
+	
+    from pd_prescriber p
+    inner join pd_triple t on p.npi = t.prescriberid
+    where prescriberid =''' + str(prescriberid) + '''
+    group by npi'''
+
+    queryObject = prescriber.objects.raw(opioid_percent_sql)
+
+    pecent_opioid = queryObject[0].percentopioid
+    print(pecent_opioid)
+    percent_nonopioid = queryObject[0].percentnonopioid
+    print(percent_nonopioid)
+    opioid_pie_chart = get_opioid_pie_chart(pecent_opioid, percent_nonopioid)
+
+
     context = {
         'resultset' : d,
         'pres': pres,
-        'prescriptions_chart' : prescriptions_chart
+        'prescriptions_chart' : prescriptions_chart,
+        'opioid_pie_chart' : opioid_pie_chart
     }
 
     return render(request, 'titan/details.html',context)

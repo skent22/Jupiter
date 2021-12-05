@@ -11,8 +11,10 @@ def get_graph():
     image_png = buffer.getvalue()
     graph = base64.b64encode(image_png)
     graph = graph.decode('utf-8')
+
     buffer.close()
     return graph
+
 
 def get_top_opioid(x, y):
     plt.switch_backend('AGG')
@@ -49,3 +51,14 @@ def get_top_prescribers(x, y):
     graph = get_graph()
     return graph
 
+def get_opioid_pie_chart(x, y):
+    plt.clf()
+    labels = ['Opioid', 'Non-Opioid']
+    sizes = [x, y]
+    colors = ['yellowgreen', 'gold']
+    patches, texts = plt.pie(sizes, colors=colors, shadow=True, startangle=90)
+    plt.legend(patches, labels, loc="best")
+    plt.axis('equal')
+    plt.tight_layout()
+    graph = get_graph()
+    return graph
