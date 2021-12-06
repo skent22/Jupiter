@@ -12,11 +12,11 @@
             <div class="w3-col m2 w3-margin-bottom" style="margin-right: 4rem;">
                 <div class="w3-container">
                     <div style="background-color:lightgray!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 15rem;">
-                        <h3> Click To Edit Prescriber Information </h3>
+                        <h3> Edit Prescriber </h3>
                         <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="radioedit" onclick="switchedit();"> 
-                     <h3> Click To Add Prescription </h3>
+                     <h3> Add Prescription </h3>
                        <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="triple" onclick="tripleedit();"> 
-                       <h3> Click To Add Prescription </h3>
+                       <h3> View Prescriber Details </h3>
                        <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="triple" onclick="tripleedit();"> 
                
                     </div>
@@ -158,13 +158,58 @@
             
                     </div>
                         </form>
+
+
+
+                        
                 </div>
+
+                          
+                
+                    <div class="d-flex" style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem; display: none; " id="tripleform">
+                        <form name="tripleadd" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
+                            <div class="d-flex justify-content-center" >
+                                <form method='GET' name='tripladd' action='{%url 'details' prescriberid=resultset.npi %}'>
+                                <div style='display : inline-block;'><h2>Increment Existing and Add New Prescriptions </h2> </div><div style='display:inline-block;float:right;padding-top:22px;'><button type='submit' name='despres'  style='background-color: #A7C7E7;overflow-x:auto;' class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                  </svg></button></div>
+                                </form>
+                                
+                                        
+
+                                <div>
+                                    <h3 for="drug">Drug</h3>
+                                    <select required class="form-control" name="drug" id="drug" >
+                                        <option value="" selected></option>
+                                        {% for s in drug%}
+                                        <option value="{{s.drugname}}">{{s.drugname}}</option>
+                                       
+                                        {%endfor %}
+                                    </select>
+                                    
+                                 
+                                </div>
+                                <div class="d-flex">
+                                    <h3 for="Quantity">Quantity</h3>
+                                    <input required class="form-control" type="number" id="qty" min='0'  >
+                                    
+                                </div>
+    
+                                
+                                <button type="submit" style="margin-left: 42.5%; margin-top: 1.5rem;" name="tripleadd" class="btn btn-primary btn-xl text-uppercase ">Add</button>
+                            </div>
+                            <br>
+                        </form>        
+                    </div>
+                    </div>
                 </div>
-                <div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; display: none; " id="tripleform">
-                    <form name="tripleform" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
+
+                <div class="d-flex" style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem; display: none; " id="prescriberform">
+                    <form name="prescriberform" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
                         <div class="d-flex justify-content-center" >
-                            <form method='GET' name='tripledel' action='{%url 'details' prescriberid=resultset.npi %}'>
-                            <div style='display : inline-block;'><h2>Update Prescriptions</h2> </div><div style='display:inline-block;float:right;padding-top:22px;'><button type='submit' name='despres'  style='background-color: #f44336;overflow-x:auto;' class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <form method='GET' name='delpres' action='{%url 'details' prescriberid=resultset.npi %}'>
+                            <div style='display : inline-block;'><h2>Update Prescriber Details </h2> </div><div style='display:inline-block;float:right;padding-top:22px;'><button type='submit' name='despres'  style='background-color: #A7C7E7;overflow-x:auto;' class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                               </svg></button></div>
@@ -232,18 +277,42 @@
                                 
             
                             </div>
-                            <button type="submit" style="margin-left: 42.5%; margin-top: 1.5rem;" name="prescriberform" class="btn ">Update!</button>
+                            <button type="submit" style="margin-left: 42.5%; margin-top: 1.5rem;" name="prescriberform" class="btn btn-primary btn-xl text-uppercase ">Update</button>
                         </div>
                         <br>
                     </form>
                         
-                        
+                            <table>
+                                    <thead><h2>Add Credentials </h2><h4>Currently Held</h4> </thead>
+                                    {% for x in link%}
+                                    <form method = 'POST' name='delform' action="{% url 'details' prescriberid=resultset.npi%}">
+                                        {% csrf_token %}  
+                                    <input hidden value={{x.cred_id}} name='del' id='del'></input>
+                                    <tr><td>{{x.cred_id}}</td> <td><button type='submit' style='background-color: #A7C7E7;' class="btn"><i class="fa fa-close"></i></button></td></tr>             
+                                </form>
+                                    {%endfor%} 
+                                </table>
                             
                         
-                                
-                            
+                                <div>
+                            <form method = 'POST' name='credform' action="{% url 'details' prescriberid=resultset.npi%}">
+                                {% csrf_token %}
+                    <h3 for="credential">Credentials</h3>
+                    <select class="form-control" name="credential" id="credential">
+                        <option value=''>Any</option>
+                        {%for cred in credential%}
+                        <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
+                        {%endfor%}
+                    </select>
+                    <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="credform" class="btn btn-primary btn-xl text-uppercase ">Add</button>
+            
+                    </div>
+                        </form>
                 </div>
+                </div>                                          
+                
             </div>
+            
         </div>
     </div>
 
@@ -262,8 +331,9 @@
                     <th>Times Prescribed</th>
                 </thead>
             </tr>
-
-            {%for x in pres%}
+            
+            {%for x in pres %}
+             <input type=hidden value={{x.totaldrugs}} id='{{x.drugname}}' >
             <tr>
                 <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
                 <td>{% if x.isopioid == True %}
