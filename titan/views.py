@@ -1,5 +1,14 @@
 from django.shortcuts import redirect, render
 from django import forms
+# create sequence measures_measure_id_seq
+# owned by pd_prescriber.npi;
+   
+# alter sequence measures_measure_id_seq restart with 1992994776;
+
+# alter table pd_prescriber
+# alter column npi set default nextval('measures_measure_id_seq')
+
+
 
 from django.core.mail import send_mail
 from .forms import EmailForm
@@ -183,13 +192,15 @@ def detailsPageView(request, prescriberid ) :
     group by npi'''
 
     queryObject = prescriber.objects.raw(opioid_percent_sql)
-
-    pecent_opioid = queryObject[0].percentopioid
-    print(pecent_opioid)
-    percent_nonopioid = queryObject[0].percentnonopioid
-    print(percent_nonopioid)
-    opioid_pie_chart = get_opioid_pie_chart(pecent_opioid, percent_nonopioid)
-
+    print(queryObject)
+    if len(queryObject) > 0:
+        pecent_opioid = queryObject[0].percentopioid
+        # print(pecent_opioid)
+        percent_nonopioid = queryObject[0].percentnonopioid
+        # print(percent_nonopioid)
+        opioid_pie_chart = get_opioid_pie_chart(pecent_opioid, percent_nonopioid)
+    else: 
+        opioid_pie_chart = 0
 
     context = {
         'resultset' : d,
@@ -246,6 +257,7 @@ def addprescriberPageView(request) :
     # IF there is a form submitted, then do all this logic
     if request.method == 'GET':
         name = request.GET
+        print(name)
         if 'addprescriber' in name.keys():
             params = {
                     'firstname' : request.GET['firstname'].title(),
