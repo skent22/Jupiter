@@ -192,13 +192,15 @@ def detailsPageView(request, prescriberid ) :
     group by npi'''
 
     queryObject = prescriber.objects.raw(opioid_percent_sql)
-
-    pecent_opioid = queryObject[0].percentopioid
-    print(pecent_opioid)
-    percent_nonopioid = queryObject[0].percentnonopioid
-    print(percent_nonopioid)
-    opioid_pie_chart = get_opioid_pie_chart(pecent_opioid, percent_nonopioid)
-
+    print(queryObject)
+    if len(queryObject) > 0:
+        pecent_opioid = queryObject[0].percentopioid
+        # print(pecent_opioid)
+        percent_nonopioid = queryObject[0].percentnonopioid
+        # print(percent_nonopioid)
+        opioid_pie_chart = get_opioid_pie_chart(pecent_opioid, percent_nonopioid)
+    else: 
+        opioid_pie_chart = 0
 
     context = {
         'resultset' : d,
