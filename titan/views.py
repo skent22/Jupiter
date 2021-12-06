@@ -26,6 +26,16 @@ from titan.utils import get_top_opioid, get_top_prescriptions, get_top_prescribe
 #Every Drug is displaying as an opioid
 
 # Create your views here.
+def detPageView(request,prescid,dn):
+    if request.method == 'GET':
+        x = triple.objects.get(prescriberid=prescid,drugname=dn)
+        y = request.GET['presctot']
+        print(request.GET.keys())
+        triple.objects.filter(prescriberid=prescid,drugname=dn).update(qty = x.qty + int(request.GET['presctot']))
+        context = {'resultset' : prescriber.objects.get(npi=prescid)}
+    return detailsPageView(request,prescid)
+
+
 def setQueriesPageView(request,qnum):
     q = ''
     qset = ''
@@ -166,8 +176,9 @@ def detailsPageView(request, prescriberid ) :
                'firstname' : request.GET['firstname'].title(),
                 'lastname' : request.GET['lastname'].title(),
                 'state' : request.GET['state'],
-                'gender' : request.GET['gender']}
-            prescriber.objects.filter(npi=prescriberid).update(fname = params['firstname'],lname = params['lastname'],state = params['state'],gender = params['gender'])
+                'gender' : request.GET['gender'],
+                'specialty':request.GET['specialty']}
+            prescriber.objects.filter(npi=prescriberid).update(fname = params['firstname'],lname = params['lastname'],state = params['state'],gender = params['gender'],specialty=params['specialty'])
 
     if request.method == 'GET':
         name = request.GET
@@ -204,7 +215,7 @@ def detailsPageView(request, prescriberid ) :
     from pd_prescriber p
     inner join pd_triple t on p.npi = t.prescriberid
     inner join pd_drugs d on d.drugname = t.drugname 
-    where p.npi = ''' + str(prescriberid)  +   ''' group by p.npi, d.drugid, d.drugname
+    where p.npi = ''' + str(prescriberid)  +   ''' group by p.npi, d.drugid, d.drugname, p.gender
     order by sum(qty) desc
     limit 10 '''
     states = state.objects.all()
