@@ -159,7 +159,7 @@ def detailsPageView(request, prescriberid ) :
             print(new_link)
     d = prescriber.objects.get(npi=prescriberid)
     sql = '''
-    Select p.npi, d.drugid, d.drugname, d.isopioid, sum(qty) as totaldrugs
+    Select p.npi, p.gender, d.drugid, d.drugname, d.isopioid, sum(qty) as totaldrugs
     from pd_prescriber p
     inner join pd_triple t on p.npi = t.prescriberid
     inner join pd_drugs d on d.drugname = t.drugname 
@@ -202,6 +202,23 @@ def detailsPageView(request, prescriberid ) :
     else: 
         opioid_pie_chart = 0
 
+    bHasTriple = False
+    if len(pres) > 0 :
+        bHasTriple = True
+
+    total_prescribed = 0
+    for x in pres : total_prescribed += x.totaldrugs
+
+    total_opioid_prescribed = 0
+    for x in pres : 
+        if x.isopioid == True :
+            total_opioid_prescribed += x.totaldrugs
+
+    perc_opioid_prescription = round(total_opioid_prescribed/total_prescribed * 100, 1)
+
+
+
+
     context = {
         'resultset' : d,
         'pres': pres,
@@ -210,7 +227,12 @@ def detailsPageView(request, prescriberid ) :
         'credential':cred,
         'link':trip,
         'states':states,
-        'spec' : spec
+        'spec' : spec,
+        'bHasTriple' : bHasTriple,
+        'total_prescribed' : total_prescribed,
+        'total_opioid_prescribed' : total_opioid_prescribed,
+        'total_nonopioid_prescribed' : total_prescribed - total_opioid_prescribed,
+        'perc_opioid_prescription' : perc_opioid_prescription
     }
 
     return render(request, 'titan/details.html',context)
