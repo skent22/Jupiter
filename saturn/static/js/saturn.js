@@ -21,6 +21,7 @@ else if (document.getElementById("drugradio").checked) {
 
 }
 
+
 function yeet(){
   fname = document.getElementById("firstname").value;
   lname = document.getElementById("lastname").value;
@@ -79,3 +80,18 @@ function w3_open() {
   //   document.getElementById('qty').min = str(document.getElementById(x) * -1)
 
   // }
+
+  function confirmemail() {
+    nameemail = document.getElementById("nameemail").value;
+     respondemail = document.getElementById("respondemail").value;
+     messageemail = document.getElementById("messageemail").value;
+     confirm = confirm("Send Following Email?\n Name: " + nameemail + "\nEmail: " + respondemail + "\nMessage: " + messageemail + ".");
+
+     if(confirm) {
+       alert("Success! Message sent!")
+       document.getElementById("contactsubmit").submit();
+     }
+     else{
+      alert("Draft Message Discarded");
+     }
+  }

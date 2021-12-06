@@ -320,7 +320,7 @@
 
 
 
-    
+    {% if bHasTriple == True %}
     <div style="margin: auto; margin-top: 2rem; width: 60rem;">
       <div style='height:30px; width:500px'>  <h3 style='display:inline-block;vertical-align:middle'>Top Prescriptions </h3>  <div style='display:inline-block;float:right;vertical-align:middle;' >  </div></div><br>
         <table class="table table-sm table-bordered table-striped table-hover ">
@@ -347,13 +347,12 @@
         </table>
     </div>
 
-
     <div style="margin: auto; margin-top: 2rem;">
         <div class="w3-row-padding">
             <div class="w3-col m4 w3-margin-bottom">
                 <div class="w3-container">
                     <img src="data:image/png;base64, {{prescriptions_chart|safe}}"
-                    <p>Write Paragraph About Prescriptions? In 2014, opioid prescriptions were filled.</p>
+                    <p></p>
                 </div>
             </div>
             <div class="w3-col m4 w3-margin-bottom">
@@ -363,10 +362,28 @@
             </div>
         </div>
     </div>
+    <div>
+        <center>
+        <h3><u><b>Quick Facts</b></u></h4>
+        <p><b>{{total_prescribed}}</b> prescriptions </p>
+        <p><b>{{total_opioid_prescribed}} </b> opioid prescriptions</p>
+        <p><b>{{total_nonopioid_prescribed}}</b> non-opioid prescriptions</p>
+        <p><b>{{perc_opioid_prescription}}%</b> of prescriptions were for opioids. </p>
+        </center>
+    </div>
+
+    {% else %}
+
+    <div style="margin: auto; margin-top: 2rem; width: 60rem;">
+        <div class="w3-row-padding">
+            <div class="w3-col m4 w3-margin-bottom">
+                <h3>This prescriber has no records to display</h3>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
 
 </div>
 
-fdjajfda;
-ffs
 {% endblock%}
