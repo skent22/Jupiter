@@ -18,6 +18,10 @@ from django.db.models import Max
 
 from titan.utils import get_top_opioid, get_top_prescriptions, get_top_prescribers, get_opioid_pie_chart
 
+
+#We have a lot of print statements - delete?
+#Every Drug is displaying as an opioid
+
 # Create your views here.
 def indexPageView(request) :
     topOpioids = drug.objects.raw(
@@ -155,7 +159,7 @@ def detailsPageView(request, prescriberid ) :
             print(new_link)
     d = prescriber.objects.get(npi=prescriberid)
     sql = '''
-    Select p.npi, d.drugid, d.drugname, sum(qty) as totaldrugs
+    Select p.npi, d.drugid, d.drugname, d.isopioid, sum(qty) as totaldrugs
     from pd_prescriber p
     inner join pd_triple t on p.npi = t.prescriberid
     inner join pd_drugs d on d.drugname = t.drugname 
@@ -180,11 +184,8 @@ def detailsPageView(request, prescriberid ) :
     #Make percent opioid pie chart
     opioid_percent_sql = '''
     Select npi,
-	(select case when sum(qty) is not null then 10000 * sum(qty) else 0 end from pd_triple where prescriberid = ''' + str(prescriberid)  +   ''' and drugname  in (select drugname from pd_drugs where isopioid = 't'))/
-	sum(qty) as PercentOpioid,
-	(select case when sum(qty) is not null then 10000 * sum(qty) else 0 end from pd_triple where prescriberid = ''' + str(prescriberid)  +   ''' and drugname in (select drugname from pd_drugs where isopioid = 'f'))/
-	sum(qty) as PercentNonOpioid
-	
+	(select case when sum(qty) is not null then sum(qty) else 0 end from pd_triple where prescriberid = ''' + str(prescriberid)  +   ''' and drugname  in (select drugname from pd_drugs where isopioid = 't')) as PercentOpioid,
+	(select case when sum(qty) is not null then sum(qty) else 0 end from pd_triple where prescriberid = ''' + str(prescriberid)  +   ''' and drugname in (select drugname from pd_drugs where isopioid = 'f')) as PercentNonOpioid
     from pd_prescriber p
     inner join pd_triple t on p.npi = t.prescriberid
     where prescriberid =''' + str(prescriberid) + '''

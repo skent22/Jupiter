@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 from titan.models import drug, prescriber, state, credential
+import numpy as np
 
 
 def get_graph():
@@ -28,11 +29,12 @@ def get_top_opioid(x, y):
     graph = get_graph()
     return graph
 
+#drug details view
 def get_top_prescriptions(x, y):
     plt.switch_backend('AGG')
     plt.title('Top Ten Prescribers', fontsize=20)
-    New_Colors = ['green','blue','purple','brown','teal', 'red', 'yellow', 'grey', 'black', 'orange']
-    plt.bar(x, y, width=0.25, color=New_Colors, edgecolor='grey')
+    #New_Colors = ['green','blue','purple','brown','teal', 'red', 'yellow', 'grey', 'black', 'orange']
+    plt.bar(x, y, edgecolor='grey')
     plt.xlabel('Prescriber', fontsize=14)
     plt.ylabel('Prescriptions Filled', fontsize=10)
     plt.xticks(rotation=30)
@@ -40,13 +42,23 @@ def get_top_prescriptions(x, y):
     graph = get_graph()
     return graph
 
-def get_top_prescribers(x, y):
+#prescribers view
+def get_top_prescribers(bars, height):
     plt.switch_backend('AGG')
-    plt.title('Top Prescriptions Filled', fontsize=20)
-    New_Colors = ['green','blue','purple','brown','teal', 'red', 'yellow', 'grey', 'black', 'orange']
-    plt.bar(x, y, width=0.25, color=New_Colors, edgecolor='grey')
-    plt.ylabel('Prescriptions Filled', fontsize=10)
-    plt.xticks(rotation=30)
+    while len(height) <10 :
+        height.append(0)
+    while len(bars) <10 :
+        bars.append('')
+    #reverse order
+    bars = bars[::-1]
+    height = height[::-1]
+    y_pos = np.arange(len(bars))
+    # Create bars
+    plt.title('Top Ten Prescriptions Filled', fontsize=20)
+    plt.barh(y_pos, height, edgecolor='grey')
+    # Create names on the x-axis
+    plt.yticks(y_pos, bars)
+    #make titght
     plt.tight_layout()
     graph = get_graph()
     return graph
