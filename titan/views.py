@@ -10,7 +10,7 @@ from django import forms
 
 from django.core.mail import send_mail
 from .forms import EmailForm
-from titan.models import drug, prescriber, state, credential, link
+from titan.models import drug, prescriber, state, credential, link, triple
 from django.db.models import Q
 from django.db.models import Max
 
@@ -110,7 +110,7 @@ def searchPageView(request) :
            
 
             if params['firstname'] != '':
-                sql += ' AND (fname LIKE ' +  '\''+str(params['firstname'])+'\'' + 'or  lname like ' + '\'' + str(params['firstname'] + '\')')
+                sql += ' AND (fname LIKE ' +  '\''+str(params['firstname'])+ '\'' + 'or  lname like ' + '\'' + str(params['firstname'] + '\')')
             if params['lastname'] != '':
                 sql += ' AND (fname LIKE ' +  '\''+str(params['lastname'])+'\'' + 'or  lname like ' + '\'' + str(params['lastname'] + '\')')
             if params['state'] != '':
@@ -121,7 +121,8 @@ def searchPageView(request) :
                 sql += ' AND (gender = ' +  '\''+str(params['gender'])+'\') '
             sql += ' order by lname'
             data = prescriber.objects.raw(sql)
-
+    
+            print(data)
         elif 'drugform' in name.keys():
             form = 'drugform'
             medicationname = request.GET['medicationname']
@@ -134,6 +135,7 @@ def searchPageView(request) :
                 sql += ' AND isopioid = ' + '\'' + isopioid + '\''
             sql += ' order by drugname'
             data = drug.objects.raw(sql)
+            print(data)
     context = {
         'resultset' : data,
         'test': sql,
@@ -264,7 +266,7 @@ def detailsdrugsPageView(request, drugid) :
     #get drug object based on drugid
     d = drug.objects.get(drugid=drugid)
     sql = ''' 
-    Select p.npi, fname, lname, sum(qty) as totalDrugs
+    Select p.npi, fname, lname, isopioidprescriber, sum(qty) as totalDrugs
     from pd_prescriber p
     inner join pd_triple t on p.npi = t.prescriberid
     inner join pd_drugs d on d.drugname = t.drugname 
@@ -272,6 +274,18 @@ def detailsdrugsPageView(request, drugid) :
     order by sum(qty) desc
     limit 10 '''
     pres = prescriber.objects.raw(sql)
+
+    total_times_prescribed_sql = '''
+    Select d.drugname, sum(t.qty) as sumdrugs
+    from pd_drugs d
+    inner join pd_triple t on d.drugname = t.drugname 
+    where drugid = ''' + '\'' + str(drugid)  +'\'' + '''
+    group by d.drugid'''
+    total_times_prescribed = drug.objects.raw(total_times_prescribed_sql)
+    
+    for x in total_times_prescribed :
+        print(x.sumdrugs)
+
 
     #Make Graph
     prescribee = [x.fname for x in pres]
@@ -281,11 +295,16 @@ def detailsdrugsPageView(request, drugid) :
     total_prescribed = 0
     for x in pres : total_prescribed += x.totaldrugs
 
+    new_drugname = str(d.drugname)
+    new_drugname = new_drugname.replace('.', ' ')
+
     context = {
         'resultset' : d,
         'pres': pres,
         'top_prescribers_chart' : top_prescribers_chart,
-        'total_prescribed' : total_prescribed
+        'total_prescribed' : total_prescribed,
+        'new_drugname' : new_drugname,
+        'total_times_prescribed' : total_times_prescribed,
     }
     return render(request, 'titan/detailsdrugs.html', context)
 def statisticsPageView(request) :

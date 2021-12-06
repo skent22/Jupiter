@@ -1,34 +1,72 @@
 {% extends  'base.html'%}
 {%block content%}
 
-<h1> Drug Details:</h1>
-<h1>{{resultset.drugname}} </h1>
-<h4>Is Opioid:  
-    {% if resultset.isopioid == t %}
-    True
-    {% else %}
-    False
-    {% endif %}
-</h4>
+<h1> <b>Drug Details</b></h1>
 
 
-<table style="width:600px; border: 1px solid black" style="background-color:#FF0000">
-    <th> Prescriber </th>
-    <th> Quantity </th>
+<div class="container">
 
-            {%for x in pres%}
+
+ 
+    <div style="margin: auto; margin-top: 2rem;">
+        <div class="w3-row-padding">
+
+            <div class="w3-col m4 w3-margin-bottom">
+                <div class="w3-container">
+                    <div style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem;" id="presriberedit">
+                        <div class="d-flex justify-content-center" >
+                            <h2> <b>Drug Details </b></h2> 
+                            
+                            <div class="d-flex">
+                                <h2>{{new_drugname}}</h1>
+                            </div>
+
+                            <div>
+                                <h3>Is Opioid:  
+                                    {% if resultset.isopioid == t %}
+                                    True
+                                    {% else %}
+                                    False
+                                    {% endif %}
+                                </h3>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <h3>Total Times Prescribed: {% for x in total_times_prescribed %} {{x.sumdrugs}}{% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    {% comment %} new table {% endcomment %}
+    <div style="margin: auto; margin-top: 2rem; width: 60rem;">
+        <div style='height:30px; width:500px'>  <h3 style='display:inline-block;vertical-align:middle'>Top Prescribers </h3>  <div style='display:inline-block;float:right;vertical-align:middle;' >  </div></div><br>
+        <table class="table table-sm table-bordered table-striped table-hover ">
             <tr>
-            <td><a href='{% url 'details' prescriberid=x.npi %}'>  {{x.fname}} {{x.lname}}   </a></td>
-            <td>{{x.totaldrugs}}</td>
+                <thead>
+                    <th> Prescriber </th>
+                    <th> Can Prescribe Opioids </th>
+                    <th> Quantity </th>
+                </thead>
             </tr>
 
-           {%endfor%}
-        <tr>
-            <th>Total</th>
-            <th>{{total_prescribed}}</th>
-        </tr>
+                {%for x in pres%}
+                    <tr>
+                        <td><a href='{% url 'details' prescriberid=x.npi %}'>  {{x.fname}} {{x.lname}}   </a></td>
+                        <td>{% if x.isopioidprescriber == True %}
+                            <center> &#10004;</center>
+                            {%endif%}
+                        </td>
+                        <td>{{x.totaldrugs}}</td>
+                    </tr>
+                {%endfor%}
+            
+        </table>
 
-</table>
 
 <div>
     <img src="data:image/png;base64, {{top_prescribers_chart|safe}}"
