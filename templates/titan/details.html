@@ -11,15 +11,20 @@
         <div class="w3-row-padding">
             <div class="w3-col m2 w3-margin-bottom" style="margin-right: 4rem;">
                 <div class="w3-container">
-                    <div style="background-color:lightgray!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 20rem;">
+                    <div style="background-color:lightgray!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 15rem;">
                         <h3> Click To Edit Prescriber Information </h3>
-                        <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="checkbox" id="radioedit" onclick="switchedit();"> 
+                        <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="radioedit" onclick="switchedit();"> 
+                     <h3> Click To Add Prescription </h3>
+                       <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="triple" onclick="tripleedit();"> 
+                       <h3> Click To Add Prescription </h3>
+                       <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="triple" onclick="tripleedit();"> 
+               
                     </div>
                 </div>
             </div>
             <div class="w3-col m4 w3-margin-bottom">
                 <div class="w3-container">
-                    <div style="background-color:#f44336!important; padding: 1.5rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem;" id="presriberedit">
+                    <div style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem;" id="presriberedit">
                         <div class="d-flex justify-content-center" >
                             <h2> Prescriber Details </h2> 
                             
@@ -50,11 +55,116 @@
                     </div>
                 </div>
             
-                <div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; display: none; " id="prescriberform">
+                <div class="d-flex" style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem; display: none; " id="prescriberform">
                     <form name="prescriberform" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
                         <div class="d-flex justify-content-center" >
                             <form method='GET' name='delpres' action='{%url 'details' prescriberid=resultset.npi %}'>
-                            <div style='display : inline-block;'><h2>Update Prescriber Details </h2> </div><div style='display:inline-block;float:right;padding-top:22px;'><button type='submit' name='despres'  style='background-color: #f44336;overflow-x:auto;' class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <div style='display : inline-block;'><h2>Update Prescriber Details </h2> </div><div style='display:inline-block;float:right;padding-top:22px;'><button type='submit' name='despres'  style='background-color: #A7C7E7;overflow-x:auto;' class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                              </svg></button></div>
+                            </form>
+                            <div class="d-flex">
+                                <h3 for="firstname">First Name</h3>
+                                <input required class="form-control" type="text" value="{{resultset.fname}}" name="firstname" >
+                        
+                            </div>
+                            
+            
+                            <div class="d-flex flex-column">
+                                <h3 for="lastname">Last name</h3>
+                                <input required class="form-control" type="text" value="{{resultset.lname}}" name="lastname" >
+                            </div>
+            
+                            <div>
+                                <h3 for="state">State</h3>
+                                <select required class="form-control" name="state" id="state">
+                                    <option value="" selected>Any</option>
+                                    {% for s in states%}
+                                    {% if s.stateabbrev == resultset.state %}
+                                    
+                                    <option value="{{s.stateabbrev}}" selected >{{s.state}}</option>
+                                    {%else%}
+                                    <option value="{{s.stateabbrev}}">{{s.state}}</option>
+                                    {%endif%} 
+                                    {%endfor %}
+                                </select>
+            
+                            </div>
+
+                            <div>
+                                <h3 for="specialty">Specialty</h3>
+                                <select required class="form-control" name="specialty" id="specialty">
+                                  
+                                    {% for s in spec%}
+                                    {% if s == resultset.specialty %}
+                                    <option value="{{s.specialty}}" selected >{{s.specialty}}</option>
+                                    {%else%}
+                                    <option value="{{s.specialty}}">{{s.specialty}}</option>
+                                    {%endif%} 
+                                    {%endfor %}
+                                </select>
+            
+                            </div>
+            
+                            <div class="d-flex flex-row">
+                                <h3>Gender</h3>
+                                {% if resultset.gender == 'M' %}
+                                <input required style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" checked >
+                                <label for="gender">Male</label>
+                                
+                                <input  style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" >
+                                <label for="gender">Female</label>
+                        
+                                {% elif resultset.gender == 'F' %}
+                                <input required style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
+                                <label for="gender">Male</label>
+                                
+                                <input style="height: 2.5rem; width: 2.5rem; margin-left: 2rem;" type="radio" id="female" value="F" name="gender" checked >
+                                <label for="gender">Female</label>
+                                
+                                {%endif%}
+                                
+            
+                            </div>
+                            <button type="submit" style="margin-left: 42.5%; margin-top: 1.5rem;" name="prescriberform" class="btn btn-primary btn-xl text-uppercase ">Update</button>
+                        </div>
+                        <br>
+                    </form>
+                        
+                            <table>
+                                    <thead><h2>Add Credentials </h2><h4>Currently Held</h4> </thead>
+                                    {% for x in link%}
+                                    <form method = 'POST' name='delform' action="{% url 'details' prescriberid=resultset.npi%}">
+                                        {% csrf_token %}  
+                                    <input hidden value={{x.cred_id}} name='del' id='del'></input>
+                                    <tr><td>{{x.cred_id}}</td> <td><button type='submit' style='background-color: #A7C7E7;' class="btn"><i class="fa fa-close"></i></button></td></tr>             
+                                </form>
+                                    {%endfor%} 
+                                </table>
+                            
+                        
+                                <div>
+                            <form method = 'POST' name='credform' action="{% url 'details' prescriberid=resultset.npi%}">
+                                {% csrf_token %}
+                    <h3 for="credential">Credentials</h3>
+                    <select class="form-control" name="credential" id="credential">
+                        <option value=''>Any</option>
+                        {%for cred in credential%}
+                        <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
+                        {%endfor%}
+                    </select>
+                    <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="credform" class="btn btn-primary btn-xl text-uppercase ">Add</button>
+            
+                    </div>
+                        </form>
+                </div>
+                </div>
+                <div class="d-flex" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; margin-top: 2rem; width: 60rem; display: none; " id="tripleform">
+                    <form name="tripleform" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
+                        <div class="d-flex justify-content-center" >
+                            <form method='GET' name='tripledel' action='{%url 'details' prescriberid=resultset.npi %}'>
+                            <div style='display : inline-block;'><h2>Update Prescriptions</h2> </div><div style='display:inline-block;float:right;padding-top:22px;'><button type='submit' name='despres'  style='background-color: #f44336;overflow-x:auto;' class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                               </svg></button></div>
@@ -127,33 +237,11 @@
                         <br>
                     </form>
                         
-                            <table>
-                                    <thead><h2>Add Credentials </h2><h4>Currently Held</h4> </thead>
-                                    {% for x in link%}
-                                    <form method = 'POST' name='delform' action="{% url 'details' prescriberid=resultset.npi%}">
-                                        {% csrf_token %}  
-                                    <input hidden value={{x.cred_id}} name='del' id='del'></input>
-                                    <tr><td>{{x.cred_id}}</td> <td><button type='submit' style='background-color: #f44336;' class="btn"><i class="fa fa-close"></i></button></td></tr>             
-                                </form>
-                                    {%endfor%} 
-                                </table>
+                        
                             
                         
-                                <div>
-                            <form method = 'POST' name='credform' action="{% url 'details' prescriberid=resultset.npi%}">
-                                {% csrf_token %}
-                    <h3 for="credential">Credentials</h3>
-                    <select class="form-control" name="credential" id="credential">
-                        <option value=''>Any</option>
-                        {%for cred in credential%}
-                        <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
-                        {%endfor%}
-                    </select>
-                    <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="credform" class="btn ">Add!</button>
-            
-                    </div>
-                        </form>
-                </div>
+                                
+                            
                 </div>
             </div>
         </div>
@@ -165,7 +253,7 @@
 
     {% if bHasTriple == True %}
     <div style="margin: auto; margin-top: 2rem; width: 60rem;">
-        <h3>Top Prescriptions </h3>
+      <div style='height:30px; width:500px'>  <h3 style='display:inline-block;vertical-align:middle'>Top Prescriptions </h3>  <div style='display:inline-block;float:right;vertical-align:middle;' >  </div></div><br>
         <table class="table table-sm table-bordered table-striped table-hover ">
             <tr>
                 <thead>
@@ -178,7 +266,7 @@
             {%for x in pres%}
             <tr>
                 <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
-                <td>{% if x.isopioid == true %}
+                <td>{% if x.isopioid == True %}
                         <center> &#10004;</center>
                     {%endif%}
                         </td>

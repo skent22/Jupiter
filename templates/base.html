@@ -28,7 +28,7 @@
     <a href="{% url 'index' %}" onclick="w3_close();" class="w3-bar-item w3-button w3-hover-white">Home</a> 
     <a href="{% url 'about' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">About</a> 
     <a href="{% url 'search' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Search</a>
-    <a href="{% url 'statistics' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Statistics</a> 
+    {% comment %} <a href="{% url 'statistics' %}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Statistics</a>  {% endcomment %}
  
   </div>
 </nav>
@@ -40,7 +40,7 @@
 </header>
 
 <!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
 
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:340px;margin-right:40px">
@@ -49,7 +49,7 @@
     <div class="w3-container" style="margin-top:80px" id="showcase">
       <h1 class="w3-jumbo"><b>Preventing Opioid Misuse</b></h1>
       <h1 class="w3-xxxlarge w3-text-red"><b></b></h1>
-      <hr style="width:auto; border:5px solid red" class="w3-round">
+
     </div>
 
     {% block content %}

@@ -18,6 +18,7 @@ else if (document.getElementById("drugradio").checked) {
   document.getElementById("prescriberform").style.display = "none";
   document.getElementById("drugform").style.display = "block";
 }
+
 }
 
 function yeet(){
@@ -50,9 +51,23 @@ function w3_open() {
       document.getElementById("presriberedit").style.display = "none";
       document.getElementById("prescriberform").style.display = "block";
   }
+  
   else {
     document.getElementById("prescriberform").style.display = "none";
     document.getElementById("presriberedit").style.display = "block";
   }
   }
   
+  function tripleedit(){
+     if (document.getElementById('triple').checked){
+      document.getElementById("presriberedit").style.display = "none";
+      document.getElementById("prescriberform").style.display = "none";
+      document.getElementById('tripleform').style.display = 'block';
+    
+    }
+    else{
+      document.getElementById("prescriberform").style.display = "none";
+      document.getElementById('tripleform').style.display = 'none';
+      document.getElementById("presriberedit").style.display = "block";
+    }
+  }
