@@ -178,7 +178,7 @@
             {%for x in pres%}
             <tr>
                 <td><a href='{% url 'detailsdrugs' drugid=x.drugid %}'>  {{x.drugname}} </a></td>
-                <td>{% if x.isopioid == t %}
+                <td>{% if x.isopioid == true %}
                         <center> &#10004;</center>
                     {%endif%}
                         </td>
