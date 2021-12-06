@@ -23,7 +23,7 @@
 
                     <div  style=" background-color: lightgray; padding: 1rem; margin-top 2rem!important; border-radius: 1rem;">
                         <h2>Add a Prescriber </h2>
-                        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add New Prescriber</a>
+                        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add</a>
                     </div>
                     <div  style=" background-color: lightgray; padding: 1rem; margin-top 2rem!important; border-radius: 1rem;">
                         <h2>Common Queries </h2>
@@ -35,7 +35,7 @@
 
            <div class="w3-col m4 w3-margin-bottom">
                 <div class="w3-container" style="margin-bottom: 5rem;" >
-                    <div  id="prescriberform" style="background-color:#f44336; padding: 1rem; border-radius: 1rem; width: 60rem; margin:auto;">
+                    <div  id="prescriberform" style="background-color:#A7C7E7; padding: 1rem; border-radius: 1rem; width: 40rem; margin:auto;">
                         <form name="prescriberform" action="{% url 'search' %}" method="get">
                             <div class="d-flex justify-content-center" >
             
@@ -86,12 +86,12 @@
                                     
             
                                 </div>
-                                <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="prescriberform" class="btn ">Submit!</button>
+                                <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="prescriberform" class="btn btn-primary btn-xl text-uppercase ">Submit</button>
                             </div>
                         </form>
                     </div>
                     
-                    <div id="drugform" style="background-color:#f44336!important; padding: 2rem; border-radius: 1rem; margin: auto; width: 60rem; display: none; ">
+                    <div id="drugform" style="background-color: #A7C7E7; padding: 2rem; border-radius: 1rem; margin: auto; width: 40rem; display: none; ">
                         <form class="d-flex justify-content-center" action="" method="get">
                             <h2>Drug Details </h2>
                             <div class="d-flex flex-column">
@@ -111,7 +111,7 @@
                                     <label for="isopioid">Either</label>
                                     
                             </div>   
-                            <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="drugform" class="btn">Submit!</button>
+                            <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="drugform" class="btn btn-primary btn-xl text-uppercase">Submit!</button>
                         </form>
                     </div>
                 
@@ -121,8 +121,8 @@
 
 
              {% comment %} No results found Block {% endcomment %}
-            {%if resultset|length == 0  and form == 'prescriberform' or resultset|length > 0 and test == 1 %}
-            <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
+            {%if resultset|length == 0  and form == 'prescriberform' %}
+            <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem;">
 
                 <table class="table" style="margin-top: 4rem;">
                     <thead>
@@ -135,7 +135,7 @@
             {%endif%}
 
             {%if resultset|length == 0  and form == 'drugform' %}
-            <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
+            <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem;">
 
                 <table class="table" style="margin-top: 4rem;">
                     <thead>
@@ -149,7 +149,7 @@
         </div>
         {%if form == 'drugform' and resultset|length != 0%}
         <!-- Drug Table -->
-        <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
+        <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem;">
             <table class="table table-striped table-bordered table-hover" style="margin-top: 4rem;">
                 <thead>
                 <tr>
@@ -180,8 +180,8 @@
 
         {% comment %} Provider Table {% endcomment %}
 
-        {%if form == 'prescriberform' and resultset|length != 0 %}
-         <table class="table table-striped table-bordered table-hover" style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
+        {%if form == 'prescriberform' and resultset|length != 0%}
+         <table class="table table-striped table-bordered table-hover" style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem;">
              <thead>
                 <tr>
                     <th>

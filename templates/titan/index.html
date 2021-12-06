@@ -211,29 +211,6 @@
         <button type="submit" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Send Message</button>
       </form>  
     </div>
-    {% if messageSent %}
-    <div class="container">
-      <h3><strong>Email successfully sent</strong></h3>
-      <p>Your message was successfully sent to {{ form.cleaned_data.to }}</p>
-    </div>
-    {% else %}
-    <div class="container">
-      <h3><strong>Send E-mail</strong></h3>
-
-      <form method="post">
-        {% csrf_token %} {{ form.as_p }}
-        <br />
-        <div class="text-center">
-          <input
-            type="submit"
-            class="btn btn-secondary"
-            style="width: 100%"
-            value="Send e-mail"
-          />
-        </div>
-      </form>
-    </div>
-    {% endif %}
   
   <!-- End page content -->
 {% endblock%}

@@ -1,6 +1,55 @@
 {% extends 'base.html'%}
 {%block content%}
+{% load static %}
 
 <h1>About</h1>
 
+
+<!-- The Team -->
+<div class="w3-row-padding">
+    <div class="w3-col m4 w3-margin-bottom">
+        <img src="{% static 'img/brennan.jpg' %}"" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
+        <div class="w3-container">
+          <h3>Top Opioid Prescriptions</h3>
+          {% for drug in drugs%}
+              <p>
+              <left>{{drug.drugname}} </left> <right> {{drug.totaldrugs}} </right>
+              </p>
+          {% endfor %}
+        </div>
+    </div>
+    <div class="w3-col m4 w3-margin-bottom">
+        <img src="{% static 'img/brennan.jpg' %}"" style="width:100%" onclick="onClick(this)" alt="Concrete meets bricks">
+        <div class="w3-container">
+          <h3>Top Opioid Prescriptions</h3>
+          {% for drug in drugs%}
+              <p>
+              <left>{{drug.drugname}} </left> <right> {{drug.totaldrugs}} </right>
+              </p>
+          {% endfor %}
+        </div>
+    </div>
+    <div class="w3-col m4 w3-margin-bottom">
+        <img src="{% static 'img/brennan.jpg' %}"" style="width:100%" onclick="onClick(this)" alt="Concrete meets bricks">
+        <div class="w3-container">
+          <h3>Top Opioid Prescriptions</h3>
+          {% for drug in drugs%}
+              <p>
+              <left>{{drug.drugname}} </left> <right> {{drug.totaldrugs}} </right>
+              </p>
+          {% endfor %}
+        </div>
+    </div>
+    <div class="w3-col m4 w3-margin-bottom">
+        <img src="{% static 'img/brennan.jpg' %}"" style="width:100%" onclick="onClick(this)" alt="Concrete meets bricks">
+        <div class="w3-container">
+          <h3>Top Opioid Prescriptions</h3>
+          {% for drug in drugs%}
+              <p>
+              <left>{{drug.drugname}} </left> <right> {{drug.totaldrugs}} </right>
+              </p>
+          {% endfor %}
+        </div>
+    </div>
+  </div>
 {% endblock%}
