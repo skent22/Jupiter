@@ -10,7 +10,7 @@
                 <div class="w3-container" >
                     <div style=" background-color: lightgray; padding: 1rem; margin-bottom: 2rem; border-radius: 1rem;">
 
-                        <h2>I'm looking for a... </h2>
+                        <h2>Search For </h2>
                         <div class="d-flex justify-content-center" >
                             <label for="searchparam">Prescriber</label>
                               <input class="form-switch" style="height: 2rem; width: 2rem; margin-left: 2rem;" id="prescriberradio" type="radio" id="prescriberradio" value="prescriber" name="searchparam" onclick="switchforms();" checked > 
@@ -26,8 +26,8 @@
                         <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add</a>
                     </div>
                     <div  style=" background-color: lightgray; padding: 1rem; margin-top 2rem!important; border-radius: 1rem;">
-                        <h2>Common Queries </h2>
-                        <h6><a href="{% url 'set' qnum=1  %}">Presriber who only prescribe opioids</a></h6>
+                        <h2>Common Questions </h2>
+                        <h6><a href="{% url 'set' qnum=1  %}">Presribers who only prescribe opioids</a></h6>
                     </div>
                 </div>
                 </div>

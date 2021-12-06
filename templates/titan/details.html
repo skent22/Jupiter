@@ -276,22 +276,41 @@
             
         </table>
     </div>
-
-    <div style="margin: auto; margin-top: 2rem;">
-        <div class="w3-row-padding">
-            <div class="w3-col m4 w3-margin-bottom">
+    
+    {% comment %} try and center boxes
+    <div class="row">
+            <div class="column left">
                 <div class="w3-container">
                     <img src="data:image/png;base64, {{prescriptions_chart|safe}}"
                     <p></p>
                 </div>
             </div>
-            <div class="w3-col m4 w3-margin-bottom">
+            <div class="column right">
                 <div class="w3-container">
                     <img src="data:image/png;base64, {{opioid_pie_chart|safe}}"
                 </div>
             </div>
+    </div> {% endcomment %}
+
+
+    {% comment %} old graphs original {% endcomment %}
+    <div style="margin: auto; margin-top: 2rem;">
+        <div class="w3-row-padding">
+            <div class="w3-col m4 w3-margin-bottom">
+                <div class="w3-container" style="margin: auto; margin-top: 2rem;">
+                    <img src="data:image/png;base64, {{prescriptions_chart|safe}}"
+                    <p></p>
+                </div>
+            </div>
+            <div class="w3-col m4 w3-margin-bottom">
+                <div class="w3-container" style="margin: auto; margin-top: 2rem;">
+                    <img src="data:image/png;base64, {{opioid_pie_chart|safe}}"
+                </div>
+            </div>
         </div>
-    </div>
+    </div> 
+
+
     <div>
         <center>
         <h3><u><b>Quick Facts</b></u></h4>
