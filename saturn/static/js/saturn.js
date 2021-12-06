@@ -50,11 +50,13 @@ function w3_open() {
     if (document.getElementById("radioedit").checked) {
       document.getElementById("presriberedit").style.display = "none";
       document.getElementById("prescriberform").style.display = "block";
+      document.getElementById("tripleform").style.display = "none";
   }
   
   else {
     document.getElementById("prescriberform").style.display = "none";
     document.getElementById("presriberedit").style.display = "block";
+    document.getElementById("tripleform").style.display = "none";
   }
   }
   
@@ -71,3 +73,9 @@ function w3_open() {
       document.getElementById("presriberedit").style.display = "block";
     }
   }
+
+  // function letsgo(){
+  //   x = document.getElementById('drug')
+  //   document.getElementById('qty').min = str(document.getElementById(x) * -1)
+
+  // }

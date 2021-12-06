@@ -85,28 +85,28 @@ WSGI_APPLICATION = 'saturn.wsgi.application'
 #     'DISABLE_SERVER_SIDE_CURSORS': True
 #     }
 # } 
-DATABASES = {
-    'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'intex',
-    'USER': 'postgres',
-    'PASSWORD': 'admin',
-    'HOST': 'localhost',
-    'PORT' : 5434,
-    # 'DISABLE_SERVER_SIDE_CURSORS': True
-    }
-} 
 # DATABASES = {
 #     'default': {
 #     'ENGINE': 'django.db.backends.postgresql',
 #     'NAME': 'intex',
 #     'USER': 'postgres',
-#     'PASSWORD': 'mcorbet3',
+#     'PASSWORD': 'admin',
 #     'HOST': 'localhost',
-#     'PORT' : 5432,
-#     'DISABLE_SERVER_SIDE_CURSORS': True
+#     'PORT' : 5434,
+#     # 'DISABLE_SERVER_SIDE_CURSORS': True
 #     }
 # } 
+DATABASES = {
+    'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'intex',
+    'USER': 'postgres',
+    'PASSWORD': 'mcorbet3',
+    'HOST': 'localhost',
+    'PORT' : 5432,
+    'DISABLE_SERVER_SIDE_CURSORS': True
+    }
+} 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

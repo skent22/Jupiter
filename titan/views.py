@@ -8,9 +8,14 @@ from django import forms
 # alter table pd_prescriber
 # alter column npi set default nextval('measures_measure_id_seq')
 
+
+# ALTER TABLE pd_triple 
+#     ALTER id ADD GENERATED ALWAYS AS IDENTITY 
+#         (START WITH 625495);
+
 from django.core.mail import send_mail
 from .forms import EmailForm
-from titan.models import drug, prescriber, state, credential, link
+from titan.models import drug, prescriber, state, credential, link, triple
 from django.db.models import Q
 from django.db.models import Max
 
@@ -162,6 +167,18 @@ def detailsPageView(request, prescriberid ) :
                 'gender' : request.GET['gender']}
             prescriber.objects.filter(npi=prescriberid).update(fname = params['firstname'],lname = params['lastname'],state = params['state'],gender = params['gender'])
 
+    if request.method == 'GET':
+        name = request.GET
+        if 'tripleadd' in name.keys():
+            params = {
+               'drug' : request.GET['drug'],
+                'qty' : request.GET['qty']}
+            new_triple = triple()
+            new_triple.drugname = drug.objects.filter(drugname=params['drug'])[0]
+            new_triple.qty = params['qty']
+            new_triple.prescriberid = prescriber.objects.get(npi=prescriberid)
+            new_triple.save(force_insert=True)
+
     if request.method == 'POST':
         print(request.POST)
         name = request.POST
@@ -190,7 +207,7 @@ def detailsPageView(request, prescriberid ) :
     limit 10 '''
     states = state.objects.all()
     pres = prescriber.objects.raw(sql)
-
+    drugs = drug.objects.all()
     #Make top prescriptions Graph
     cred = credential.objects.all()
     trip = link.objects.filter(npi = prescriberid)
@@ -232,9 +249,10 @@ def detailsPageView(request, prescriberid ) :
         'credential':cred,
         'link':trip,
         'states':states,
-        'spec' : spec
+        'spec' : spec,
+        'drug' : drugs
     }
-
+    print(context['pres'])
     return render(request, 'titan/details.html',context)
 
 def detailsdrugsPageView(request, drugid) :
