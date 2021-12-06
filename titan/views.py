@@ -8,8 +8,6 @@ from django import forms
 # alter table pd_prescriber
 # alter column npi set default nextval('measures_measure_id_seq')
 
-
-
 from django.core.mail import send_mail
 from .forms import EmailForm
 from titan.models import drug, prescriber, state, credential, link
@@ -23,6 +21,30 @@ from titan.utils import get_top_opioid, get_top_prescriptions, get_top_prescribe
 #Every Drug is displaying as an opioid
 
 # Create your views here.
+def setQueriesPageView(request,qnum):
+    q = ''
+    qset = ''
+    form = ''
+    if qnum == '1':
+        q = '''select npi,lname,fname,gender,state,credentials,specialty,isopioidprescriber from pd_prescriber
+inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
+inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
+where npi in (select npi from pd_prescriber
+inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
+inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
+where isopioid = True) and npi not in (select npi from pd_prescriber
+inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
+inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
+where isopioid = False);'''
+        qset = prescriber.objects.raw(q)
+        form = 'prescriberform'
+    elif qnum == 2:
+        pass
+    context = {'resultset': qset,
+                'test':qnum,
+                'form':form}
+    return render(request,'titan/search.html',context)
+
 def indexPageView(request) :
     topOpioids = drug.objects.raw(
         '''
@@ -200,7 +222,7 @@ def detailsPageView(request, prescriberid ) :
         # print(percent_nonopioid)
         opioid_pie_chart = get_opioid_pie_chart(pecent_opioid, percent_nonopioid)
     else: 
-        opioid_pie_chart = 0
+        opioid_pie_chart = ''
 
     context = {
         'resultset' : d,

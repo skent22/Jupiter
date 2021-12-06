@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import  indexPageView, aboutPageView, searchPageView, detailsPageView, statisticsPageView, detailsdrugsPageView, addprescriberPageView
+from .views import  indexPageView, aboutPageView, searchPageView, detailsPageView, statisticsPageView, detailsdrugsPageView, addprescriberPageView, setQueriesPageView
 urlpatterns = [
     path("about/", aboutPageView, name="about"),
     path("search/", searchPageView, name="search"),
@@ -8,5 +8,6 @@ urlpatterns = [
     path("addprescriber/", addprescriberPageView, name="addprescriber"),
     path("statistics/", statisticsPageView, name="statistics"),
     path("send_mail/", indexPageView, name="mail"),
+    path('set/<qnum>',setQueriesPageView, name='set'),
     path("", indexPageView, name="index"),
         ]

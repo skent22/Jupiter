@@ -19,12 +19,17 @@
                             <label for="searchparam">Drug</label>
                              <input class="" style="height: 2rem; width: 2rem; margin-left: 2rem;"  type="radio" id="drugradio" value="drug" name="searchparam" onclick="switchforms();" >
                         </div>
-                    </div>
+                    
 
                     <div  style=" background-color: lightgray; padding: 1rem; margin-top 2rem!important; border-radius: 1rem;">
-                        <h2>Add a Subscriber </h2>
+                        <h2>Add a Prescriber </h2>
                         <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add New Prescriber</a>
                     </div>
+                    <div  style=" background-color: lightgray; padding: 1rem; margin-top 2rem!important; border-radius: 1rem;">
+                        <h2>Common Queries </h2>
+                        <h6><a href="{% url 'set' qnum=1  %}">Presriber who only prescribe opioids</a></h6>
+                    </div>
+                </div>
                 </div>
             </div>
 
@@ -116,7 +121,7 @@
 
 
              {% comment %} No results found Block {% endcomment %}
-            {%if resultset|length == 0  and form == 'prescriberform' %}
+            {%if resultset|length == 0  and form == 'prescriberform' or resultset|length > 0 and test == 1 %}
             <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
 
                 <table class="table" style="margin-top: 4rem;">
@@ -175,7 +180,7 @@
 
         {% comment %} Provider Table {% endcomment %}
 
-        {%if form == 'prescriberform' and resultset|length != 0%}
+        {%if form == 'prescriberform' and resultset|length != 0 %}
          <table class="table table-striped table-bordered table-hover" style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 60rem;">
              <thead>
                 <tr>
