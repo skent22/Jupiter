@@ -1,5 +1,14 @@
 from django.shortcuts import redirect, render
 from django import forms
+# create sequence measures_measure_id_seq
+# owned by pd_prescriber.npi;
+   
+# alter sequence measures_measure_id_seq restart with 1992994776;
+
+# alter table pd_prescriber
+# alter column npi set default nextval('measures_measure_id_seq')
+
+
 
 from django.core.mail import send_mail
 from .forms import EmailForm
@@ -245,6 +254,7 @@ def addprescriberPageView(request) :
     # IF there is a form submitted, then do all this logic
     if request.method == 'GET':
         name = request.GET
+        print(name)
         if 'addprescriber' in name.keys():
             params = {
                     'firstname' : request.GET['firstname'].title(),
