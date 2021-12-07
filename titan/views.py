@@ -260,8 +260,8 @@ def detailsPageView(request, prescriberid ) :
     # #     listdrug.append(x)
     for x in drugs_not_listed:
         drugpass.append(x.drugname)
-    
-    # print(drugpass)
+    print('please')
+    print(drugpass)
     
     #Make Graph
     drugname = [x.drugname for x in pres]
