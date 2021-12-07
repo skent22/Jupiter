@@ -1,4 +1,4 @@
-# Brennan Williams!!!! Matt Corbett!!!!! Spencer Harrison!!!!! Stetson Harrison!!!!
+# Brennan Williams!!!! Matt Corbett!!!!! Spencer Harrison!!!!! Stetson Kent!!!!
 # 6 December 2021
 
 # IS INTEX PROJECT!!!!
