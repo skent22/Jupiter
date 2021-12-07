@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django import forms
+import time
 # create sequence measures_measure_id_seq
 # owned by pd_prescriber.npi;
    
@@ -53,11 +54,22 @@ inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
 where isopioid = False);'''
         qset = prescriber.objects.raw(q)
         form = 'prescriberform'
-    elif qnum == 2:
-        pass
+    elif qnum == '2':
+        print('oh boy')
+        q = '''Select p.npi 
+from pd_prescriber p
+inner join pd_triple t on p.npi = t.prescriberid
+inner join pd_drugs d on t.drugname = d.drugname
+group by p.npi
+Having 100*  (select sum(qty) from pd_triple where p.npi = prescriberid and drugname in (select drugname from pd_drugs where isopioid = 't'))/sum(qty) > 75  and sum(qty) > 100
+'''
+        qset = prescriber.objects.raw(q)
+        form = 'prescriberform'
+        print(form)
     context = {'resultset': qset,
                 'test':qnum,
                 'form':form}
+    print(context['resultset'])
     return render(request,'titan/search.html',context)
 
 def indexPageView(request) :
@@ -182,12 +194,13 @@ def detailsPageView(request, prescriberid ) :
 
     if request.method == 'GET':
         name = request.GET
+        print(name)
         if 'tripleadd' in name.keys():
             params = {
                'drug' : request.GET['drug'],
                 'qty' : request.GET['qty']}
             new_triple = triple()
-            new_triple.drugname = drug.objects.filter(drugname=params['drug'])[0]
+            new_triple.drugname = drug.objects.get(drugname=params['drug'])
             new_triple.qty = params['qty']
             new_triple.prescriberid = prescriber.objects.get(npi=prescriberid)
             new_triple.save(force_insert=True)
@@ -219,14 +232,28 @@ def detailsPageView(request, prescriberid ) :
     order by sum(qty) desc
     limit 10 '''
     states = state.objects.all()
-    pres = prescriber.objects.raw(sql)
+    pres = prescriber.objects.raw(sql)    
     drugs = drug.objects.all()
     #Make top prescriptions Graph
     cred = credential.objects.all()
     trip = link.objects.filter(npi = prescriberid)
     spec = prescriber.objects.order_by('specialty').distinct('specialty')
     #update form prescriber
+
+    drugs_not_listed_query = '''
+    Select drugid, drugname
+    from pd_drugs
+    where drugname not in (select drugname from pd_triple where prescriberid = ''' + str(prescriberid) + ')'
+
+    drugs_not_listed = drug.objects.raw(drugs_not_listed_query)
+    # # listdrug = []
+    drugpass = []
+    # # for x in pres:
+    # #     listdrug.append(x)
+    for x in drugs_not_listed:
+        drugpass.append(x.drugname)
     
+    # print(drugpass)
     
     #Make Graph
     drugname = [x.drugname for x in pres]
@@ -258,10 +285,10 @@ def detailsPageView(request, prescriberid ) :
     if len(pres) > 0 :
         bHasTriple = True
 
-    total_prescribed = 0
+    total_prescribed = 1
     for x in pres : total_prescribed += x.totaldrugs
 
-    total_opioid_prescribed = 0
+    total_opioid_prescribed = 1
     for x in pres : 
         if x.isopioid == True :
             total_opioid_prescribed += x.totaldrugs
@@ -280,7 +307,7 @@ def detailsPageView(request, prescriberid ) :
         'link':trip,
         'states':states,
         'spec' : spec,
-        'drug' : drugs,
+        'drug' : drugpass,
         'bHasTriple' : bHasTriple,
         'total_prescribed' : total_prescribed,
         'total_opioid_prescribed' : total_opioid_prescribed,

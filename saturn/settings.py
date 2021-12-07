@@ -90,9 +90,9 @@ DATABASES = {
     'ENGINE': 'django.db.backends.postgresql',
     'NAME': 'intex',
     'USER': 'postgres',
-    'PASSWORD': 'admin',
+    'PASSWORD': 'mcorbet3',
     'HOST': 'localhost',
-    'PORT' : 5434,
+    'PORT' : 5432,
     # 'DISABLE_SERVER_SIDE_CURSORS': True
     }
 } 

@@ -167,23 +167,19 @@
                     <div class="d-flex" style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem; display: none; " id="tripleform">
                         <form name="tripleadd" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
                             <div class="d-flex justify-content-center" >
-                                <form method='GET' name='tripladd' action='{%url 'details' prescriberid=resultset.npi %}'>
-                                <div style='display : inline-block;'><h2>Increment Existing and Add New Prescriptions </h2> </div><div style='display:inline-block;float:right;padding-top:22px;'></div>                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                  </svg></button></div>
-                                </form>
                                 
-                                        
-                              
+                                {% comment %} {{drug}} {% endcomment %}
+                                {%for s in pres%}
+                                    {{s.drugname}}
+                                {%endfor %}
                                 <div>
                                     <h3 for="drug">Drug</h3>
                                     <select required class="form-control" name="drug" id="drug" >
                                         <option value="" selected></option>
                                         {% for s in drug%}
-                                        {% if s.drugname in pres.drugname%}
-                                        help
-                                        {%else %}
-                                        <option value="{{s.drugname}}">{{s.drugname}}</option>
-                                        {%endif%}
+                                        
+                                        <option value="{{s}}">{{s}}</option>
+                                        
                                        
                                         {%endfor %}
                                         
@@ -193,8 +189,8 @@
                                 </div>
                                
                                 <div class="d-flex">
-                                    <h3 for="Quantity">Quantity</h3>
-                                    <input required class="form-control" type="number" id="qty" min='0'  >
+                                    <h3 for="qty">Quantity</h3>
+                                    <input required class="form-control" type="number" name='qty' id="qty" min='0'  >
                                     
                                 </div>
     
