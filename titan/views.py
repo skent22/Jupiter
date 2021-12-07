@@ -293,16 +293,18 @@ def detailsPageView(request, prescriberid ) :
     if len(pres) > 0 :
         bHasTriple = True
 
-    total_prescribed = 1
+    total_prescribed = 0
     for x in pres : total_prescribed += x.totaldrugs
 
-    total_opioid_prescribed = 1
+    total_opioid_prescribed = 0
     for x in pres : 
         if x.isopioid == True :
             total_opioid_prescribed += x.totaldrugs
 
-    perc_opioid_prescription = round(total_opioid_prescribed/total_prescribed * 100, 1)
-
+    if total_prescribed != 0 :
+        perc_opioid_prescription = round(total_opioid_prescribed/total_prescribed * 100, 1)
+    else :
+        perc_opioid_prescription = 0
 
 
 
@@ -340,7 +342,7 @@ def detailsdrugsPageView(request, drugid) :
     pres = prescriber.objects.raw(sql)
 
     total_times_prescribed_sql = '''
-    Select d.drugname, sum(t.qty) as sumdrugs
+    Select d.drugname, sum(t.qty) as sumdrugs, count(prescriberid) as times_prescribed
     from pd_drugs d
     inner join pd_triple t on d.drugname = t.drugname 
     where drugid = ''' + '\'' + str(drugid)  +'\'' + '''
