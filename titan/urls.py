@@ -9,6 +9,6 @@ urlpatterns = [
     path("addprescriber/", addprescriberPageView, name="addprescriber"),
     path("statistics/", statisticsPageView, name="statistics"),
     path("send_mail/", indexPageView, name="mail"),
-    path('set/<qnum>',setQueriesPageView, name='set'),
+    path('set/<int:qnum>',setQueriesPageView, name='set'),
     path("", indexPageView, name="index"),
         ]
