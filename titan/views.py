@@ -122,6 +122,7 @@ def searchPageView(request) :
 
     states = state.objects.all()
     credentials = credential.objects.all()
+    spec = prescriber.objects.order_by('specialty').distinct('specialty')
     if request.method == 'GET':
         name = request.GET
         if 'prescriberform' in name.keys():
@@ -131,7 +132,8 @@ def searchPageView(request) :
             'lastname' : request.GET['lastname'].title(),
             'state' : request.GET['state'],
             'credential' : request.GET['credential'],
-            'gender' : request.GET['gender']}
+            'gender' : request.GET['gender'],
+            'specialty': request.GET['specialty']}
             if request.GET['gender'] != "":
                 gender = request.GET['gender']
             sql = 'SELECT * FROM pd_prescriber inner join linking on linking.npi = pd_prescriber.npi inner join credentials on credentials.cred_id = linking.cred_id WHERE 1=1'
@@ -147,6 +149,8 @@ def searchPageView(request) :
                 sql += ' AND (abbreviation = ' +  '\''+str(params['credential'])+'\') '
             if params['gender'] != '':
                 sql += ' AND (gender = ' +  '\''+str(params['gender'])+'\') '
+            if params['specialty'] != '':
+                sql += ' AND (specialty = ' +  '\''+str(params['specialty'])+'\') '
             sql += ' order by lname'
             data = prescriber.objects.raw(sql)
     
@@ -170,6 +174,7 @@ def searchPageView(request) :
         'form': form,
         'states': states,
         'credentials': credentials,
+        'spec':spec
     }
     return render(request, 'titan/search.html', context)
 

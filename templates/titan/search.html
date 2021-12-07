@@ -74,6 +74,17 @@
                                         {%endfor%}
                                     </select>
                                 </div>
+
+                                <div>
+                                    <h3 for="specialty">Specialty</h3>
+                                    <select class="form-control" name="specialty" id="specialty">
+                                        <option value="" selected>Any</option>
+                                        {%for cred in spec%}
+                                        <option value="{{cred.specialty}}" >{{cred.specialty}}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
+
                                 <div class="d-flex flex-row">
                                     <h3>Gender</h3>
                                     <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
