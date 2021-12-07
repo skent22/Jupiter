@@ -1,59 +1,44 @@
 {% extends 'base.html'%}
 {%block content%}
 {% load static %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <h1>About</h1>
 
 <div class="container">
-        
 
-    <h1>Development Team </h1>
-    <!-- The Team -->
-    <div class="w3-row-padding">
-        <div class="w3-col m3 w3-margin-bottom">
-            <img src="{% static 'img/spencer.jpg' %}"" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
-            <div class="w3-container">
-            <h3>Database Administrator</h3>
-            {% for drug in drugs%}
-                <p>
-                <left>{{drug.drugname}} </left> <right> {{drug.totaldrugs}} </right>
-                </p>
-            {% endfor %}
-            </div>
-        </div>
-        <div class="w3-col m3 w3-margin-bottom">
-            <img src="{% static 'img/stetson.jpg' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
-            <div class="w3-container">
-            <h3>Head Data Analyst</h3>
-            {% for drug in drugs%}
-                <p>
-                <left>{{drug.drugname}} </left> <right> {{drug.totaldrugs}} </right>
-                </p>
-            {% endfor %}
-            </div>
-        </div>
-        <div class="w3-col m3 w3-margin-bottom">
-            <img src="{% static 'img/matt.jpg' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
-            <div class="w3-container">
-            <h3>Senior Software Engineer</h3>
-            {% for drug in drugs%}
-                <p>
-                <left>{{drug.drugname}} </left> <right> {{drug.totaldrugs}} </right>
-                </p>
-            {% endfor %}
-            </div>
-        </div>
-        <div class="w3-col m3 w3-margin-bottom">
-            <img src="{% static 'img/brennan.jpg' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
-            <div class="w3-container">
-            <h3>Junior Intern</h3>
-            {% for drug in drugs%}
-                <p>
-                <left>{{drug.drugname}} </left> <right> {{drug.totaldrugs}} </right>
-                </p>
-            {% endfor %}
-            </div>
-        </div>
+    <h4>jlfda;jf;ioaddddddddddddddddddddddddddddddddddddd<h4>
+    <div class=" d-flex justify-content-center">
+        <img src="{% static 'img/byu.png' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
+    </div
+    <div class="d-flex justify-content-center">
+    <h1> Our team: </h1>
     </div>
+
+        <div class="d-flex">
+            <div>
+                <img src="{% static 'img/spencer.jpg' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
+                <h3>Database Administrator</h3>
+            </div>
+            <div>
+                <img src="{% static 'img/stetson.jpg' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
+          
+                <h3>Head Data Analyst</h3>
+            </div>
+            <div>
+                <img src="{% static 'img/matt.jpg' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
+     
+                <h3>Senior Software Engineer</h3>
+            </div>
+            <div>
+                <img src="{% static 'img/brennan.jpg' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
+                <div class="w3-container">
+                <h3>Junior Intern</h3>
+            </div>
+
+        </div>
 </div>
 {% endblock%}
