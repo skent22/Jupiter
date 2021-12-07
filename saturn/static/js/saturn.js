@@ -25,7 +25,7 @@ else if (document.getElementById("drugradio").checked) {
 function yeet(){
   fname = document.getElementById("firstname").value;
   lname = document.getElementById("lastname").value;
-  alert("Sucessfully Created Presriber: " + fname + ' ' + lname);
+  alert("Sucessfully Created Prescriber: " + fname + ' ' + lname);
 }
 
 // Script to open and close sidebar

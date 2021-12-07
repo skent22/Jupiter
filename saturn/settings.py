@@ -9,6 +9,10 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+# Brennan Williams!!!! Matt Corbett!!!!! Spencer Harrison!!!!! Stetson Harrison!!!!
+# 6 December 2021
+
+# IS INTEX PROJECT!!!!
 
 from pathlib import Path
 import os
@@ -74,28 +78,28 @@ WSGI_APPLICATION = 'saturn.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': 'intexscript',
+#     'USER': 'postgres',
+#     'PASSWORD': 'Happ1n3ss',
+#     'HOST': 'localhost',
+#     'PORT' : 5432,
+#     'DISABLE_SERVER_SIDE_CURSORS': True
+#     }
+# } 
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'intexscript',
+    'NAME': 'intex',
     'USER': 'postgres',
-    'PASSWORD': 'Happ1n3ss',
+    'PASSWORD': 'Luke1Luke1',
     'HOST': 'localhost',
     'PORT' : 5432,
     'DISABLE_SERVER_SIDE_CURSORS': True
     }
 } 
-# DATABASES = {
-#     'default': {
-#     'ENGINE': 'django.db.backends.postgresql',
-#     'NAME': 'intex',
-#     'USER': 'postgres',
-#     'PASSWORD': 'mcorbet3',
-#     'HOST': 'localhost',
-#     'PORT' : 5432,
-#     # 'DISABLE_SERVER_SIDE_CURSORS': True
-#     }
-# } 
 # DATABASES = {
 #     'default': {
 #     'ENGINE': 'django.db.backends.postgresql',
