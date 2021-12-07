@@ -10,12 +10,10 @@
 <h1> <b>Prescriber Details </b></h1>
 
 <div class="container">
-
-
     <div class="d-flex">
 
         <div>
-                <div style="background-color:lightgray!important; padding: 1rem; border-radius: 1rem; margin: 1rem 2rem 0rem 0rem; width: 15rem;">
+                <div style="background-color:lightgray!important; padding: 1rem; border-radius: 1rem; margin: 1rem 2rem 0rem 0rem; width: 25rem;">
                     <h3> Edit Prescriber </h3>
                     <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="radioedit" onclick="switchedit();"> 
                  <h3> Add Prescription </h3>
@@ -27,7 +25,7 @@
         </div>
 
         <div>
-            <div style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem;" id="presriberedit">
+            <div style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem;" id="presriberedit">
                 <div>
                     <h1> Prescriber Details </h1> 
                     
@@ -255,17 +253,25 @@
 
 
     {% comment %} old graphs original {% endcomment %}
+
+    <div class="d-flex">
+
+        <img src="data:image/png;base64, {{prescriptions_chart|safe}}">
+
+        <img src="data:image/png;base64, {{opioid_pie_chart|safe}}">
+
+    </div>
     <div style="margin: auto; margin-top: 2rem;">
         <div class="w3-row-padding">
             <div class="w3-col m4 w3-margin-bottom">
                 <div class="w3-container" style="margin: auto; margin-top: 2rem;">
-                    <img src="data:image/png;base64, {{prescriptions_chart|safe}}"
+                   
                     <p></p>
                 </div>
             </div>
             <div class="w3-col m4 w3-margin-bottom">
                 <div class="w3-container" style="margin: auto; margin-top: 2rem;">
-                    <img src="data:image/png;base64, {{opioid_pie_chart|safe}}"
+                   
                 </div>
             </div>
         </div>
