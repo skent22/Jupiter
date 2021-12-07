@@ -42,16 +42,17 @@ def setQueriesPageView(request,qnum):
     qset = ''
     form = ''
     if qnum == '1':
+       
         q = '''select npi,lname,fname,gender,state,credentials,specialty,isopioidprescriber from pd_prescriber
-inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
-inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
-where npi in (select npi from pd_prescriber
-inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
-inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
-where isopioid = True) and npi not in (select npi from pd_prescriber
-inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
-inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
-where isopioid = False);'''
+                inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
+                inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
+                where npi in (select npi from pd_prescriber
+                inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
+                inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
+                where isopioid = True) and npi not in (select npi from pd_prescriber
+                inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
+                inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
+                where isopioid = False);'''
         qset = prescriber.objects.raw(q)
         form = 'prescriberform'
     elif qnum == '2':
