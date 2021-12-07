@@ -1,3 +1,9 @@
+# Brennan Williams!!!! Matt Corbett!!!!! Spencer Harrison!!!!! Stetson Harrison!!!!
+# 6 December 2021
+
+# IS INTEX PROJECT!!!!
+
+
 from django.shortcuts import redirect, render
 from django import forms
 import time
