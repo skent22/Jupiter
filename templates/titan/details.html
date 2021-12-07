@@ -77,9 +77,8 @@
                          
                         </div>
                         <div>
-                            <h3 for="Quantity">Quantity</h3>
-                            <input required class="form-control" type="number" id="qty" name='qty' min='0'  >
-                            
+                            <h3 for="qty">Quantity</h3>
+                            <input type="number" class="form-control" id="quantity" name="qty" min="1">                            
                         </div>
 
                         
@@ -228,8 +227,8 @@
                 <td>{{x.totaldrugs}} </td>
                 <td style='width:150px'>
                     <form method='GET'  action="{% url 'det' prescid=x.npi dn=x.drugname %}">
-                        <input style='width:50px'type=number name='presctot'>
-                        <button type=submit >Add</button>
+                        <input  style='width:50px'type="number" min="1" name='presctot'>
+                        <button class=" btn btn-primary" type=submit >Add</button>
                     </form>
                 </td>
             </tr>
