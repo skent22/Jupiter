@@ -9,6 +9,10 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+# Brennan Williams!!!! Matt Corbett!!!!! Spencer Harrison!!!!! Stetson Harrison!!!!
+# 6 December 2021
+
+# IS INTEX PROJECT!!!!
 
 from pathlib import Path
 import os
@@ -90,10 +94,10 @@ DATABASES = {
     'ENGINE': 'django.db.backends.postgresql',
     'NAME': 'intex',
     'USER': 'postgres',
-    'PASSWORD': 'mcorbet3',
+    'PASSWORD': 'admin',
     'HOST': 'localhost',
-    'PORT' : 5432,
-    # 'DISABLE_SERVER_SIDE_CURSORS': True
+    'PORT' : 5434,
+    'DISABLE_SERVER_SIDE_CURSORS': True
     }
 } 
 # DATABASES = {
