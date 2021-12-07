@@ -87,6 +87,12 @@
                     </tr>
         
                     {%endfor%}
+            <tr>
+              <b>
+                <th> USA Total </th>
+                <th> {{total_deaths}} </th>
+              </b>
+            </tr>
           </table>      
         </div>
         <div style="margin:2rem; line-height: 2;">
@@ -110,10 +116,17 @@
                       <td>{{drug.totaldrugs}}</td>
                     </tr>
                 {% endfor %}
+                <tr>
+                  <b>
+                    <th> Total Opioid Prescriptions </th>
+                    <th> {{total_opioids}} </th>
+                  </b>
+                </tr>
+  
             </table>
         </div>
       </div>
-
+      <br>
       <div class="d-flex">
         <div>
         <center>  <img src="{% static 'img/stats.png' %}"" style="width:70%" onclick="onClick(this)" alt="Opioid by the Numbers"></center>

@@ -117,11 +117,25 @@ def indexPageView(request) :
         limit 5
         '''
     )
+
+    all_state_info = state.objects.raw(
+    '''Select state, deaths
+        from pd_statedata
+        where deaths is not null
+        order by deaths DESC
+        '''
+    )
+
+    total_deaths = 0
+    for x in all_state_info : total_deaths += x.deaths
+
     context = {
         'drugs' : topOpioids,
         'opioid_chart': topOpioid,
         'total_opioids' : total_opioids,
         'state_info' : state_info,
+        'total_deaths' :total_deaths,
+        'total_opioids' :total_opioids
     }
 
     return render(request, 'titan/index.html', context)
