@@ -47,6 +47,11 @@ def setQueriesPageView(request,qnum):
     q = ''
     qset = ''
     form = ''
+
+    states = state.objects.all()
+    credentials = credential.objects.all()
+    spec = prescriber.objects.order_by('specialty').distinct('specialty')
+    drugs = drug.objects.all
     if qnum == '1':
        
         q = '''select npi,lname,fname,gender,state,specialty,isopioidprescriber from pd_prescriber
@@ -75,7 +80,11 @@ Having 100*  (select sum(qty) from pd_triple where p.npi = prescriberid and drug
         print(form)
     context = {'resultset': qset,
                 'test':qnum,
-                'form':form}
+                'form':form,
+                'states': states,
+                'credentials': credentials,
+                'spec':spec,
+                'drug': drugs}
     print(context['resultset'])
     return render(request,'titan/search.html',context)
 
