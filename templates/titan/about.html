@@ -10,7 +10,60 @@
 
 <div class="container">
 
-    <h4>jlfda;jf;ioaddddddddddddddddddddddddddddddddddddd<h4>
+    <h2>This Project is a proof of concept for INTEX at Brigham Young University. <h2>
+
+    <h3> Features of this Website Include </h3>
+    <ul>
+        <li> Home Page  </li>
+        <ul> 
+            <li> Ted Ex Video about opioid addiction  </li>
+            <li> General Statistics about the opioid crisis </li>
+            <li> Count of deaths per state (Top 5 States)</li>
+            <li> Live Count of Opioids (updates automatically when data is added to the database) </li>
+            <li> Contact Button for comments and further help </li>
+        </ul>
+        <li> About  </li>
+        <ul> 
+            <li> General Information about the devlopment team and this website  </li>
+        </ul>
+        <li> Search </li>
+        <ul> 
+            <li> Search By Presriber name, state, credential, speicality, & Gender (All Nullable) (Generates Interactable list) </li>
+            <li> Search By Drug Name and if it is an opioid or not (Generates Interactable list) </li>
+            <li> Add a Prescriber (Takes to a new page) </li>
+            <li> Generate a list of answers to common questions </li>
+        </ul>
+        <li> Prescriber Detail Page </li>
+        <ul>
+            <li> View important inforamtion about a prescriber </li>
+                <ul>
+                    <li> Name </li>
+                    <li> State </li>
+                    <li> Specialty </li>
+                    <li> Gender </li>
+                    <li> Credentials </li>
+                </ul>
+            <li> Create prescription information </li>
+            <li> Update prescription information </li>
+            <li> Delete prescriber information </li>
+            <li> View most prescribed drugs </li>
+            <li> View percentage of presciptions that are opioids </li>
+            <li> View total count of prescriptions for opioid and non-opioid drugs </li>
+            <li> Navigate to drug detail pages for prescribed drugs </li>
+
+        </ul>
+        <li> Drug Detail Page </li>
+        <ul>
+            <li> View drug information </li>
+            <li> View top 10 prescribers of the given drug</li>
+                <ul>
+                    <li> Prescriber name </li>
+                    <li> Whether they can prescribe opioids or not </li>
+                    <li> Total quantity they have prescribed </li>
+                </ul>    
+        </ul>
+
+    </ul>
     <div class=" d-flex justify-content-center">
         <img src="{% static 'img/byu.png' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
     </div
@@ -26,7 +79,7 @@
             <div>
                 <img src="{% static 'img/stetson.jpg' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
           
-                <h3>Head Data Analyst</h3>
+                <h3>Head Data Scientist</h3>
             </div>
             <div>
                 <img src="{% static 'img/matt.jpg' %}" style="width:70%" onclick="onClick(this)" alt="Concrete meets bricks">
