@@ -268,6 +268,21 @@ def detailsPageView(request, prescriberid ) :
         drugpass.append(x.drugname)
     print('please')
     print(drugpass)
+
+    credentails_not_listed_query =     '''
+                Select cred_id, abbreviation
+                from credentials
+                where cred_id not in (select cred_id from linking where npi = ''' + str(prescriberid) + ')'
+
+    credentials_not_listed = credential.objects.raw(credentails_not_listed_query)
+    # # listdrug = []
+    credentialpass = []
+    # # for x in pres:
+    # #     listdrug.append(x)
+    for x in credentials_not_listed:
+        credentialpass.append(x.abbreviation)
+
+
     
     #Make Graph
     drugname = [x.drugname for x in pres]
@@ -328,7 +343,8 @@ def detailsPageView(request, prescriberid ) :
         'total_prescribed' : total_prescribed,
         'total_opioid_prescribed' : total_opioid_prescribed,
         'total_nonopioid_prescribed' : total_prescribed - total_opioid_prescribed,
-        'perc_opioid_prescription' : perc_opioid_prescription
+        'perc_opioid_prescription' : perc_opioid_prescription,
+        'credpass': credentialpass
     }
     print(context['pres'])
     return render(request, 'titan/details.html',context)

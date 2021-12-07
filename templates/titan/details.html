@@ -182,8 +182,8 @@
                 <h3 for="credential">Credentials</h3>
                 <select class="form-control" name="credential" id="credential">
                     
-                    {%for cred in credential%}
-                    <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
+                    {%for cred in credpass%}
+                    <option value="{{cred}}" >{{cred}}</option>
                     {%endfor%}
                 </select>
                 <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="credform" class="btn btn-primary btn-xl text-uppercase ">Add</button>
