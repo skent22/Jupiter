@@ -107,8 +107,14 @@
                         <form class="d-flex justify-content-center" action="" method="get">
                             <h2>Drug Details </h2>
                             <div class="d-flex flex-column">
-                                <h3 for="medicationname">Medication Name</h3>
-                                <input class="form-control" type="text" placeholder="Medication Name" name="medicationname" >
+                                <h3 for="drug">Medication Name</h3>
+                                <select  class="form-control" name="drug" id="drug" >
+                                    <option value="" selected></option>
+                                    {% for s in drug%}
+                                    <option value="{{s.drugname}}">{{s.drugname}}</option>
+                                   
+                                    {%endfor %}
+                                </select>
                             </div>
             
                             <div class="d-flex flex-row">

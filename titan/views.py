@@ -123,6 +123,7 @@ def searchPageView(request) :
     states = state.objects.all()
     credentials = credential.objects.all()
     spec = prescriber.objects.order_by('specialty').distinct('specialty')
+    drugs = drug.objects.all
     if request.method == 'GET':
         name = request.GET
         if 'prescriberform' in name.keys():
@@ -157,12 +158,12 @@ def searchPageView(request) :
             print(data)
         elif 'drugform' in name.keys():
             form = 'drugform'
-            medicationname = request.GET['medicationname']
+            medicationname = request.GET['drug']
             isopioid = request.GET['isopioid']
             # newlist = [medicationname, isopioid]
             sql = 'SELECT * FROM pd_drugs WHERE 1=1'
-            if request.GET['medicationname'] != '':
-                sql += ' AND  drugname LIKE' + '\'' + medicationname + '\''
+            if request.GET['drug'] != '':
+                sql += ' AND  drugname =' + '\'' + medicationname + '\''
             if request.GET['isopioid'] != '':
                 sql += ' AND isopioid = ' + '\'' + isopioid + '\''
             sql += ' order by drugname'
@@ -174,7 +175,8 @@ def searchPageView(request) :
         'form': form,
         'states': states,
         'credentials': credentials,
-        'spec':spec
+        'spec':spec,
+        'drug': drugs
     }
     return render(request, 'titan/search.html', context)
 
@@ -332,7 +334,7 @@ def detailsdrugsPageView(request, drugid) :
     from pd_prescriber p
     inner join pd_triple t on p.npi = t.prescriberid
     inner join pd_drugs d on d.drugname = t.drugname 
-    where drugid = ''' + '\'' + str(drugid)  +'\'' +   '''group by npi, fname,lname
+    where drugid = ''' + '\'' + str(drugid)  +'\'' +   '''group by npi, fname,lname, isopioidprescriber
     order by sum(qty) desc
     limit 10 '''
     pres = prescriber.objects.raw(sql)
@@ -342,7 +344,7 @@ def detailsdrugsPageView(request, drugid) :
     from pd_drugs d
     inner join pd_triple t on d.drugname = t.drugname 
     where drugid = ''' + '\'' + str(drugid)  +'\'' + '''
-    group by d.drugid'''
+    group by d.drugname'''
     total_times_prescribed = drug.objects.raw(total_times_prescribed_sql)
     
     for x in total_times_prescribed :
