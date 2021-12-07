@@ -181,7 +181,7 @@
                             {% csrf_token %}
                 <h3 for="credential">Credentials</h3>
                 <select class="form-control" name="credential" id="credential">
-                    <option value=''>Any</option>
+                    
                     {%for cred in credential%}
                     <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
                     {%endfor%}

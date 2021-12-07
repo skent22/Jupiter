@@ -49,7 +49,7 @@ def setQueriesPageView(request,qnum):
     form = ''
     if qnum == '1':
        
-        q = '''select npi,lname,fname,gender,state,credentials,specialty,isopioidprescriber from pd_prescriber
+        q = '''select npi,lname,fname,gender,state,specialty,isopioidprescriber from pd_prescriber
                 inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
                 inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
                 where npi in (select npi from pd_prescriber
