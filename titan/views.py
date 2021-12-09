@@ -44,8 +44,7 @@ def detPageView(request,tutorid,dn):
         context = {'resultset' : Appointment.objects.get(tutor_id=tutorid)}
     return detailsPageView(request,tutorid)
 
-
-
+# View for index.html page
 def indexPageView(request) :
     
 
@@ -55,10 +54,11 @@ def indexPageView(request) :
 
     return render(request, 'titan/index.html', context)
 
-
+# View for about.html page
 def aboutPageView(request) :
     return render(request, 'titan/about.html') 
 
+# View for the search page. Allow searching by the following parameters: firstname, lastname, state, subject, gender, degree
 def searchPageView(request) :
     data = ''
     sql = ''
@@ -111,6 +111,7 @@ def searchPageView(request) :
     }
     return render(request, 'titan/search.html', context)
 
+# View for the tutor details html page.
 def detailsPageView(request, tutorid ) :
     if request.method == 'GET':
         name = request.GET
@@ -239,6 +240,7 @@ def detailsPageView(request, tutorid ) :
     }
     return render(request, 'titan/details.html',context)
 
+# View for the student details html page
 def detailsdrugsPageView(request, drugid) :
     
     #get drug object based on drugid
@@ -288,6 +290,7 @@ def detailsdrugsPageView(request, drugid) :
 def statisticsPageView(request) :
     return render(request, 'titan/statistics.html')
 
+# View for the addtutor html page
 def addtutorPageView(request) :
 
     #created needed lists to be used iin drop down forms
