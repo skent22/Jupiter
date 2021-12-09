@@ -1,16 +1,17 @@
 
 from django.db import models
 from django.db.models.constraints import UniqueConstraint
+from django.db.models.deletion import CASCADE, DO_NOTHING
 from django.db.models.fields import CharField
 class Appointment(models.Model):
-    tutor = models.ForeignKey('Tutor', models.DO_NOTHING)
-    stud = models.ForeignKey('Student', models.DO_NOTHING)
+    tutor = models.ForeignKey('Tutor', on_delete=CASCADE)
+    stud     = models.ForeignKey('Student', on_delete=CASCADE)
     qty = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'appointment'
-
+        unique_together = (('tutor_id','stud_id'))
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -125,17 +126,6 @@ class DjangoSession(models.Model):
         managed = False
         db_table = 'django_session'
 
-
-class Linking(models.Model):
-    tutor = models.OneToOneField('Tutor', models.DO_NOTHING, primary_key=True)
-    sub = models.ForeignKey('Subject', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'linking'
-        unique_together = (('tutor', 'sub'),)
-
-
 class Student(models.Model):
     stud_id = models.AutoField(primary_key=True)
     fname = models.CharField(max_length=11)
@@ -169,3 +159,14 @@ class Tutor(models.Model):
     class Meta:
         managed = False
         db_table = 'tutor'
+
+
+
+class Linking(models.Model):
+    tutor_id = models.ForeignKey(Tutor, db_column='tutor_id', primary_key=True,on_delete=CASCADE)
+    sub_id = models.ForeignKey(Subject, db_column='sub_id',on_delete=CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'linking'
+        unique_together = (('tutor_id', 'sub_id'))
