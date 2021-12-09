@@ -6,7 +6,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-
+{% comment %} Page contains details related to a tutor. Including location, gender and the subjects they teach, etc {% endcomment %}
 <h1> <b>Tutor Details </b></h1>
 
 <div class="container">
@@ -16,7 +16,7 @@
                 <div style="background-color:lightgray!important; padding: 1rem; border-radius: 1rem; margin: 1rem 2rem 0rem 0rem; width: 25rem;">
                     <h3> Edit Tutor </h3>
                     <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="radioedit" onclick="switchedit();"> 
-                 <h3> Add Subject </h3>
+                 <h3> Add Appointment </h3>
                    <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="triple" onclick="tripleedit();"> 
                    <h3> View Tutor Details </h3>
                    <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="triple" checked onclick="tripleedit();"> 
@@ -68,8 +68,8 @@
                             <h3 for="drug">Student</h3>
                             <select required class="form-control" name="drug" id="drug" >
                                 <option value="" selected></option>
-                                {% for s in drug%}
-                                <option value="{{s}}">{{s}}</option>
+                                {% for s in student%}
+                                <option value="{{s}}">{{s.fullname}}</option>
                                
                                 {%endfor %}
                             </select>
@@ -218,11 +218,11 @@
             
             {%for x in pres %}
             <tr>
-                <td><a href="{% url 'index' %}">  {{x.fullname}} </a></td>
+                <td><a href="{% url 'det' tutorid=resultset.tutor_id dn=x.stud_id %}">  {{x.fullname}} </a></td>
                 
                 <td>{{x.totalappointments}} </td>
                 <td style='width:150px'> {%comment%}'det' prescid=x.npi dn=x.drugname  {%endcomment%}
-                    <form method='GET'  action="{% url 'index' %}"> 
+                    <form method='GET'  action="{% url 'det' tutorid=resultset.tutor_id dn=x.stud_id %}"> 
                         <input  style='width:50px'type="number" min="1" name='presctot'>
                         <button class=" btn btn-primary" type=submit >Add</button>
                     </form>

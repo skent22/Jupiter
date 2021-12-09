@@ -7,6 +7,7 @@ from .models import Tutor,Linking,Student,Subject,Appointment
 from django.shortcuts import redirect, render
 from django import forms
 import time
+
 # create sequence measures_measure_id_seq
 # owned by pd_prescriber.npi;
    
@@ -35,17 +36,16 @@ states = ( 'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
            'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
            'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY')
 # Create your views here.
-def detPageView(request,prescid,dn):
+def detPageView(request,tutorid,dn):
     if request.method == 'GET':
-        x = triple.objects.get(prescriberid=prescid,drugname=dn)
+        x = Appointment.objects.get(tutor_id=tutorid,stud_id=dn)
         y = request.GET['presctot']
         print(request.GET.keys())
-        triple.objects.filter(prescriberid=prescid,drugname=dn).update(qty = x.qty + int(request.GET['presctot']))
-        context = {'resultset' : prescriber.objects.get(npi=prescid)}
-    return detailsPageView(request,prescid)
+        Appointment.objects.filter(tutor_id=tutorid,stud_id=dn).update(qty = x.qty + int(request.GET['presctot']))
+        context = {'resultset' : Appointment.objects.get(tutor_id=tutorid)}
+    return detailsPageView(request,tutorid)
 
-
-
+# View for index.html page
 def indexPageView(request) :
     
 
@@ -55,10 +55,11 @@ def indexPageView(request) :
 
     return render(request, 'titan/index.html', context)
 
-
+# View for about.html page
 def aboutPageView(request) :
     return render(request, 'titan/about.html') 
 
+# View for the search page. Allow searching by the following parameters: firstname, lastname, state, subject, gender, degree
 def searchPageView(request) :
     data = ''
     sql = ''
@@ -67,7 +68,7 @@ def searchPageView(request) :
     sub = Subject.objects.all()
     dreg = Tutor.objects.order_by('degree').distinct('degree')
     stud = Student.objects.all()
-    state = Tutor.objects.order_by('state').distinct('state')
+    # state = Tutor.objects.order_by('state').distinct('state')
     if request.method == 'GET':
         name = request.GET
         if 'prescriberform' in name.keys():
@@ -107,10 +108,11 @@ def searchPageView(request) :
         'sub': sub,
         'dreg': dreg,
         'stud': stud,
-        'states': state,
+        'states': states,
     }
     return render(request, 'titan/search.html', context)
 
+# View for the tutor details html page.
 def detailsPageView(request, tutorid ) :
     if request.method == 'GET':
         name = request.GET
@@ -134,12 +136,12 @@ def detailsPageView(request, tutorid ) :
         print(name)
         if 'tripleadd' in name.keys():
             params = {
-               'student' : request.GET['student'],
+               'student' : request.GET['drug'],
                 'qty' : request.GET['qty']}
             new_appt = Appointment()
-            new_appt.stud_id = Student.objects.get(stud_id=params['student'])
+            new_appt.stud = Student.objects.get(stud_id=params['student'])
             new_appt.qty = params['qty']
-            new_appt.tutor_id = Tutor.objects.get(tutor_id=tutorid)
+            new_appt.tutor = Tutor.objects.get(tutor_id=tutorid)
             new_appt.save(force_insert=True)
 
     if request.method == 'POST':
@@ -184,7 +186,7 @@ def detailsPageView(request, tutorid ) :
     # # for x in pres:
     # #     listdrug.append(x)
     for x in students_not_listed:
-        studpass.append(x.fullname)
+        studpass.append(x)
 
     subjects_not_listed_query =     '''
                 Select sub_id, subject_name
@@ -239,6 +241,7 @@ def detailsPageView(request, tutorid ) :
     }
     return render(request, 'titan/details.html',context)
 
+# View for the student details html page
 def detailsdrugsPageView(request, drugid) :
     
     #get drug object based on drugid
@@ -288,6 +291,7 @@ def detailsdrugsPageView(request, drugid) :
 def statisticsPageView(request) :
     return render(request, 'titan/statistics.html')
 
+# View for the addtutor html page
 def addtutorPageView(request) :
 
     #created needed lists to be used iin drop down forms

@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 {%block content%}
-
+{% comment %} Page for adding a new page to the database {% endcomment %}
 <h1>Add New Tutor</h1>
 
 
@@ -11,18 +11,20 @@
             <h2>Tutor Details </h2>
             <h5> <i> All fields are Required</i> </h5>
             <div class="d-flex">
+
+                {% comment %} First Name Entry {% endcomment %}
                 <h3 for="firstname">First Name</h3>
                 <input class="form-control" type="text" placeholder="First Name" name="firstname"  id="firstname" required>
         
             </div>
             
-
+            {% comment %} Last Name Entry {% endcomment %}
             <div class="d-flex flex-column">
                 <h3 for="lastname">Last name</h3>
                 <input class="form-control" type="text" placeholder="Last Name" name="lastname" id="lastname" required >
             </div>
 
-
+            {% comment %} Drop down menu for state {% endcomment %}
             <div>
                 <h3 for="state">State</h3>
                 <select class="form-control" name="state" id="state">
@@ -34,6 +36,7 @@
 
             </div>
 
+            {% comment %} Drop down menu for subject {% endcomment %}
             <div>
                 <h3 for="credential">Subjects</h3>
                 <select class="form-control" name="credential" id="credential">
@@ -44,6 +47,7 @@
                 </select>
             </div>
 
+            {% comment %} Drop down menu for Degree {% endcomment %}
             <div>
                 <h3 for="specialty">Degree</h3>
                 <select class="form-control" name="specialty" id="specialty">
@@ -54,6 +58,7 @@
                 </select>
             </div>
 
+            {% comment %} Radio button for gender {% endcomment %}
             <div class="d-flex flex-row">
                 <h3>Gender</h3>
                 <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
@@ -63,6 +68,7 @@
                 <label for="gender">Female</label>
             </div>
 
+            {% comment %} Radio button for whether they're verified or not {% endcomment %}
             <div class="d-flex flex-row">
                 <h3>Is Verified? </h3>
                 <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="licenseyes" value="True" name="license" >
