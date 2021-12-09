@@ -26,8 +26,6 @@ from .forms import EmailForm
 from django.db.models import Q
 from django.db.models import Max
 
-from titan.utils import get_top_opioid, get_top_prescriptions, get_top_prescribers, get_opioid_pie_chart
-
 
 #We have a lot of print statements - delete?
 #Every Drug is displaying as an opioid
