@@ -7,18 +7,18 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 
-<h1> <b>Prescriber Details </b></h1>
+<h1> <b>Tutor Details </b></h1>
 
 <div class="container">
     <div class="d-flex">
 
         <div>
                 <div style="background-color:lightgray!important; padding: 1rem; border-radius: 1rem; margin: 1rem 2rem 0rem 0rem; width: 25rem;">
-                    <h3> Edit Prescriber </h3>
+                    <h3> Edit Tutor </h3>
                     <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="radioedit" onclick="switchedit();"> 
-                 <h3> Add Prescription </h3>
+                 <h3> Add Subject </h3>
                    <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="triple" onclick="tripleedit();"> 
-                   <h3> View Prescriber Details </h3>
+                   <h3> View Tutor Details </h3>
                    <input style="height: 2.5rem; width: 2.5rem; margin: auto;" type="radio" name='x' id="triple" checked onclick="tripleedit();"> 
                 </div>
 
@@ -27,7 +27,7 @@
         <div>
             <div style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem;" id="presriberedit">
                 <div>
-                    <h1> Prescriber Details </h1> 
+                    <h1> Tutor Details </h1> 
                     
                     <div class="d-flex">
                         <h2>{{resultset.fname}} {{resultset.lname}} - {{resultset.specialty}}</h1>
@@ -44,9 +44,9 @@
                                     Female 
                                     {%endif%}
                     </div>
-                    <h3>Licensed to prescribe opioids:  {{resultset.isopioidprescriber}} </h3>
+                    <h3>Licensed to Teach:  {{resultset.isopioidprescriber}} </h3>
                     <div>
-                        <h3>Current Credentials:
+                        <h3>Current Subjects:
                             {% for x in link%}
                             {{x.cred_id}}
                             {%endfor%} 
@@ -92,7 +92,7 @@
                 <form name="prescriberform" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
                     <div class= >
                         <form method='GET' name='delpres' action='{%url 'details' prescriberid=resultset.npi %}'>
-                        <div style='display : inline-block;'><h2>Update Prescriber Details </h2> </div><div style='display:inline-block;float:right;padding-top:22px;'><button type='submit' name='despres'  style='background-color: #A7C7E7;overflow-x:auto;' class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <div style='display : inline-block;'><h2>Update Tutor Details </h2> </div><div style='display:inline-block;float:right;padding-top:22px;'><button type='submit' name='despres'  style='background-color: #A7C7E7;overflow-x:auto;' class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                             <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                           </svg></button></div>
@@ -126,7 +126,7 @@
                         </div>
 
                         <div>
-                            <h3 for="specialty">Specialty</h3>
+                            <h3 for="specialty">Degree</h3>
                             <select required class="form-control" name="specialty" id="specialty">
                               
                                 {% for s in spec%}
@@ -166,7 +166,7 @@
                 </form>
                     
                         <table>
-                                <thead><h2>Add Credentials </h2><h4>Currently Held</h4> </thead>
+                                <thead><h2>Add Subject </h2><h4>Currently Held</h4> </thead>
                                 {% for x in link%}
                                 <form method = 'POST' name='delform' action="{% url 'details' prescriberid=resultset.npi%}">
                                     {% csrf_token %}  
@@ -179,7 +179,7 @@
 
                         <form method = 'POST' name='credform' action="{% url 'details' prescriberid=resultset.npi%}">
                             {% csrf_token %}
-                <h3 for="credential">Credentials</h3>
+                <h3 for="credential">Subject</h3>
                 <select class="form-control" name="credential" id="credential">
                     
                     {%for cred in credpass%}
@@ -237,64 +237,14 @@
         </table>
     </div>
     
-    {% comment %} try and center boxes
-    <div class="row">
-            <div class="column left">
-                <div class="w3-container">
-                    <img src="data:image/png;base64, {{prescriptions_chart|safe}}"
-                    <p></p>
-                </div>
-            </div>
-            <div class="column right">
-                <div class="w3-container">
-                    <img src="data:image/png;base64, {{opioid_pie_chart|safe}}"
-                </div>
-            </div>
-    </div> {% endcomment %}
-
-
-    {% comment %} old graphs original {% endcomment %}
-
-    <div class="d-flex">
-
-        <img src="data:image/png;base64, {{prescriptions_chart|safe}}">
-
-        <img src="data:image/png;base64, {{opioid_pie_chart|safe}}">
-
-    </div>
-    <div style="margin: auto; margin-top: 2rem;">
-        <div class="w3-row-padding">
-            <div class="w3-col m4 w3-margin-bottom">
-                <div class="w3-container" style="margin: auto; margin-top: 2rem;">
-                   
-                    <p></p>
-                </div>
-            </div>
-            <div class="w3-col m4 w3-margin-bottom">
-                <div class="w3-container" style="margin: auto; margin-top: 2rem;">
-                   
-                </div>
-            </div>
-        </div>
-    </div> 
-
-
-    <div>
-        <center>
-        <h3><u><b>Quick Facts</b></u></h4>
-        <p><b>{{total_prescribed}}</b> Prescriptions </p>
-        <p><b>{{total_opioid_prescribed}} </b> Opioid Prescriptions</p>
-        <p><b>{{total_nonopioid_prescribed}}</b> Non-opioid Prescriptions</p>
-        <p><b>{{perc_opioid_prescription}}%</b> of Prescriptions were for Opioids </p>
-        </center>
-    </div>
+    
 
     {% else %}
 
     <div style="margin: auto; margin-top: 2rem; width: 60rem;">
         <div class="w3-row-padding">
             <div class="w3-col m4 w3-margin-bottom">
-                <h3>This prescriber has no records to display</h3>
+                <h3>This Tutor has no students to display</h3>
             </div>
         </div>
     </div>
