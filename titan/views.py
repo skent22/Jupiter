@@ -68,7 +68,7 @@ def searchPageView(request) :
     sub = Subject.objects.all()
     dreg = Tutor.objects.order_by('degree').distinct('degree')
     stud = Student.objects.all()
-    state = Tutor.objects.order_by('state').distinct('state')
+    # state = Tutor.objects.order_by('state').distinct('state')
     if request.method == 'GET':
         name = request.GET
         if 'prescriberform' in name.keys():
@@ -108,7 +108,7 @@ def searchPageView(request) :
         'sub': sub,
         'dreg': dreg,
         'stud': stud,
-        'states': state,
+        'states': states,
     }
     return render(request, 'titan/search.html', context)
 
