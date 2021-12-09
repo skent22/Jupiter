@@ -290,7 +290,11 @@ def addtutorPageView(request) :
 
     #created needed lists to be used iin drop down forms
     spec = Tutor.objects.order_by('degree').distinct('degree')
-    #states = state.objects.all()
+    states = ( 'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
+           'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME',
+           'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
+           'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
+           'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY')
     subjects = Subject.objects.all()
 
     # IF there is a form submitted, then do all this logic
@@ -301,7 +305,7 @@ def addtutorPageView(request) :
             params = {
                     'firstname' : request.GET['firstname'].title(),
                     'lastname' : request.GET['lastname'].title(),
-                    #'state' : request.GET['state'],
+                    'state' : request.GET['state'],
                     'subject' : request.GET['credential'],
                     'gender' : request.GET['gender'],
                     'degree' :request.GET['specialty'],
@@ -312,7 +316,7 @@ def addtutorPageView(request) :
             new_tutor = Tutor()
             new_tutor.fname = params['firstname']
             new_tutor.lname = params['lastname']
-            new_tutor.state =  'UT'#params['state']
+            new_tutor.state =  params['state']
             new_tutor.gender = params['gender']
             new_tutor.degree = params['degree']
             new_tutor.isverified = params['isverified']
@@ -328,7 +332,7 @@ def addtutorPageView(request) :
             new_linking.save()
 
     context = {
-        #'states': states,
+        'states': states,
         'subjects': subjects,
         'spec':spec
     }
