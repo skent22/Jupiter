@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import  indexPageView, aboutPageView, searchPageView, detailsPageView, statisticsPageView, detailsdrugsPageView, addprescriberPageView, setQueriesPageView,detPageView
+from .views import  indexPageView, aboutPageView, searchPageView, detailsPageView, statisticsPageView, detailsdrugsPageView, addprescriberPageView,detPageView
 urlpatterns = [
     path('det/<int:prescid>/<str:dn>/',detPageView,name='det'),
     path("about/", aboutPageView, name="about"),
@@ -9,6 +9,5 @@ urlpatterns = [
     path("addprescriber/", addprescriberPageView, name="addprescriber"),
     path("statistics/", statisticsPageView, name="statistics"),
     path("send_mail/", indexPageView, name="mail"),
-    path('set/<qnum>',setQueriesPageView, name='set'),
     path("", indexPageView, name="index"),
         ]
