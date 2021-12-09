@@ -134,10 +134,10 @@ def detailsPageView(request, tutorid ) :
         print(name)
         if 'tripleadd' in name.keys():
             params = {
-               'student' : request.GET['student'],
+               'student' : request.GET['drug'],
                 'qty' : request.GET['qty']}
             new_appt = Appointment()
-            new_appt.stud_id = Student.objects.get(stud_id=params['student'])
+            new_appt.stud = Student.objects.get(stud_id=params['student'])
             new_appt.qty = params['qty']
             new_appt.tutor_id = Tutor.objects.get(tutor_id=tutorid)
             new_appt.save(force_insert=True)
