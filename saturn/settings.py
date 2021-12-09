@@ -94,17 +94,17 @@ WSGI_APPLICATION = 'saturn.wsgi.application'
 #     'DISABLE_SERVER_SIDE_CURSORS': True
 #     }
 # } 
-DATABASES = {
-    'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'tutor',
-    'USER': 'postgres',
-    'PASSWORD': 'Luke1Luke1',
-    'HOST': 'localhost',
-    'PORT' : 5432,
-    'DISABLE_SERVER_SIDE_CURSORS': True
-    }
-} 
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': 'tutor',
+#     'USER': 'postgres',
+#     'PASSWORD': 'Luke1Luke1',
+#     'HOST': 'localhost',
+#     'PORT' : 5432,
+#     'DISABLE_SERVER_SIDE_CURSORS': True
+#     }
+# } 
 # DATABASES = {
 #     'default': {
 #     'ENGINE': 'django.db.backends.postgresql',
