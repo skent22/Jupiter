@@ -116,10 +116,10 @@ WSGI_APPLICATION = 'saturn.wsgi.application'
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'finalproj',
-    'USER': 'postgres',
-    'PASSWORD': 'mcorbet3',
-    'HOST': 'localhost',
+    'NAME': 'tutor',
+    'USER': 'myadmin',
+    'PASSWORD': 'my@dmin1',
+    'HOST': 'is415mcorbet3.postgres.database.azure.com',
     'PORT' : 5432,
     'DISABLE_SERVER_SIDE_CURSORS': True
     }

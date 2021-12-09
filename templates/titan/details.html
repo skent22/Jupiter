@@ -69,7 +69,7 @@
                             <select required class="form-control" name="drug" id="drug" >
                                 <option value="" selected></option>
                                 {% for s in student%}
-                                <option value="{{s}}">{{s}}</option>
+                                <option value="{{s}}">{{s.fullname}}</option>
                                
                                 {%endfor %}
                             </select>
@@ -219,11 +219,11 @@
             
             {%for x in pres %}
             <tr>
-                <td><a href="{% url 'index' %}">  {{x.fullname}} </a></td>
+                <td><a href="{% url 'det' tutorid=resultset.tutor_id dn=x.stud_id %}">  {{x.fullname}} </a></td>
                 
                 <td>{{x.totalappointments}} </td>
                 <td style='width:150px'> {%comment%}'det' prescid=x.npi dn=x.drugname  {%endcomment%}
-                    <form method='GET'  action="{% url 'index' %}"> 
+                    <form method='GET'  action="{% url 'det' tutorid=resultset.tutor_id dn=x.stud_id %}"> 
                         <input  style='width:50px'type="number" min="1" name='presctot'>
                         <button class=" btn btn-primary" type=submit >Add</button>
                     </form>

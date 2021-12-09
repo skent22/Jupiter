@@ -35,14 +35,14 @@ states = ( 'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
            'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
            'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY')
 # Create your views here.
-def detPageView(request,prescid,dn):
+def detPageView(request,tutorid,dn):
     if request.method == 'GET':
-        x = triple.objects.get(prescriberid=prescid,drugname=dn)
+        x = Appointment.objects.get(tutor_id=tutorid,stud_id=dn)
         y = request.GET['presctot']
         print(request.GET.keys())
-        triple.objects.filter(prescriberid=prescid,drugname=dn).update(qty = x.qty + int(request.GET['presctot']))
-        context = {'resultset' : prescriber.objects.get(npi=prescid)}
-    return detailsPageView(request,prescid)
+        Appointment.objects.filter(tutor_id=tutorid,stud_id=dn).update(qty = x.qty + int(request.GET['presctot']))
+        context = {'resultset' : Appointment.objects.get(tutor_id=tutorid)}
+    return detailsPageView(request,tutorid)
 
 
 
@@ -139,7 +139,7 @@ def detailsPageView(request, tutorid ) :
             new_appt = Appointment()
             new_appt.stud = Student.objects.get(stud_id=params['student'])
             new_appt.qty = params['qty']
-            new_appt.tutor_id = Tutor.objects.get(tutor_id=tutorid)
+            new_appt.tutor = Tutor.objects.get(tutor_id=tutorid)
             new_appt.save(force_insert=True)
 
     if request.method == 'POST':
@@ -184,7 +184,7 @@ def detailsPageView(request, tutorid ) :
     # # for x in pres:
     # #     listdrug.append(x)
     for x in students_not_listed:
-        studpass.append(x.fullname)
+        studpass.append(x)
 
     subjects_not_listed_query =     '''
                 Select sub_id, subject_name
