@@ -7,6 +7,7 @@ from .models import Tutor,Linking,Student,Subject,Appointment
 from django.shortcuts import redirect, render
 from django import forms
 import time
+
 # create sequence measures_measure_id_seq
 # owned by pd_prescriber.npi;
    
