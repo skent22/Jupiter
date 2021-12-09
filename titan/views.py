@@ -281,53 +281,53 @@ def detailsdrugsPageView(request, drugid) :
 def statisticsPageView(request) :
     return render(request, 'titan/statistics.html')
 
-def addprescriberPageView(request) :
+def addtutorPageView(request) :
 
     #created needed lists to be used iin drop down forms
-    spec = prescriber.objects.order_by('specialty').distinct('specialty')
-    states = state.objects.all()
-    credentials = credential.objects.all()
+    spec = Tutor.objects.order_by('degree').distinct('degree')
+    #states = state.objects.all()
+    subjects = Subject.objects.all()
 
     # IF there is a form submitted, then do all this logic
     if request.method == 'GET':
         name = request.GET
         print(name)
-        if 'addprescriber' in name.keys():
+        if 'addtutor' in name.keys():
             params = {
                     'firstname' : request.GET['firstname'].title(),
                     'lastname' : request.GET['lastname'].title(),
-                    'state' : request.GET['state'],
-                    'credential' : request.GET['credential'],
+                    #'state' : request.GET['state'],
+                    'subject' : request.GET['credential'],
                     'gender' : request.GET['gender'],
-                    'specialty' :request.GET['specialty'],
-                    'isopioidpresriber': request.GET['license']}
+                    'degree' :request.GET['specialty'],
+                    'isverified': request.GET['license']}
             
 
             #create new presriber object
-            new_presriber = prescriber()
-            new_presriber.fname = params['firstname']
-            new_presriber.lname = params['lastname']
-            new_presriber.state = params['state']
-            new_presriber.gender = params['gender']
-            new_presriber.specialty = params['specialty']
-            new_presriber.isopioidprescriber = params['isopioidpresriber']
-            new_presriber.save()
+            new_tutor = Tutor()
+            new_tutor.fname = params['firstname']
+            new_tutor.lname = params['lastname']
+            new_tutor.state =  'UT'#params['state']
+            new_tutor.gender = params['gender']
+            new_tutor.degree = params['degree']
+            new_tutor.isverified = params['isverified']
+            new_tutor.save()
 
             #get credential object based on the credential they submitted
-            new_credential = credential.objects.filter(abbreviation=request.GET['credential'])
+            new_subject = Subject.objects.filter(subject_name=request.GET['credential'])
 
             #create linking object based on last two objects that we just created
-            new_linking = link()
-            new_linking.cred_id = new_credential[0]
-            new_linking.npi = new_presriber
+            new_linking = Linking()
+            new_linking.sub_id = new_subject[0].sub_id
+            new_linking.tutor_id = new_tutor.tutor_id
             new_linking.save()
 
     context = {
-        'states': states,
-        'credentials': credentials,
+        #'states': states,
+        'subjects': subjects,
         'spec':spec
     }
-    return render(request, 'titan/addprescriber.html', context) 
+    return render(request, 'titan/addtutor.html', context) 
 
 def sendMail(request):
 
