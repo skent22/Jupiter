@@ -329,8 +329,8 @@ def addtutorPageView(request) :
 
             #create linking object based on last two objects that we just created
             new_linking = Linking()
-            new_linking.sub_id = new_subject[0].sub_id
-            new_linking.tutor_id = new_tutor.tutor_id
+            new_linking.sub_id = new_subject[0]
+            new_linking.tutor_id = new_tutor
             new_linking.save()
 
     context = {
