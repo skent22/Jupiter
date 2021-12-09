@@ -126,7 +126,7 @@ def detailsPageView(request, tutorid ) :
                 'lastname' : request.GET['lastname'].title(),
                 'state' : request.GET['state'],
                 'gender' : request.GET['gender'],
-                'degree':request.GET['degree']}
+                'degree':request.GET['specialty']}
             Tutor.objects.filter(tutor_id=tutorid).update(fname = params['firstname'],lname = params['lastname'],state = params['state'],gender = params['gender'],degree=params['degree'])
 
     if request.method == 'GET':
@@ -208,6 +208,7 @@ def detailsPageView(request, tutorid ) :
     total_appointment = 0
     for x in oTutor : total_appointment += x.totalappointments
 
+    
     # total_opioid_prescribed = 0
     # for x in oTutor : 
     #     if x.isopioid == True :
@@ -218,7 +219,7 @@ def detailsPageView(request, tutorid ) :
     # else :
     #     perc_opioid_prescription = 0
 
-
+    current_subjects = Linking.objects.filter(tutor_id = tutorid)
 
     context = {
         'resultset' : d,
@@ -233,7 +234,8 @@ def detailsPageView(request, tutorid ) :
         # 'total_nonopioid_prescribed' : total_prescribed - total_opioid_prescribed,
         # 'perc_opioid_prescription' : perc_opioid_prescription,
         'subjectpass': subjectpass,
-        'states':states
+        'states':states,
+        'subs':current_subjects
     }
     return render(request, 'titan/details.html',context)
 
@@ -290,7 +292,11 @@ def addtutorPageView(request) :
 
     #created needed lists to be used iin drop down forms
     spec = Tutor.objects.order_by('degree').distinct('degree')
-    #states = state.objects.all()
+    states = ( 'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
+           'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME',
+           'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
+           'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
+           'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY')
     subjects = Subject.objects.all()
 
     # IF there is a form submitted, then do all this logic
@@ -301,7 +307,7 @@ def addtutorPageView(request) :
             params = {
                     'firstname' : request.GET['firstname'].title(),
                     'lastname' : request.GET['lastname'].title(),
-                    #'state' : request.GET['state'],
+                    'state' : request.GET['state'],
                     'subject' : request.GET['credential'],
                     'gender' : request.GET['gender'],
                     'degree' :request.GET['specialty'],
@@ -312,7 +318,7 @@ def addtutorPageView(request) :
             new_tutor = Tutor()
             new_tutor.fname = params['firstname']
             new_tutor.lname = params['lastname']
-            new_tutor.state =  'UT'#params['state']
+            new_tutor.state =  params['state']
             new_tutor.gender = params['gender']
             new_tutor.degree = params['degree']
             new_tutor.isverified = params['isverified']
@@ -323,12 +329,12 @@ def addtutorPageView(request) :
 
             #create linking object based on last two objects that we just created
             new_linking = Linking()
-            new_linking.sub_id = new_subject[0].sub_id
-            new_linking.tutor_id = new_tutor.tutor_id
+            new_linking.sub_id = new_subject[0]
+            new_linking.tutor_id = new_tutor
             new_linking.save()
 
     context = {
-        #'states': states,
+        'states': states,
         'subjects': subjects,
         'spec':spec
     }

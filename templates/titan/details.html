@@ -47,8 +47,8 @@
                     <h3>Verified:  {{resultset.isopioidprescriber}} </h3>
                     <div>
                         <h3>Current Subjects:
-                            {% for x in link%}
-                            {{x.cred_id}}
+                            {% for x in subs%}
+                            {{x.subject_name}}
                             {%endfor%} 
                         </h3>
                     </div>
@@ -167,11 +167,11 @@
                     
                         <table>
                                 <thead><h2>Add Subject </h2><h4>Currently Held</h4> </thead>
-                                {% for x in link%}
+                                {% for x in subs%}
                                 <form method = 'POST' name='delform' action="{% url 'details' tutorid=resultset.tutor_id%}">
                                     {% csrf_token %}  
-                                <input hidden value={{x.cred_id}} name='del' id='del'></input>
-                                <tr><td>{{x.cred_id}}</td> <td><button type='submit' style='background-color: #A7C7E7;' class="btn"><i class="fa fa-close"></i></button></td></tr>             
+                                <input hidden value={{x.sub_id.subject_name}} name='del' id='del'></input>
+                                <tr><td>{{x.sub_id.subject_name}}</td> <td><button type='submit' style='background-color: #A7C7E7;' class="btn"><i class="fa fa-close"></i></button></td></tr>             
                             </form>
                                 {%endfor%} 
                             </table>
@@ -182,7 +182,7 @@
                 <h3 for="credential">Subject</h3>
                 <select class="form-control" name="credential" id="credential">
                     
-                    {%for cred in credpass%}
+                    {%for cred in subjectpass%}
                     <option value="{{cred}}" >{{cred}}</option>
                     {%endfor%}
                 </select>

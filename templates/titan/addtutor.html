@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {%block content%}
 
-<h1>Add New Prescriber</h1>
+<h1>Add New Tutor</h1>
 
 
 <div class="d-flex justify-content-center" style="width: 80%;">
@@ -28,7 +28,7 @@
                 <select class="form-control" name="state" id="state">
                     <option value="UT" disabled selected>Choose an Option</option>
                     {% for state in states%}
-                    <option value="{{state.stateabbrev}}">{{state.state}}</option>
+                    <option value="{{state}}">{{state}}</option>
                     {%endfor %}
                 </select>
 
