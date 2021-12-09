@@ -1,14 +1,14 @@
 {% extends 'base.html'%}
 {%block content%}
 
-<h1>Add New Prescriber</h1>
+<h1>Add New Tutor</h1>
 
 
 <div class="d-flex justify-content-center" style="width: 80%;">
 
     <div class="d-flex justify-content-center align-items-center" style="background-color: lightgray; padding: 1rem; margin: auto; border-radius: 1rem; width: 40rem;">
-        <form name="addpresriber" action="{% url 'addprescriber' %}" method="get">
-            <h2>Prescriber Details </h2>
+        <form name="addpresriber" action="{% url 'addtutor' %}" method="get">
+            <h2>Tutor Details </h2>
             <h5> <i> All fields are Required</i> </h5>
             <div class="d-flex">
                 <h3 for="firstname">First Name</h3>
@@ -35,21 +35,21 @@
             </div>
 
             <div>
-                <h3 for="credential">Credentials</h3>
+                <h3 for="credential">Subjects</h3>
                 <select class="form-control" name="credential" id="credential">
                     <option value="NONE" selected>Choose an Option</option>
-                    {%for cred in credentials%}
-                    <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
+                    {%for subjects in subjects%}
+                    <option value="{{subjects.subject_name}}" >{{subjects.subject_name}}</option>
                     {%endfor%}
                 </select>
             </div>
 
             <div>
-                <h3 for="specialty">Specialty</h3>
+                <h3 for="specialty">Degree</h3>
                 <select class="form-control" name="specialty" id="specialty">
                     <option value="NONE" selected>Choose an Option</option>
                     {%for cred in spec%}
-                    <option value="{{cred.specialty}}" >{{cred.specialty}}</option>
+                    <option value="{{cred.degree}}" >{{cred.degree}}</option>
                     {%endfor%}
                 </select>
             </div>
@@ -64,7 +64,7 @@
             </div>
 
             <div class="d-flex flex-row">
-                <h3>Opioid License?</h3>
+                <h3>Is Verified? </h3>
                 <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="licenseyes" value="True" name="license" >
                 <label for="license">Yes</label>
                 
@@ -74,7 +74,7 @@
 
             
 
-            <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="addprescriber"  onclick="yeet();"class="btn btn-primary ">Add Prescriber</button>
+            <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="addtutor"  onclick="yeet();"class="btn btn-primary ">Add Tutor</button>
         </form>
     </div>
 
