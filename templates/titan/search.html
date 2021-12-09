@@ -26,9 +26,9 @@
                         <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add</a>
                     </div>
                     <div  style=" background-color: lightgray; padding: 1rem; margin-top 2rem!important; border-radius: 1rem;">
-                        <h2>Common Questions </h2>
+                        {% comment %} <h2>Common Questions </h2>
                         <h6><a href="{% url 'set' qnum=1  %}">Prescribers who only prescribe opioids</a></h6>
-                        <h6><a href="{% url 'set' qnum=2  %}">Prescribers with high opioid ratios</a></h6>
+                        <h6><a href="{% url 'set' qnum=2  %}">Prescribers with high opioid ratios</a></h6> {% endcomment %}
                     </div>
                 </div>
                 </div>
@@ -69,8 +69,8 @@
                                     <h3 for="credential">Credentials</h3>
                                     <select class="form-control" name="credential" id="credential">
                                         <option value="" selected>Any</option>
-                                        {%for cred in credentials%}
-                                        <option value="{{cred.abbreviation}}" >{{cred.abbreviation}}</option>
+                                        {%for cred in sub%}
+                                        <option value="{{cred.subject_name}}" >{{cred.subject_name}}</option>
                                         {%endfor%}
                                     </select>
                                 </div>
@@ -79,8 +79,8 @@
                                     <h3 for="specialty">Specialty</h3>
                                     <select class="form-control" name="specialty" id="specialty">
                                         <option value="" selected>Any</option>
-                                        {%for cred in spec%}
-                                        <option value="{{cred.specialty}}" >{{cred.specialty}}</option>
+                                        {%for degree in dreg%}
+                                        <option value="{{degree.degree}}" >{{degree.degree}}</option>
                                         {%endfor%}
                                     </select>
                                 </div>
