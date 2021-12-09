@@ -126,7 +126,7 @@ def detailsPageView(request, tutorid ) :
                 'lastname' : request.GET['lastname'].title(),
                 'state' : request.GET['state'],
                 'gender' : request.GET['gender'],
-                'degree':request.GET['degree']}
+                'degree':request.GET['specialty']}
             Tutor.objects.filter(tutor_id=tutorid).update(fname = params['firstname'],lname = params['lastname'],state = params['state'],gender = params['gender'],degree=params['degree'])
 
     if request.method == 'GET':
@@ -208,6 +208,7 @@ def detailsPageView(request, tutorid ) :
     total_appointment = 0
     for x in oTutor : total_appointment += x.totalappointments
 
+    
     # total_opioid_prescribed = 0
     # for x in oTutor : 
     #     if x.isopioid == True :
@@ -218,7 +219,7 @@ def detailsPageView(request, tutorid ) :
     # else :
     #     perc_opioid_prescription = 0
 
-
+    current_subjects = Linking.objects.filter(tutor_id = tutorid)
 
     context = {
         'resultset' : d,
@@ -233,7 +234,8 @@ def detailsPageView(request, tutorid ) :
         # 'total_nonopioid_prescribed' : total_prescribed - total_opioid_prescribed,
         # 'perc_opioid_prescription' : perc_opioid_prescription,
         'subjectpass': subjectpass,
-        'states':states
+        'states':states,
+        'subs':current_subjects
     }
     return render(request, 'titan/details.html',context)
 
