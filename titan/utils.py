@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
-from titan.models import drug, prescriber, state, credential
+
 import numpy as np
 
 

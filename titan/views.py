@@ -22,7 +22,7 @@ import time
 
 from django.core.mail import send_mail
 from .forms import EmailForm
-from titan.models import drug, prescriber, state, credential, link, triple
+
 from django.db.models import Q
 from django.db.models import Max
 
