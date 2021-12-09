@@ -29,7 +29,11 @@ from django.db.models import Max
 
 #We have a lot of print statements - delete?
 #Every Drug is displaying as an opioid
-
+states = ( 'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
+           'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME',
+           'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
+           'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
+           'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY')
 # Create your views here.
 def detPageView(request,prescid,dn):
     if request.method == 'GET':
@@ -154,7 +158,7 @@ def detailsPageView(request, tutorid ) :
             print(new_link)
     d = Tutor.objects.get(tutor_id=tutorid)
     sql = '''
-    Select p.tutor_id, p.gender, d.stud_id, d.fname, d.lname, sum(qty) as totalAppointments
+    Select p.tutor_id, p.gender, d.stud_id, concat(d.fname, ' ', d.lname) as fullname, sum(qty) as totalAppointments
     from tutor p
     inner join appointment t on p.tutor_id = t.tutor_id
     inner join student d on d.stud_id = t.stud_id 
@@ -170,7 +174,7 @@ def detailsPageView(request, tutorid ) :
     #update form prescriber
 
     student_not_listed_query = '''
-    Select stud_id, concat(fname, ' ', lname) as FullName
+    Select stud_id, concat(fname, ' ', lname) as fullname
     from student
     where stud_id not in (select stud_id from appointment where tutor_id = ''' + str(tutorid) + ')'
 
@@ -180,7 +184,7 @@ def detailsPageView(request, tutorid ) :
     # # for x in pres:
     # #     listdrug.append(x)
     for x in students_not_listed:
-        studpass.append(x.FullName)
+        studpass.append(x.fullname)
 
     subjects_not_listed_query =     '''
                 Select sub_id, subject_name
@@ -202,7 +206,7 @@ def detailsPageView(request, tutorid ) :
         bHasTriple = True
 
     total_appointment = 0
-    for x in oTutor : total_appointment += x.totalAppointments
+    for x in oTutor : total_appointment += x.totalappointments
 
     # total_opioid_prescribed = 0
     # for x in oTutor : 
@@ -228,7 +232,8 @@ def detailsPageView(request, tutorid ) :
         # 'total_opioid_prescribed' : total_opioid_prescribed,
         # 'total_nonopioid_prescribed' : total_prescribed - total_opioid_prescribed,
         # 'perc_opioid_prescription' : perc_opioid_prescription,
-        'subjectpass': subjectpass
+        'subjectpass': subjectpass,
+        'states':states
     }
     return render(request, 'titan/details.html',context)
 
