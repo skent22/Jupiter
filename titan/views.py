@@ -29,7 +29,11 @@ from django.db.models import Max
 
 #We have a lot of print statements - delete?
 #Every Drug is displaying as an opioid
-
+states = ( 'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
+           'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME',
+           'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
+           'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
+           'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY')
 # Create your views here.
 def detPageView(request,prescid,dn):
     if request.method == 'GET':
@@ -154,7 +158,7 @@ def detailsPageView(request, tutorid ) :
             print(new_link)
     d = Tutor.objects.get(tutor_id=tutorid)
     sql = '''
-    Select p.tutor_id, p.gender, d.stud_id, d.fname, d.lname, sum(qty) as totalAppointments
+    Select p.tutor_id, p.gender, d.stud_id, concat(d.fname, ' ', d.lname) as fullname, sum(qty) as totalAppointments
     from tutor p
     inner join appointment t on p.tutor_id = t.tutor_id
     inner join student d on d.stud_id = t.stud_id 
@@ -170,7 +174,7 @@ def detailsPageView(request, tutorid ) :
     #update form prescriber
 
     student_not_listed_query = '''
-    Select stud_id, concat(fname, ' ', lname) as FullName
+    Select stud_id, concat(fname, ' ', lname) as fullname
     from student
     where stud_id not in (select stud_id from appointment where tutor_id = ''' + str(tutorid) + ')'
 
@@ -180,7 +184,7 @@ def detailsPageView(request, tutorid ) :
     # # for x in pres:
     # #     listdrug.append(x)
     for x in students_not_listed:
-        studpass.append(x.FullName)
+        studpass.append(x.fullname)
 
     subjects_not_listed_query =     '''
                 Select sub_id, subject_name
@@ -202,7 +206,7 @@ def detailsPageView(request, tutorid ) :
         bHasTriple = True
 
     total_appointment = 0
-    for x in oTutor : total_appointment += x.totalAppointments
+    for x in oTutor : total_appointment += x.totalappointments
 
     # total_opioid_prescribed = 0
     # for x in oTutor : 
@@ -228,7 +232,8 @@ def detailsPageView(request, tutorid ) :
         # 'total_opioid_prescribed' : total_opioid_prescribed,
         # 'total_nonopioid_prescribed' : total_prescribed - total_opioid_prescribed,
         # 'perc_opioid_prescription' : perc_opioid_prescription,
-        'subjectpass': subjectpass
+        'subjectpass': subjectpass,
+        'states':states
     }
     return render(request, 'titan/details.html',context)
 
@@ -281,53 +286,53 @@ def detailsdrugsPageView(request, drugid) :
 def statisticsPageView(request) :
     return render(request, 'titan/statistics.html')
 
-def addprescriberPageView(request) :
+def addtutorPageView(request) :
 
     #created needed lists to be used iin drop down forms
-    spec = prescriber.objects.order_by('specialty').distinct('specialty')
-    states = state.objects.all()
-    credentials = credential.objects.all()
+    spec = Tutor.objects.order_by('degree').distinct('degree')
+    #states = state.objects.all()
+    subjects = Subject.objects.all()
 
     # IF there is a form submitted, then do all this logic
     if request.method == 'GET':
         name = request.GET
         print(name)
-        if 'addprescriber' in name.keys():
+        if 'addtutor' in name.keys():
             params = {
                     'firstname' : request.GET['firstname'].title(),
                     'lastname' : request.GET['lastname'].title(),
-                    'state' : request.GET['state'],
-                    'credential' : request.GET['credential'],
+                    #'state' : request.GET['state'],
+                    'subject' : request.GET['credential'],
                     'gender' : request.GET['gender'],
-                    'specialty' :request.GET['specialty'],
-                    'isopioidpresriber': request.GET['license']}
+                    'degree' :request.GET['specialty'],
+                    'isverified': request.GET['license']}
             
 
             #create new presriber object
-            new_presriber = prescriber()
-            new_presriber.fname = params['firstname']
-            new_presriber.lname = params['lastname']
-            new_presriber.state = params['state']
-            new_presriber.gender = params['gender']
-            new_presriber.specialty = params['specialty']
-            new_presriber.isopioidprescriber = params['isopioidpresriber']
-            new_presriber.save()
+            new_tutor = Tutor()
+            new_tutor.fname = params['firstname']
+            new_tutor.lname = params['lastname']
+            new_tutor.state =  'UT'#params['state']
+            new_tutor.gender = params['gender']
+            new_tutor.degree = params['degree']
+            new_tutor.isverified = params['isverified']
+            new_tutor.save()
 
             #get credential object based on the credential they submitted
-            new_credential = credential.objects.filter(abbreviation=request.GET['credential'])
+            new_subject = Subject.objects.filter(subject_name=request.GET['credential'])
 
             #create linking object based on last two objects that we just created
-            new_linking = link()
-            new_linking.cred_id = new_credential[0]
-            new_linking.npi = new_presriber
+            new_linking = Linking()
+            new_linking.sub_id = new_subject[0].sub_id
+            new_linking.tutor_id = new_tutor.tutor_id
             new_linking.save()
 
     context = {
-        'states': states,
-        'credentials': credentials,
+        #'states': states,
+        'subjects': subjects,
         'spec':spec
     }
-    return render(request, 'titan/addprescriber.html', context) 
+    return render(request, 'titan/addtutor.html', context) 
 
 def sendMail(request):
 

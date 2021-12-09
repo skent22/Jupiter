@@ -59,13 +59,13 @@
                 <form name="tripleadd" action="{% url 'details' tutorid=resultset.tutor_id  %}"  method="get">
                     <div  >
                         <form method='GET' name='tripladd' action='{%url 'details' tutorid=resultset.tutor_id  %}'>
-                        <div style='display : inline-block;'><h2>Increment Existing and Add New Prescriptions </h2> </div>
+                        <div style='display : inline-block;'><h2>Add New Student or Increment Appointments</h2> </div>
                         </form>
                         
                                 
 
                         <div>
-                            <h3 for="drug">Drug</h3>
+                            <h3 for="drug">Student</h3>
                             <select required class="form-control" name="drug" id="drug" >
                                 <option value="" selected></option>
                                 {% for s in drug%}
@@ -77,7 +77,7 @@
                          
                         </div>
                         <div>
-                            <h3 for="qty">Quantity</h3>
+                            <h3 for="qty">Number of Appointments</h3>
                             <input type="number" class="form-control" id="quantity" name="qty" min="1">                            
                         </div>
 
@@ -114,11 +114,11 @@
                             <select required class="form-control" name="state" id="state">
                                 <option value="" selected>Any</option>
                                 {% for s in states%}
-                                {% if s.stateabbrev == resultset.state %}
+                                {% if s == resultset.state %}
                                 
-                                <option value="{{s.stateabbrev}}" selected >{{s.state}}</option>
+                                <option value="{{s}}" selected >{{s}}</option>
                                 {%else%}
-                                <option value="{{s.stateabbrev}}">{{s.state}}</option>
+                                <option value="{{s}}">{{s}}</option>
                                 {%endif%} 
                                 {%endfor %}
                             </select>
@@ -130,10 +130,10 @@
                             <select required class="form-control" name="specialty" id="specialty">
                               
                                 {% for s in spec%}
-                                {% if s == resultset.specialty %}
-                                <option value="{{s.specialty}}" selected >{{s.specialty}}</option>
+                                {% if s == resultset.degree %}
+                                <option value="{{s.degree}}" selected >{{s.degree}}</option>
                                 {%else%}
-                                <option value="{{s.specialty}}">{{s.specialty}}</option>
+                                <option value="{{s.degree}}">{{s.degree}}</option>
                                 {%endif%} 
                                 {%endfor %}
                             </select>
@@ -207,24 +207,21 @@
 
     {% if bHasTriple == True %}
     <div style="margin: auto; margin-top: 2rem; width: 60rem;">
-      <div style='height:30px; width:500px'>  <h3 style='display:inline-block;vertical-align:middle'>Top Prescriptions </h3>  <div style='display:inline-block;float:right;vertical-align:middle;' >  </div></div><br>
+      <div style='height:30px; width:500px'>  <h3 style='display:inline-block;vertical-align:middle'>Top Students </h3>  <div style='display:inline-block;float:right;vertical-align:middle;' >  </div></div><br>
         <table class="table table-sm table-bordered table-striped table-hover ">
             <tr>
                 <thead>
-                    <th>Drug Name</th>
-                    <th>Opioid</th>
-                    <th>Times Prescribed</th>
+                    <th>Student Name</th>
+                    {% comment %} <th>Opioid</th> {% endcomment %}
+                    <th>Number of Appointments</th>
                 </thead>
             </tr>
             
             {%for x in pres %}
             <tr>
-                <td><a href="{% url 'index' %}">  {{x.drugname}} </a></td>
-                <td>{% if x.isopioid == True %}
-                        <center> &#10004;</center>
-                    {%endif%}
-                        </td>
-                <td>{{x.totaldrugs}} </td>
+                <td><a href="{% url 'index' %}">  {{x.fullname}} </a></td>
+                
+                <td>{{x.totalappointments}} </td>
                 <td style='width:150px'> {%comment%}'det' prescid=x.npi dn=x.drugname  {%endcomment%}
                     <form method='GET'  action="{% url 'index' %}"> 
                         <input  style='width:50px'type="number" min="1" name='presctot'>
