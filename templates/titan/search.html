@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {%block content%}
 
-<h1>Search Prescribers & Drugs</h1>
+<h1>Search Tutors</h1>
 
 <div class="container">
     <div class="d-flex justify-content-center" style="width: 80%;">
@@ -10,19 +10,19 @@
                 <div class="w3-container" >
                     <div style=" background-color: lightgray; padding: 1rem; margin-bottom: 2rem; border-radius: 1rem;">
 
-                        <h2>Search For </h2>
+                        {% comment %} <h2>Search For </h2>
                         <div class="d-flex justify-content-center" >
-                            <label for="searchparam">Prescriber</label>
+                            <label for="searchparam">Tutor</label>
                               <input class="form-switch" style="height: 2rem; width: 2rem; margin-left: 2rem;" id="prescriberradio" type="radio" id="prescriberradio" value="prescriber" name="searchparam" onclick="switchforms();" checked > 
                         </div>
                         <div class="d-flex justify-content-center">
                             <label for="searchparam">Drug</label>
                              <input class="" style="height: 2rem; width: 2rem; margin-left: 2rem;"  type="radio" id="drugradio" value="drug" name="searchparam" onclick="switchforms();" >
-                        </div>
+                        </div> {% endcomment %}
                     
 
                     <div  style=" background-color: lightgray; padding: 1rem; margin-top 2rem!important; border-radius: 1rem;">
-                        <h2>Add a Prescriber </h2>
+                        <h2>Add a Tutor </h2>
                         <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'addprescriber'  %}">Add</a>
                     </div>
                     <div  style=" background-color: lightgray; padding: 1rem; margin-top 2rem!important; border-radius: 1rem;">
@@ -40,7 +40,7 @@
                         <form name="prescriberform" action="{% url 'search' %}" method="get">
                             <div class="d-flex justify-content-center" >
             
-                                <h2>Prescriber Details </h2>
+                                <h2>Tutor Details </h2>
                                 <h5> <i> All fields are optional</i> </h5>
             
                                 <div class="d-flex">
@@ -66,7 +66,7 @@
                                 </div>
             
                                 <div>
-                                    <h3 for="credential">Credentials</h3>
+                                    <h3 for="credential">Subject</h3>
                                     <select class="form-control" name="credential" id="credential">
                                         <option value="" selected>Any</option>
                                         {%for cred in sub%}
@@ -76,7 +76,7 @@
                                 </div>
 
                                 <div>
-                                    <h3 for="specialty">Specialty</h3>
+                                    <h3 for="specialty">Degree</h3>
                                     <select class="form-control" name="specialty" id="specialty">
                                         <option value="" selected>Any</option>
                                         {%for degree in dreg%}
