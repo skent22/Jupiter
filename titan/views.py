@@ -107,14 +107,12 @@ def searchPageView(request) :
     }
     return render(request, 'titan/search.html', context)
 
-def detailsPageView(request, prescriberid ) :
+def detailsPageView(request, tutorid ) :
     if request.method == 'GET':
-        print(request.GET)
         name = request.GET
         if 'despres' in name.keys():
             print('worked')
-            prescriber.objects.filter(npi=prescriberid).delete()
-            print('delete')
+            Tutor.objects.filter(tutor_id=tutorid).delete()
             return render(request,'titan/search.html')
     if request.method == 'GET':
         name = request.GET
@@ -124,150 +122,114 @@ def detailsPageView(request, prescriberid ) :
                 'lastname' : request.GET['lastname'].title(),
                 'state' : request.GET['state'],
                 'gender' : request.GET['gender'],
-                'specialty':request.GET['specialty']}
-            prescriber.objects.filter(npi=prescriberid).update(fname = params['firstname'],lname = params['lastname'],state = params['state'],gender = params['gender'],specialty=params['specialty'])
+                'degree':request.GET['degree']}
+            Tutor.objects.filter(tutor_id=tutorid).update(fname = params['firstname'],lname = params['lastname'],state = params['state'],gender = params['gender'],degree=params['degree'])
 
     if request.method == 'GET':
         name = request.GET
         print(name)
         if 'tripleadd' in name.keys():
             params = {
-               'drug' : request.GET['drug'],
+               'student' : request.GET['student'],
                 'qty' : request.GET['qty']}
-            new_triple = triple()
-            new_triple.drugname = drug.objects.get(drugname=params['drug'])
-            new_triple.qty = params['qty']
-            new_triple.prescriberid = prescriber.objects.get(npi=prescriberid)
-            new_triple.save(force_insert=True)
+            new_appt = Appointment()
+            new_appt.stud_id = Student.objects.get(stud_id=params['student'])
+            new_appt.qty = params['qty']
+            new_appt.tutor_id = Tutor.objects.get(tutor_id=tutorid)
+            new_appt.save(force_insert=True)
 
     if request.method == 'POST':
-        print(request.POST)
         name = request.POST
         if 'del' in name.keys():
-            link.objects.filter(cred_id=credential.objects.get(abbreviation=request.POST['del']), npi=prescriberid).delete()
+            Linking.objects.filter(sub_id=Subject.objects.get(subject_name=request.POST['del']), tutor_id=tutorid).delete()
             print('delete')
     if request.method == 'POST':
         name = request.POST
-        print(request.POST)
         if 'credform' in name.keys():
-            print('credform')
-            new_link = link()
-            new_link.cred_id = credential.objects.get(abbreviation=request.POST['credential'])
-            new_link.npi = prescriber.objects.get(npi=prescriberid)
+            new_link = Linking()
+            new_link.sub_id = Subject.objects.get(subject_name=request.POST['credential'])
+            new_link.tutor_id = Tutor.objects.get(tutor_id=tutorid)
             new_link.save(force_insert=True)
 
             print(new_link)
-    d = prescriber.objects.get(npi=prescriberid)
+    d = Tutor.objects.get(tutor_id=tutorid)
     sql = '''
-    Select p.npi, p.gender, d.drugid, d.drugname, d.isopioid, sum(qty) as totaldrugs
-    from pd_prescriber p
-    inner join pd_triple t on p.npi = t.prescriberid
-    inner join pd_drugs d on d.drugname = t.drugname 
-    where p.npi = ''' + str(prescriberid)  +   ''' group by p.npi, d.drugid, d.drugname, p.gender
+    Select p.tutor_id, p.gender, d.stud_id, d.fname, d.lname, sum(qty) as totalAppointments
+    from tutor p
+    inner join appointment t on p.tutor_id = t.tutor_id
+    inner join student d on d.stud_id = t.stud_id 
+    where p.tutor_id = ''' + str(tutorid)  +   ''' group by p.tutor_id, d.stud_id, d.fname, d.lname, p.gender
     order by sum(qty) desc
     limit 10 '''
-    states = state.objects.all()
-    pres = prescriber.objects.raw(sql)    
-    drugs = drug.objects.all()
+    oTutor = Tutor.objects.raw(sql)    
+    oStudent = Student.objects.all()
     #Make top prescriptions Graph
-    cred = credential.objects.all()
-    trip = link.objects.filter(npi = prescriberid)
-    spec = prescriber.objects.order_by('specialty').distinct('specialty')
+    oSubject = Subject.objects.all()
+    oAppointment = Appointment.objects.filter(tutor_id = tutorid)
+    oDegree = Tutor.objects.order_by('degree').distinct('degree')
     #update form prescriber
 
-    drugs_not_listed_query = '''
-    Select drugid, drugname
-    from pd_drugs
-    where drugname not in (select drugname from pd_triple where prescriberid = ''' + str(prescriberid) + ')'
+    student_not_listed_query = '''
+    Select stud_id, concat(fname, ' ', lname) as FullName
+    from student
+    where stud_id not in (select stud_id from appointment where tutor_id = ''' + str(tutorid) + ')'
 
-    drugs_not_listed = drug.objects.raw(drugs_not_listed_query)
+    students_not_listed = Student.objects.raw(student_not_listed_query)
     # # listdrug = []
-    drugpass = []
+    studpass = []
     # # for x in pres:
     # #     listdrug.append(x)
-    for x in drugs_not_listed:
-        drugpass.append(x.drugname)
-    print('please')
-    print(drugpass)
+    for x in students_not_listed:
+        studpass.append(x.FullName)
 
-    credentails_not_listed_query =     '''
-                Select cred_id, abbreviation
-                from credentials
-                where cred_id not in (select cred_id from linking where npi = ''' + str(prescriberid) + ')'
+    subjects_not_listed_query =     '''
+                Select sub_id, subject_name
+                from subject
+                where sub_id not in (select sub_id from linking where tutor_id = ''' + str(tutorid) + ')'
 
-    credentials_not_listed = credential.objects.raw(credentails_not_listed_query)
+    subjects_not_listed = Subject.objects.raw(subjects_not_listed_query)
     # # listdrug = []
-    credentialpass = []
+    subjectpass = []
     # # for x in pres:
     # #     listdrug.append(x)
-    for x in credentials_not_listed:
-        credentialpass.append(x.abbreviation)
+    for x in subjects_not_listed:
+        subjectpass.append(x.subject_name)
 
 
     
-    #Make Graph
-    drugname = [x.drugname for x in pres]
-    prescriptions = [y.totaldrugs for y in pres]
-    prescriptions_chart = get_top_prescribers(drugname, prescriptions)
-
-    #Make percent opioid pie chart
-    opioid_percent_sql = '''
-    Select npi,
-	(select case when sum(qty) is not null then sum(qty) else 0 end from pd_triple where prescriberid = ''' + str(prescriberid)  +   ''' and drugname  in (select drugname from pd_drugs where isopioid = 't')) as PercentOpioid,
-	(select case when sum(qty) is not null then sum(qty) else 0 end from pd_triple where prescriberid = ''' + str(prescriberid)  +   ''' and drugname in (select drugname from pd_drugs where isopioid = 'f')) as PercentNonOpioid
-    from pd_prescriber p
-    inner join pd_triple t on p.npi = t.prescriberid
-    where prescriberid =''' + str(prescriberid) + '''
-    group by npi'''
-
-    queryObject = prescriber.objects.raw(opioid_percent_sql)
-    print(queryObject)
-    if len(queryObject) > 0:
-        pecent_opioid = queryObject[0].percentopioid
-        # print(pecent_opioid)
-        percent_nonopioid = queryObject[0].percentnonopioid
-        # print(percent_nonopioid)
-        opioid_pie_chart = get_opioid_pie_chart(pecent_opioid, percent_nonopioid)
-    else: 
-        opioid_pie_chart = ''
-
     bHasTriple = False
-    if len(pres) > 0 :
+    if len(oTutor) > 0 :
         bHasTriple = True
 
-    total_prescribed = 0
-    for x in pres : total_prescribed += x.totaldrugs
+    total_appointment = 0
+    for x in oTutor : total_appointment += x.totalAppointments
 
-    total_opioid_prescribed = 0
-    for x in pres : 
-        if x.isopioid == True :
-            total_opioid_prescribed += x.totaldrugs
+    # total_opioid_prescribed = 0
+    # for x in oTutor : 
+    #     if x.isopioid == True :
+    #         total_opioid_prescribed += x.totaldrugs
 
-    if total_prescribed != 0 :
-        perc_opioid_prescription = round(total_opioid_prescribed/total_prescribed * 100, 1)
-    else :
-        perc_opioid_prescription = 0
+    # if total_prescribed != 0 :
+    #     perc_opioid_prescription = round(total_opioid_prescribed/total_prescribed * 100, 1)
+    # else :
+    #     perc_opioid_prescription = 0
 
 
 
     context = {
         'resultset' : d,
-        'pres': pres,
-        'prescriptions_chart' : prescriptions_chart,
-        'opioid_pie_chart' : opioid_pie_chart,
-        'credential':cred,
-        'link':trip,
-        'states':states,
-        'spec' : spec,
-        'drug' : drugpass,
+        'pres': oTutor,
+        'subject':oSubject,
+        'appointment':oAppointment,
+        'spec' : oDegree,
+        'student' : studpass,
         'bHasTriple' : bHasTriple,
-        'total_prescribed' : total_prescribed,
-        'total_opioid_prescribed' : total_opioid_prescribed,
-        'total_nonopioid_prescribed' : total_prescribed - total_opioid_prescribed,
-        'perc_opioid_prescription' : perc_opioid_prescription,
-        'credpass': credentialpass
+        # 'total_prescribed' : total_prescribed,
+        # 'total_opioid_prescribed' : total_opioid_prescribed,
+        # 'total_nonopioid_prescribed' : total_prescribed - total_opioid_prescribed,
+        # 'perc_opioid_prescription' : perc_opioid_prescription,
+        'subjectpass': subjectpass
     }
-    print(context['pres'])
     return render(request, 'titan/details.html',context)
 
 def detailsdrugsPageView(request, drugid) :

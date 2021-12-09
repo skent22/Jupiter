@@ -56,9 +56,9 @@
             </div>
 
             <div  style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem; display: none; " id="tripleform">
-                <form name="tripleadd" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
+                <form name="tripleadd" action="{% url 'details' tutorid=resultset.tutor_id  %}"  method="get">
                     <div  >
-                        <form method='GET' name='tripladd' action='{%url 'details' prescriberid=resultset.npi %}'>
+                        <form method='GET' name='tripladd' action='{%url 'details' tutorid=resultset.tutor_id  %}'>
                         <div style='display : inline-block;'><h2>Increment Existing and Add New Prescriptions </h2> </div>
                         </form>
                         
@@ -89,9 +89,9 @@
             </div>
 
             <div style="background-color:#A7C7E7!important; padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem; display: none; " id="prescriberform">
-                <form name="prescriberform" action="{% url 'details' prescriberid=resultset.npi %}"  method="get">
+                <form name="prescriberform" action="{% url 'details' tutorid=resultset.tutor_id  %}"  method="get">
                     <div class= >
-                        <form method='GET' name='delpres' action='{%url 'details' prescriberid=resultset.npi %}'>
+                        <form method='GET' name='delpres' action="{%url 'details' tutorid=resultset.tutor_id %}">
                         <div style='display : inline-block;'><h2>Update Tutor Details </h2> </div><div style='display:inline-block;float:right;padding-top:22px;'><button type='submit' name='despres'  style='background-color: #A7C7E7;overflow-x:auto;' class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                             <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -168,7 +168,7 @@
                         <table>
                                 <thead><h2>Add Subject </h2><h4>Currently Held</h4> </thead>
                                 {% for x in link%}
-                                <form method = 'POST' name='delform' action="{% url 'details' prescriberid=resultset.npi%}">
+                                <form method = 'POST' name='delform' action="{% url 'details' tutorid=resultset.tutor_id%}">
                                     {% csrf_token %}  
                                 <input hidden value={{x.cred_id}} name='del' id='del'></input>
                                 <tr><td>{{x.cred_id}}</td> <td><button type='submit' style='background-color: #A7C7E7;' class="btn"><i class="fa fa-close"></i></button></td></tr>             
@@ -177,7 +177,7 @@
                             </table>
                         
 
-                        <form method = 'POST' name='credform' action="{% url 'details' prescriberid=resultset.npi%}">
+                        <form method = 'POST' name='credform' action="{% url 'details' tutorid=resultset.tutor_id%}">
                             {% csrf_token %}
                 <h3 for="credential">Subject</h3>
                 <select class="form-control" name="credential" id="credential">
@@ -219,14 +219,14 @@
             
             {%for x in pres %}
             <tr>
-                <td><a href="{% url 'detailsdrugs' drugid=x.drugid %}">  {{x.drugname}} </a></td>
+                <td><a href="{% url 'index' %}">  {{x.drugname}} </a></td>
                 <td>{% if x.isopioid == True %}
                         <center> &#10004;</center>
                     {%endif%}
                         </td>
                 <td>{{x.totaldrugs}} </td>
-                <td style='width:150px'>
-                    <form method='GET'  action="{% url 'det' prescid=x.npi dn=x.drugname %}">
+                <td style='width:150px'> {%comment%}'det' prescid=x.npi dn=x.drugname  {%endcomment%}
+                    <form method='GET'  action="{% url 'index' %}"> 
                         <input  style='width:50px'type="number" min="1" name='presctot'>
                         <button class=" btn btn-primary" type=submit >Add</button>
                     </form>

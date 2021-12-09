@@ -103,7 +103,7 @@
                         </form>
                     </div>
                     
-                    <div id="drugform" style="background-color: #A7C7E7; padding: 2rem; border-radius: 1rem; margin: auto; width: 40rem; display: none; ">
+                    {% comment %} <div id="drugform" style="background-color: #A7C7E7; padding: 2rem; border-radius: 1rem; margin: auto; width: 40rem; display: none; ">
                         <form class="d-flex justify-content-center" action="{%url 'search' %}" method="get">
                             <h2>Drug Details </h2>
                             <div class="d-flex flex-column">
@@ -115,8 +115,7 @@
                                    
                                     {%endfor %}
                                 </select>
-                            </div>
-            
+                            </div> 
                             <div class="d-flex flex-row">
                                     <h3>Opioid</h3>
                                     <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="t" name="isopioid" >
@@ -132,20 +131,21 @@
                             <button type="submit" style="margin-left: 45%; margin-top: 1.5rem;" name="drugform" class="btn btn-primary btn-xl text-uppercase">Submit!</button>
                         </form>
                     </div>
-                
+                {% endcomment %}
+            
                 </div>
             </div>
 
 
 
              {% comment %} No results found Block {% endcomment %}
-            {%if resultset|length == 0  and form == 'prescriberform' %}
+            {%if resultset|length == 0 %}
             <div style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem;">
 
                 <table class="table" style="margin-top: 4rem;">
                     <thead>
                     <tr>
-                        <th><h2>No Prescriber found with these Paramater. Please Search Again</h2></th>
+                        <th><h2>No Tutors found with these Paramater. Please Search Again</h2></th>
                     </tr>
                     </thead>
                 </table>
@@ -187,7 +187,7 @@
                     <center> &#10004;</center>
                         {%endif%}
                     </td>
-                    <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'detailsdrugs' drugid=result.drugid %}">Show More</a></td>
+                    <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'index' %}">Show More</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -198,7 +198,7 @@
 
         {% comment %} Provider Table {% endcomment %}
 
-        {%if form == 'prescriberform' and resultset|length != 0%}
+        {%if resultset|length != 0 %}
          <table class="table table-striped table-bordered table-hover" style="padding: 1rem; border-radius: 1rem; margin: auto; margin-top: 1rem; width: 40rem;">
              <thead>
                 <tr>
@@ -215,9 +215,9 @@
              </thead>
              {% for result in resultset%}
              <tr>
-                 <td>{{result.specialty}}</td>
+                 <td>{{result.subject_name}}</td>
                  <td>{{result.fname}} {{result.lname}}</td>
-                 <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'details' prescriberid=result.npi  %}">Show More</a></td>
+                 <td><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% url 'details' tutorid=result.tutor_id   %}">Show More</a></td>
              </tr>
              {% endfor %}
              
