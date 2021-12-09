@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {%block content%}
 
+{% comment %} Search page for finding tutors {% endcomment %}
 <h1>Search Tutors</h1>
 
 <div class="container">
@@ -39,21 +40,24 @@
                     <div  id="prescriberform" style="background-color:#A7C7E7; padding: 1rem; border-radius: 1rem; width: 40rem; margin:auto;">
                         <form name="prescriberform" action="{% url 'search' %}" method="get">
                             <div class="d-flex justify-content-center" >
-            
+                                {% comment %} List of search criteria {% endcomment %}
                                 <h2>Tutor Details </h2>
                                 <h5> <i> All fields are optional</i> </h5>
-            
+                                
+                                {% comment %} First name input {% endcomment %}
                                 <div class="d-flex">
                                     <h3 for="firstname">First Name</h3>
                                     <input class="form-control" type="text" placeholder="First Name" name="firstname" >
                             
                                 </div>
                                 
+                                {% comment %} Last name input {% endcomment %}
                                 <div class="d-flex flex-column">
                                     <h3 for="lastname">Last name</h3>
                                     <input class="form-control" type="text" placeholder="Last Name" name="lastname" >
                                 </div>
             
+                                {% comment %} State drop down {% endcomment %}
                                 <div>
                                     <h3 for="state">State</h3>
                                     <select class="form-control" name="state" id="state">
@@ -64,7 +68,8 @@
                                     </select>
             
                                 </div>
-            
+                                
+                                {% comment %} Subject drop down {% endcomment %}
                                 <div>
                                     <h3 for="credential">Subject</h3>
                                     <select class="form-control" name="credential" id="credential">
@@ -74,7 +79,8 @@
                                         {%endfor%}
                                     </select>
                                 </div>
-
+                                
+                                {% comment %} Degree drop down {% endcomment %}
                                 <div>
                                     <h3 for="specialty">Degree</h3>
                                     <select class="form-control" name="specialty" id="specialty">
@@ -85,6 +91,7 @@
                                     </select>
                                 </div>
 
+                                {% comment %} Gender radio button {% endcomment %}
                                 <div class="d-flex flex-row">
                                     <h3>Gender</h3>
                                     <input style="height: 2.5rem; width: 2.5rem;" type="radio" id="male" value="M" name="gender" >
