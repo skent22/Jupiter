@@ -58,26 +58,26 @@ def aboutPageView(request) :
 def searchPageView(request) :
     data = ''
     sql = ''
-    form = ""
+    # form = ""
 
-    states = state.objects.all()
-    credentials = credential.objects.all()
-    spec = prescriber.objects.order_by('specialty').distinct('specialty')
-    drugs = drug.objects.all
+    sub = Subject.objects.all()
+    dreg = Tutor.objects.order_by('degree').distinct('degree')
+    stud = Student.objects.all()
+    state = Tutor.objects.order_by('state').distinct('state')
     if request.method == 'GET':
         name = request.GET
         if 'prescriberform' in name.keys():
-            form = 'prescriberform'
+            # form = 'prescriberform'
             params = {
             'firstname' : request.GET['firstname'].title(),
             'lastname' : request.GET['lastname'].title(),
             'state' : request.GET['state'],
-            'credential' : request.GET['credential'],
+            'subject' : request.GET['credential'],
             'gender' : request.GET['gender'],
-            'specialty': request.GET['specialty']}
+            'degree': request.GET['specialty']}
             if request.GET['gender'] != "":
                 gender = request.GET['gender']
-            sql = 'SELECT * FROM pd_prescriber inner join linking on linking.npi = pd_prescriber.npi inner join credentials on credentials.cred_id = linking.cred_id WHERE 1=1'
+            sql = 'SELECT * FROM tutor inner join linking on linking.tutor_id = tutor.tutor_id inner join subject on subject.sub_id = linking.sub_id WHERE 1=1'
            
 
             if params['firstname'] != '':
@@ -86,37 +86,24 @@ def searchPageView(request) :
                 sql += ' AND (fname LIKE ' +  '\''+str(params['lastname'])+'\'' + 'or  lname like ' + '\'' + str(params['lastname'] + '\')')
             if params['state'] != '':
                 sql += ' AND (state LIKE ' +  '\''+str(params['state'])+'\') '
-            if params['credential'] != '':
-                sql += ' AND (abbreviation = ' +  '\''+str(params['credential'])+'\') '
+            if params['subject'] != '':
+                sql += ' AND (subject_name = ' +  '\''+str(params['subject'])+'\') '
             if params['gender'] != '':
                 sql += ' AND (gender = ' +  '\''+str(params['gender'])+'\') '
-            if params['specialty'] != '':
-                sql += ' AND (specialty = ' +  '\''+str(params['specialty'])+'\') '
+            if params['degree'] != '':
+                sql += ' AND (degree = ' +  '\''+str(params['degree'])+'\') '
             sql += ' order by lname'
-            data = prescriber.objects.raw(sql)
+            data = Tutor.objects.raw(sql)
     
-            print(data)
-        elif 'drugform' in name.keys():
-            form = 'drugform'
-            medicationname = request.GET['drug']
-            isopioid = request.GET['isopioid']
-            # newlist = [medicationname, isopioid]
-            sql = 'SELECT * FROM pd_drugs WHERE 1=1'
-            if request.GET['drug'] != '':
-                sql += ' AND  drugname =' + '\'' + medicationname + '\''
-            if request.GET['isopioid'] != '':
-                sql += ' AND isopioid = ' + '\'' + isopioid + '\''
-            sql += ' order by drugname'
-            data = drug.objects.raw(sql)
-            print(data)
+        
     context = {
         'resultset' : data,
         'test': sql,
-        'form': form,
-        'states': states,
-        'credentials': credentials,
-        'spec':spec,
-        'drug': drugs
+        #'form': form,
+        'sub': sub,
+        'dreg': dreg,
+        'stud': stud,
+        'states': state,
     }
     return render(request, 'titan/search.html', context)
 
