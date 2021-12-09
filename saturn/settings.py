@@ -78,28 +78,28 @@ WSGI_APPLICATION = 'saturn.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'tutor',
-    'USER': 'postgres',
-    'PASSWORD': 'Happ1n3ss',
-    'HOST': 'localhost',
-    'PORT' : 5432,
-    'DISABLE_SERVER_SIDE_CURSORS': True
-    }
-} 
 # DATABASES = {
 #     'default': {
 #     'ENGINE': 'django.db.backends.postgresql',
-#     'NAME': 'intex',
+#     'NAME': 'tutor',
 #     'USER': 'postgres',
-#     'PASSWORD': 'Luke1Luke1',
+#     'PASSWORD': 'Happ1n3ss',
 #     'HOST': 'localhost',
 #     'PORT' : 5432,
 #     'DISABLE_SERVER_SIDE_CURSORS': True
 #     }
 # } 
+DATABASES = {
+    'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'intex',
+    'USER': 'postgres',
+    'PASSWORD': 'Luke1Luke1',
+    'HOST': 'localhost',
+    'PORT' : 5432,
+    'DISABLE_SERVER_SIDE_CURSORS': True
+    }
+} 
 # DATABASES = {
 #     'default': {
 #     'ENGINE': 'django.db.backends.postgresql',
