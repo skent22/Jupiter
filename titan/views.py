@@ -3,7 +3,7 @@
 
 # IS INTEX PROJECT!!!!
 
-
+from .models import Tutor,Linking,Student,Subject,Appointment
 from django.shortcuts import redirect, render
 from django import forms
 import time
@@ -22,7 +22,7 @@ import time
 
 from django.core.mail import send_mail
 from .forms import EmailForm
-from titan.models import drug, prescriber, state, credential, link, triple
+
 from django.db.models import Q
 from django.db.models import Max
 
@@ -43,99 +43,12 @@ def detPageView(request,prescid,dn):
     return detailsPageView(request,prescid)
 
 
-def setQueriesPageView(request,qnum):
-    q = ''
-    qset = ''
-    form = ''
-
-    states = state.objects.all()
-    credentials = credential.objects.all()
-    spec = prescriber.objects.order_by('specialty').distinct('specialty')
-    drugs = drug.objects.all
-    if qnum == '1':
-       
-        q = '''select npi,lname,fname,gender,state,specialty,isopioidprescriber from pd_prescriber
-                inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
-                inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
-                where npi in (select npi from pd_prescriber
-                inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
-                inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
-                where isopioid = True) and npi not in (select npi from pd_prescriber
-                inner join pd_triple on pd_prescriber.npi = pd_triple.prescriberid
-                inner join pd_drugs on pd_drugs.drugname = pd_triple.drugname
-                where isopioid = False);'''
-        qset = prescriber.objects.raw(q)
-        form = 'prescriberform'
-    elif qnum == '2':
-        print('oh boy')
-        q = '''Select p.npi 
-from pd_prescriber p
-inner join pd_triple t on p.npi = t.prescriberid
-inner join pd_drugs d on t.drugname = d.drugname
-group by p.npi
-Having 100*  (select sum(qty) from pd_triple where p.npi = prescriberid and drugname in (select drugname from pd_drugs where isopioid = 't'))/sum(qty) > 75  and sum(qty) > 100
-'''
-        qset = prescriber.objects.raw(q)
-        form = 'prescriberform'
-        print(form)
-    context = {'resultset': qset,
-                'test':qnum,
-                'form':form,
-                'states': states,
-                'credentials': credentials,
-                'spec':spec,
-                'drug': drugs}
-    print(context['resultset'])
-    return render(request,'titan/search.html',context)
 
 def indexPageView(request) :
-    topOpioids = drug.objects.raw(
-        '''
-        Select d.drugid, d.drugname, sum(qty) totaldrugs
-        from pd_drugs d
-        inner join pd_triple t on d.drugname = t.drugname
-        where d.isopioid = 't'
-        group by d.drugid, d.drugname
-        Order by sum(qty) Desc
-        '''
-    )
     
-    opioid = [x.drugname.split('.')[0] for x in topOpioids]
-    prescriptions = [y.totaldrugs for y in topOpioids]
-    topOpioid = get_top_opioid(opioid, prescriptions)
-
-    total_opioids = 0
-    for x in topOpioids : total_opioids += x.totaldrugs
-
-    #State Heat map
-
-    state_info = state.objects.raw(
-    '''Select state, deaths
-        from pd_statedata
-        where deaths is not null
-        order by deaths DESC
-        limit 5
-        '''
-    )
-
-    all_state_info = state.objects.raw(
-    '''Select state, deaths
-        from pd_statedata
-        where deaths is not null
-        order by deaths DESC
-        '''
-    )
-
-    total_deaths = 0
-    for x in all_state_info : total_deaths += x.deaths
 
     context = {
-        'drugs' : topOpioids,
-        'opioid_chart': topOpioid,
-        'total_opioids' : total_opioids,
-        'state_info' : state_info,
-        'total_deaths' :total_deaths,
-        'total_opioids' :total_opioids
+      
     }
 
     return render(request, 'titan/index.html', context)

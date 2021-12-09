@@ -1,16 +1,11 @@
 # Register your models here.
 from django.contrib import admin
-from .models import drug, prescriber, triple,credential,link
-# Register your models here.
-admin.site.register(drug)
-admin.site.register(prescriber)
-admin.site.register(triple)
-admin.site.register(credential)
-admin.site.register(link)
+from .models import Tutor, Student, Appointment, Linking, Subject
 
-# class credential(admin.ModelAdmin):
-#     fields = ('abbreviation')
+admin.site.register(Tutor)
+admin.site.register(Student)
+admin.site.register(Appointment)
+admin.site.register(Linking)
+admin.site.register(Subject)
 
-# class credential(admin.ModelAdmin):
-#     exclude = ('cred_id',)
 
