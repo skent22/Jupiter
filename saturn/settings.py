@@ -124,31 +124,31 @@ WSGI_APPLICATION = 'saturn.wsgi.application'
 # } 
 
 
-# DATABASES = {
-#     'default': {
-#     'ENGINE': 'django.db.backends.postgresql',
-#     'NAME': 'tutor',
-#     'USER': 'postgres',
-#     'PASSWORD': 'admin',
-#     'HOST': 'localhost',
-#     'PORT' : 5434,
-#     'DISABLE_SERVER_SIDE_CURSORS': True
-#     }
-# } 
-
-
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.postgresql',
     'NAME': 'tutor',
-    'USER': 'myadmin',
-    'PASSWORD': 'my@dmin1',
-    'HOST': 'is415mcorbet3.postgres.database.azure.com',
-    'PORT' : 5432,
-    # 'DISABLE_SERVER_SIDE_CURSORS': True
-    'OPTIONS' : {'sslmode':'require'}
+    'USER': 'postgres',
+    'PASSWORD': 'admin',
+    'HOST': 'localhost',
+    'PORT' : 5434,
+    'DISABLE_SERVER_SIDE_CURSORS': True
     }
 } 
+
+
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': 'tutor',
+#     'USER': 'myadmin',
+#     'PASSWORD': 'my@dmin1',
+#     'HOST': 'is415mcorbet3.postgres.database.azure.com',
+#     'PORT' : 5432,
+#     # 'DISABLE_SERVER_SIDE_CURSORS': True
+#     'OPTIONS' : {'sslmode':'require'}
+#     }
+# } 
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env) 
 # Password validation
