@@ -242,52 +242,52 @@ def detailsPageView(request, tutorid ) :
     return render(request, 'titan/details.html',context)
 
 # View for the student details html page
-def detailsdrugsPageView(request, drugid) :
+# def detailsdrugsPageView(request, drugid) :
     
-    #get drug object based on drugid
-    d = drug.objects.get(drugid=drugid)
-    sql = ''' 
-    Select p.npi, fname, lname, isopioidprescriber, sum(qty) as totalDrugs
-    from pd_prescriber p
-    inner join pd_triple t on p.npi = t.prescriberid
-    inner join pd_drugs d on d.drugname = t.drugname 
-    where drugid = ''' + '\'' + str(drugid)  +'\'' +   '''group by npi, fname,lname, isopioidprescriber
-    order by sum(qty) desc
-    limit 10 '''
-    pres = prescriber.objects.raw(sql)
+#     #get drug object based on drugid
+#     d = drug.objects.get(drugid=drugid)
+#     sql = ''' 
+#     Select p.npi, fname, lname, isopioidprescriber, sum(qty) as totalDrugs
+#     from pd_prescriber p
+#     inner join pd_triple t on p.npi = t.prescriberid
+#     inner join pd_drugs d on d.drugname = t.drugname 
+#     where drugid = ''' + '\'' + str(drugid)  +'\'' +   '''group by npi, fname,lname, isopioidprescriber
+#     order by sum(qty) desc
+#     limit 10 '''
+#     pres = prescriber.objects.raw(sql)
 
-    total_times_prescribed_sql = '''
-    Select d.drugname, sum(t.qty) as sumdrugs, count(prescriberid) as times_prescribed
-    from pd_drugs d
-    inner join pd_triple t on d.drugname = t.drugname 
-    where drugid = ''' + '\'' + str(drugid)  +'\'' + '''
-    group by d.drugname'''
-    total_times_prescribed = drug.objects.raw(total_times_prescribed_sql)
+#     total_times_prescribed_sql = '''
+#     Select d.drugname, sum(t.qty) as sumdrugs, count(prescriberid) as times_prescribed
+#     from pd_drugs d
+#     inner join pd_triple t on d.drugname = t.drugname 
+#     where drugid = ''' + '\'' + str(drugid)  +'\'' + '''
+#     group by d.drugname'''
+#     total_times_prescribed = drug.objects.raw(total_times_prescribed_sql)
     
-    for x in total_times_prescribed :
-        print(x.sumdrugs)
+#     for x in total_times_prescribed :
+#         print(x.sumdrugs)
 
 
-    #Make Graph
-    prescribee = [x.fname for x in pres]
-    prescriptions = [y.totaldrugs for y in pres]
-    top_prescribers_chart = get_top_prescriptions(prescribee, prescriptions)
+#     #Make Graph
+#     prescribee = [x.fname for x in pres]
+#     prescriptions = [y.totaldrugs for y in pres]
+#     top_prescribers_chart = get_top_prescriptions(prescribee, prescriptions)
 
-    total_prescribed = 0
-    for x in pres : total_prescribed += x.totaldrugs
+#     total_prescribed = 0
+#     for x in pres : total_prescribed += x.totaldrugs
 
-    new_drugname = str(d.drugname)
-    new_drugname = new_drugname.replace('.', ' ')
+#     new_drugname = str(d.drugname)
+#     new_drugname = new_drugname.replace('.', ' ')
 
-    context = {
-        'resultset' : d,
-        'pres': pres,
-        'top_prescribers_chart' : top_prescribers_chart,
-        'total_prescribed' : total_prescribed,
-        'new_drugname' : new_drugname,
-        'total_times_prescribed' : total_times_prescribed,
-    }
-    return render(request, 'titan/detailsdrugs.html', context)
+#     context = {
+#         'resultset' : d,
+#         'pres': pres,
+#         'top_prescribers_chart' : top_prescribers_chart,
+#         'total_prescribed' : total_prescribed,
+#         'new_drugname' : new_drugname,
+#         'total_times_prescribed' : total_times_prescribed,
+#     }
+#     return render(request, 'titan/detailsdrugs.html', context)
 def statisticsPageView(request) :
     return render(request, 'titan/statistics.html')
 
